@@ -126,7 +126,7 @@ cats1 %>% filter(grepl("fluf", name)) %>% .$name %>% table()
 
 #### Cats that are also animals:
 
-Next, I realized that I needed a list of animals.  Goggle helped me out and I found [this list here](https://gist.githubusercontent.com/atduskgreg/3cf8ef48cb0d29cf151bedad81553a54/raw/82f142562cf50b0f6fb8010f890b2f934093553e/animals.txt) straight away.  I just found `read.csv()` the quickest way of doing this:
+Next, I realized that I needed a list of animals.  Google helped me out and I found [this list here](https://gist.githubusercontent.com/atduskgreg/3cf8ef48cb0d29cf151bedad81553a54/raw/82f142562cf50b0f6fb8010f890b2f934093553e/animals.txt).  I just found `read.csv()` the quickest way of doing this:
 <br>
 
 ```{r,warning=FALSE,message=FALSE, echo=TRUE} 
