@@ -121,7 +121,8 @@ Next, I realized that I needed a list of animals.  Goggle helped me out and I fo
 <br>
 
 ```{r,warning=FALSE,message=FALSE, echo=TRUE} 
-animals <- read.csv("https://gist.githubusercontent.com/atduskgreg/3cf8ef48cb0d29cf151bedad81553a54/raw/82f142562cf50b0f6fb8010f890b2f934093553e/animals.txt",header=F, stringsAsFactors = F)
+animals <- read.csv("https://gist.githubusercontent.com/atduskgreg/3cf8ef48cb0d29cf151bedad81553a54/raw/82f142562cf50b0f6fb8010f890b2f934093553e/animals.txt",
+                    header=F, stringsAsFactors = F)
 
 head(animals)
 tail(animals)
