@@ -1,10 +1,10 @@
 ---
 title: "Cat Names"
 description: |
-  A short description of the post.
+  Identifying cats that are named after animals.
 author:
-  - name: Nora Jones
-    url: https://example.com/norajones
+  - name: James Curley
+    url: jamescurley.blog
 categories:
   - cats
   - regex
@@ -18,7 +18,4 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
- 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
 

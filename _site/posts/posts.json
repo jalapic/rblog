@@ -2,11 +2,11 @@
   {
     "path": "posts/2020-10-13-cat-names/",
     "title": "Cat Names",
-    "description": "A short description of the post.",
+    "description": "Identifying cats that are named after animals.",
     "author": [
       {
-        "name": "Nora Jones",
-        "url": "https://example.com/norajones"
+        "name": "James Curley",
+        "url": "jamescurley.blog"
       }
     ],
     "date": "2020-10-13",
@@ -15,8 +15,8 @@
       "regex"
     ],
     "preview": {},
-    "last_modified": "2020-10-13T10:47:11-05:00",
-    "input_file": {}
+    "last_modified": "2020-10-13T15:02:05-05:00",
+    "input_file": "cat-names.utf8.md"
   },
   {
     "path": "posts/welcome/",

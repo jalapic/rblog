@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>James' R Blog</title>
+    <link>https://jamescurley.blog</link>
+    <atom:link href="https://jamescurley.blog/index.xml" rel="self" type="application/rss+xml"/>
+    <description>Random R coding projects
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Tue, 13 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Cat Names</title>
+      <dc:creator>James Curley</dc:creator>
+      <link>https://jamescurley.blog/posts/2020-10-13-cat-names</link>
+      <description>Identifying cats that are named after animals.</description>
+      <category>cats</category>
+      <category>regex</category>
+      <guid>https://jamescurley.blog/posts/2020-10-13-cat-names</guid>
+      <pubDate>Tue, 13 Oct 2020 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Welcome to My Blog</title>
+      <dc:creator>Nora Jones</dc:creator>
+      <link>https://jamescurley.blog/posts/welcome</link>
+      <description>Welcome to our new blog, My Blog. We hope you enjoy 
+reading what we have to say!</description>
+      <guid>https://jamescurley.blog/posts/welcome</guid>
+      <pubDate>Tue, 13 Oct 2020 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>
