@@ -49,7 +49,7 @@
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["cat-names_files/bowser-1.9.3/bowser.min.js","cat-names_files/distill-2.2.21/template.v2.js","cat-names_files/figure-html5/unnamed-chunk-14-1.png","cat-names_files/jquery-1.11.3/jquery.min.js","cat-names_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["cat-names_files/bowser-1.9.3/bowser.min.js","cat-names_files/distill-2.2.21/template.v2.js","cat-names_files/figure-html5/unnamed-chunk-14-1.png","cat-names_files/figure-html5/unnamed-chunk-15-1.png","cat-names_files/jquery-1.11.3/jquery.min.js","cat-names_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1043,6 +1043,18 @@ head(cats)</code></pre>
 #   Breed &lt;chr&gt;, Color &lt;chr&gt;</code></pre>
 </div>
 <p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+nrow(cats)</code></pre>
+<pre><code>
+[1] 45568</code></pre>
+<pre class="r"><code>
+nrow(cats[!is.na(cats$Name),])</code></pre>
+<pre><code>
+[1] 25181</code></pre>
+</div>
+<p>We have 45,568 cats in the dataset, and 25,181 of these have names!</p>
+<p><br></p>
 <p>To make the data a bit more readable, let’s just keep the columns that give the name, intake type, sex, age, breed and color. I’ll also clean up the column names:</p>
 <p><br></p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1260,7 +1272,7 @@ cats1 %&gt;% filter(name %in% tolower(animals[,1])) %&gt;%
   ggtitle(&quot;Cats as Animals&quot;) +
   theme_classic() +
   coord_flip()</code></pre>
-<p><img src="cat-names_files/figure-html5/unnamed-chunk-14-1.png" width="624" /></p>
+<p><img src="cat-names_files/figure-html5/unnamed-chunk-15-1.png" width="624" /></p>
 </div>
 <p><br></p>
 <p>That will do for now! There’s much more we can do with this dataset in the future. Although, I will do a quick, final check for “Mr Dog” or “Mr Doggie” <br></p>

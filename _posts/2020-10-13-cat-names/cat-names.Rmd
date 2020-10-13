@@ -70,6 +70,15 @@ head(cats)
 ```
 <br>
 
+```{r,warning=FALSE,message=FALSE, echo=TRUE} 
+nrow(cats)
+nrow(cats[!is.na(cats$Name),])
+
+```
+We have 45,568 cats in the dataset, and 25,181 of these have names!
+
+<br>
+
 To make the data a bit more readable, let's just keep the columns that give the name, intake type, sex, age, breed and color. I'll also clean up the column names:
 
 <br>
