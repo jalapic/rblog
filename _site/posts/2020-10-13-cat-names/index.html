@@ -1343,11 +1343,15 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Here are the steps I took to answer this. First, load tidyverse to do the data wrangling and plotting:</p>
 <p><br></p>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+library(tidyverse)</code></pre>
 </div>
 <p><br></p>
 <p>I downloaded the Austin Animal Center Intake data up to 13th October 2020 and put it on my github page. You can directly import that into R from my webpage like this: <br></p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+df &lt;- read_csv(&quot;https://raw.githubusercontent.com/jalapic/rblog/master/raw_data/Austin_Animal_Center_Intakes.csv&quot;)
+head(df)</code></pre>
 <pre><code>
 # A tibble: 6 x 12
   `Animal ID` Name  DateTime MonthYear `Found Location` `Intake Type`
@@ -1365,6 +1369,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><br></p>
 <p>We have 12 columns in total. These are as follows: <br></p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+colnames(df)</code></pre>
 <pre><code>
  [1] &quot;Animal ID&quot;        &quot;Name&quot;             &quot;DateTime&quot;        
  [4] &quot;MonthYear&quot;        &quot;Found Location&quot;   &quot;Intake Type&quot;     
@@ -1374,6 +1380,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><br></p>
 <p>Let’s look at what animal type is: <br></p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+table(df$`Animal Type`)</code></pre>
 <pre><code>
      Bird       Cat       Dog Livestock     Other 
       567     45568     68650        21      6407 </code></pre>
@@ -1382,6 +1390,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>For this analysis, we’ll just focus on cats:</p>
 <p><br></p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+cats &lt;- df %&gt;% filter(`Animal Type` == &quot;Cat&quot;)
+head(cats)</code></pre>
 <pre><code>
 # A tibble: 6 x 12
   `Animal ID` Name  DateTime MonthYear `Found Location` `Intake Type`
@@ -1400,6 +1411,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>To make the data a bit more readable, let’s just keep the columns that give the name, intake type, sex, age, breed and color. I’ll also clean up the column names:</p>
 <p><br></p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+cats1 &lt;- cats %&gt;% select(2,7,9:12)
+colnames(cats1) &lt;- c(&quot;name&quot;,&quot;type&quot;,&quot;sex&quot;,&quot;age&quot;,&quot;breed&quot;,&quot;color&quot;)
+head(cats1)</code></pre>
 <pre><code>
 # A tibble: 6 x 6
   name   type    sex         age     breed              color         
@@ -1415,6 +1430,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>As you can see, not every cat has a given name. But we can do a search for any name we want. Let’s see if there are any cats with the name “fluff” or “fluffy”. I’ll first make all the cat names lower case, and I’ll remove the asterisks that some names have:</p>
 <p><br></p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+cats1$name &lt;- tolower(gsub(&quot;\\*&quot;, &quot;&quot;, cats1$name))
+head(cats1)</code></pre>
 <pre><code>
 # A tibble: 6 x 6
   name  type    sex          age     breed              color         
@@ -1429,6 +1447,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><br></p>
 <p>We can use <code>grepl()</code> to search for partial name matches: <br></p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+cats1 %&gt;% filter(grepl(&quot;fluf&quot;, name))</code></pre>
 <pre><code>
 # A tibble: 52 x 6
    name      type    sex         age    breed             color       
@@ -1449,6 +1469,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Turns out there are 52 different <strong><code>*fluf*</code></strong> variations - they are easier to see if we use <code>table()</code> on the <code>name</code> column:</p>
 <p><br></p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+cats1 %&gt;% filter(grepl(&quot;fluf&quot;, name)) %&gt;% .$name %&gt;% table()</code></pre>
 <pre><code>
 .
          fluff        fluffer fluffer nutter    flufferkins 
@@ -1461,9 +1483,13 @@ document.addEventListener('DOMContentLoaded', function() {
              1 </code></pre>
 </div>
 <p><br> <br></p>
-<h5 id="cats-that-are-also-animals">Cats that are also animals:</h5>
+<h4 id="cats-that-are-also-animals">Cats that are also animals:</h4>
 <p>Next, I realized that I needed a list of animals. Goggle helped me out and I found <a href="https://gist.githubusercontent.com/atduskgreg/3cf8ef48cb0d29cf151bedad81553a54/raw/82f142562cf50b0f6fb8010f890b2f934093553e/animals.txt">this list here</a> straight away. I just found <code>read.csv()</code> the quickest way of doing this: <br></p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+animals &lt;- read.csv(&quot;https://gist.githubusercontent.com/atduskgreg/3cf8ef48cb0d29cf151bedad81553a54/raw/82f142562cf50b0f6fb8010f890b2f934093553e/animals.txt&quot;,header=F, stringsAsFactors = F)
+
+head(animals)</code></pre>
 <pre><code>
        V1
 1 Canidae
@@ -1472,6 +1498,8 @@ document.addEventListener('DOMContentLoaded', function() {
 4  Cattle
 5     Dog
 6  Donkey</code></pre>
+<pre class="r"><code>
+tail(animals)</code></pre>
 <pre><code>
                        V1
 518         Ringneck dove
@@ -1484,6 +1512,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><br></p>
 <p>Next, we just need to filter the <code>cats1</code> dataset for whether they contain the animal name. If we went for direct matches, we would be able to pull out e.g. “dog” but not “Mr dog”. But then, if we just went for partial matches, we might get some errors too. First I’ll try direct matches - i.e. the cat just has another animal’s name: <br></p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+cats1 %&gt;% filter(name %in% tolower(animals[,1]))</code></pre>
 <pre><code>
 # A tibble: 545 x 6
    name    type   sex        age    breed                 color       
@@ -1504,6 +1534,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Let’s get a frequency count of these names:</p>
 <p><br></p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+cats1 %&gt;% filter(name %in% tolower(animals[,1])) %&gt;% 
+  .$name %&gt;% table()</code></pre>
 <pre><code>
 .
   armadillo      badger        bass         bat        bear 
@@ -1556,6 +1589,9 @@ grasshopper       guppy     harrier        hawk      jaguar
 <p><br> Looks like there is no dog !</p>
 <p>Here are the top 10: <br></p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+cats1 %&gt;% filter(name %in% tolower(animals[,1])) %&gt;% 
+  group_by(name) %&gt;% count() %&gt;% arrange(-n)</code></pre>
 <pre><code>
 # A tibble: 114 x 2
 # Groups:   name [114]
@@ -1577,11 +1613,24 @@ grasshopper       guppy     harrier        hawk      jaguar
 <p>Let’s make a plot of any animal that has more than 5 instances:</p>
 <p><br></p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+cats1 %&gt;% filter(name %in% tolower(animals[,1])) %&gt;% 
+  group_by(name) %&gt;% count() %&gt;% arrange(-n) %&gt;%
+  filter(n&gt;5) %&gt;%
+ ggplot( aes(x = reorder(name, n), y = n) ) + 
+  geom_col(fill = &quot;#123abc&quot;, color=&quot;#193642&quot;, alpha=.4) +
+  xlab(&quot;&quot;) +
+  ylab(&quot;Total Cats&quot;) +
+  ggtitle(&quot;Cats as Animals&quot;) +
+  theme_classic() +
+  coord_flip()</code></pre>
 <p><img src="cat-names_files/figure-html5/unnamed-chunk-14-1.png" width="624" /></p>
 </div>
 <p><br></p>
 <p>That will do for now! There’s much more we can do with this dataset in the future. Although, I will do a quick, final check for “Mr Dog” or “Mr Doggie” <br></p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+cats1 %&gt;% filter(grepl(&quot;dog&quot;, name))</code></pre>
 <pre><code>
 # A tibble: 1 x 6
   name   type   sex           age     breed                 color     
