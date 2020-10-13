@@ -1341,10 +1341,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>One of my favorite datasets for teaching is the Austin Animal Center Intake Dataset. The Austin Animal Center has recorded and published data on all intakes since October 1st 2013. That means we have 7 years worth of data! You can see the <a href="https://data.austintexas.gov/Health-and-Community-Services/Austin-Animal-Center-Intakes/wter-evkm/data">current data here</a>.</p>
 <p>Recently I was thinking about the cat of two friends of mine - Chris &amp; Randi. Their cat is called Mr. Doggy. This led me to wonder - what other animals are cats named after - and which is the most popular?</p>
 <p>Here are the steps I took to answer this. First, load tidyverse to do the data wrangling and plotting:</p>
+<p><br></p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
-<p>I downloaded the Austin Animal Center Intake data up to 13th October 2020 and put it on my github page. You can directly import that into R from my webpage like this:</p>
+<p><br></p>
+<p>I downloaded the Austin Animal Center Intake data up to 13th October 2020 and put it on my github page. You can directly import that into R from my webpage like this: <br></p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>
 # A tibble: 6 x 12
@@ -1360,7 +1362,8 @@ document.addEventListener('DOMContentLoaded', function() {
 #   Type` &lt;chr&gt;, `Sex upon Intake` &lt;chr&gt;, `Age upon Intake` &lt;chr&gt;,
 #   Breed &lt;chr&gt;, Color &lt;chr&gt;</code></pre>
 </div>
-<p>We have 12 columns in total. These are as follows:</p>
+<p><br></p>
+<p>We have 12 columns in total. These are as follows: <br></p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>
  [1] &quot;Animal ID&quot;        &quot;Name&quot;             &quot;DateTime&quot;        
@@ -1368,13 +1371,16 @@ document.addEventListener('DOMContentLoaded', function() {
  [7] &quot;Intake Condition&quot; &quot;Animal Type&quot;      &quot;Sex upon Intake&quot; 
 [10] &quot;Age upon Intake&quot;  &quot;Breed&quot;            &quot;Color&quot;           </code></pre>
 </div>
-<p>Let’s look at what animal type is:</p>
+<p><br></p>
+<p>Let’s look at what animal type is: <br></p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>
      Bird       Cat       Dog Livestock     Other 
       567     45568     68650        21      6407 </code></pre>
 </div>
+<p><br></p>
 <p>For this analysis, we’ll just focus on cats:</p>
+<p><br></p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>
 # A tibble: 6 x 12
@@ -1390,7 +1396,9 @@ document.addEventListener('DOMContentLoaded', function() {
 #   Type` &lt;chr&gt;, `Sex upon Intake` &lt;chr&gt;, `Age upon Intake` &lt;chr&gt;,
 #   Breed &lt;chr&gt;, Color &lt;chr&gt;</code></pre>
 </div>
+<p><br></p>
 <p>To make the data a bit more readable, let’s just keep the columns that give the name, intake type, sex, age, breed and color. I’ll also clean up the column names:</p>
+<p><br></p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>
 # A tibble: 6 x 6
@@ -1403,7 +1411,9 @@ document.addEventListener('DOMContentLoaded', function() {
 5 &lt;NA&gt;   Injured Intact Fem~ 2 years Domestic Shorthai~ Black/White   
 6 Tommy  Normal  Neutered M~ 14 yea~ Domestic Shorthai~ Brown Tabby/W~</code></pre>
 </div>
+<p><br></p>
 <p>As you can see, not every cat has a given name. But we can do a search for any name we want. Let’s see if there are any cats with the name “fluff” or “fluffy”. I’ll first make all the cat names lower case, and I’ll remove the asterisks that some names have:</p>
+<p><br></p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>
 # A tibble: 6 x 6
@@ -1416,7 +1426,8 @@ document.addEventListener('DOMContentLoaded', function() {
 5 &lt;NA&gt;  Injured Intact Fema~ 2 years Domestic Shorthai~ Black/White   
 6 tommy Normal  Neutered Ma~ 14 yea~ Domestic Shorthai~ Brown Tabby/W~</code></pre>
 </div>
-<p>We can use <code>grepl()</code> to search for partial name matches:</p>
+<p><br></p>
+<p>We can use <code>grepl()</code> to search for partial name matches: <br></p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>
 # A tibble: 52 x 6
@@ -1434,7 +1445,9 @@ document.addEventListener('DOMContentLoaded', function() {
 10 fluffy    Normal  Neutered M~ 5 yea~ Domestic Medium ~ Blue Tabby  
 # ... with 42 more rows</code></pre>
 </div>
-<p>Turns out there are 52 different <code>*fluf*</code> variations - they are easier to see if we use <code>table()</code> on the <code>name</code> column:</p>
+<p><br></p>
+<p>Turns out there are 52 different <strong><code>*fluf*</code></strong> variations - they are easier to see if we use <code>table()</code> on the <code>name</code> column:</p>
+<p><br></p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>
 .
@@ -1447,8 +1460,9 @@ document.addEventListener('DOMContentLoaded', function() {
   mr. fluffers 
              1 </code></pre>
 </div>
+<p><br> <br></p>
 <h5 id="cats-that-are-also-animals">Cats that are also animals:</h5>
-<p>Next, I realized that I needed a list of animals. Goggle helped me out and I found <a href="https://gist.githubusercontent.com/atduskgreg/3cf8ef48cb0d29cf151bedad81553a54/raw/82f142562cf50b0f6fb8010f890b2f934093553e/animals.txt">this list here</a> straight away. I just found <code>read.csv()</code> the quickest way of doing this:</p>
+<p>Next, I realized that I needed a list of animals. Goggle helped me out and I found <a href="https://gist.githubusercontent.com/atduskgreg/3cf8ef48cb0d29cf151bedad81553a54/raw/82f142562cf50b0f6fb8010f890b2f934093553e/animals.txt">this list here</a> straight away. I just found <code>read.csv()</code> the quickest way of doing this: <br></p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>
        V1
@@ -1467,7 +1481,8 @@ document.addEventListener('DOMContentLoaded', function() {
 522                   Yak
 523         Water buffalo</code></pre>
 </div>
-<p>Next, we just need to filter the <code>cats1</code> dataset for whether they contain the animal name. If we went for direct matches, we would be able to pull out e.g. “dog” but not “Mr dog”. But then, if we just went for partial matches, we might get some errors too. First I’ll try direct matches - i.e. the cat just has another animal’s name:</p>
+<p><br></p>
+<p>Next, we just need to filter the <code>cats1</code> dataset for whether they contain the animal name. If we went for direct matches, we would be able to pull out e.g. “dog” but not “Mr dog”. But then, if we just went for partial matches, we might get some errors too. First I’ll try direct matches - i.e. the cat just has another animal’s name: <br></p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>
 # A tibble: 545 x 6
@@ -1485,7 +1500,9 @@ document.addEventListener('DOMContentLoaded', function() {
 10 monkey  Normal Intact Fe~ 3 yea~ Domestic Shorthair M~ Tortie      
 # ... with 535 more rows</code></pre>
 </div>
+<p><br></p>
 <p>Let’s get a frequency count of these names:</p>
+<p><br></p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>
 .
@@ -1536,8 +1553,8 @@ grasshopper       guppy     harrier        hawk      jaguar
   wolverine      wombat        wren       zebra 
           2           3           7           2 </code></pre>
 </div>
-<p>Looks like there is no dog !</p>
-<p>Here are the top 10:</p>
+<p><br> Looks like there is no dog !</p>
+<p>Here are the top 10: <br></p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>
 # A tibble: 114 x 2
@@ -1556,11 +1573,14 @@ grasshopper       guppy     harrier        hawk      jaguar
 10 tuna       13
 # ... with 104 more rows</code></pre>
 </div>
+<p><br></p>
 <p>Let’s make a plot of any animal that has more than 5 instances:</p>
+<p><br></p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="cat-names_files/figure-html5/unnamed-chunk-14-1.png" width="624" /></p>
 </div>
-<p>That will do for now! There’s much more we can do with this dataset in the future. Although, I will do a quick, final check for “Mr Dog” or “Mr Doggie”</p>
+<p><br></p>
+<p>That will do for now! There’s much more we can do with this dataset in the future. Although, I will do a quick, final check for “Mr Dog” or “Mr Doggie” <br></p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>
 # A tibble: 1 x 6
@@ -1568,7 +1588,8 @@ grasshopper       guppy     harrier        hawk      jaguar
   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt;                 &lt;chr&gt;     
 1 hotdog Normal Spayed Female 2 years Domestic Longhair Mix Blue Tabby</code></pre>
 </div>
-<p>Nope - just ‘hotdog’ - a two year old blue tabby.</p>
+<p><br> Nope - just ‘hotdog’ - a two year old blue tabby.</p>
+<p><br> <br></p>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
