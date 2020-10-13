@@ -35,14 +35,20 @@
 <meta property="og:type" content="article"/>
 <meta property="og:description" content="Identifying cats that are named after animals."/>
 <meta property="og:url" content="https://jamescurley.blog/posts/2020-10-13-cat-names/"/>
+<meta property="og:image" content="https://jamescurley.blog/posts/2020-10-13-cat-names/cat-names_files/figure-html5/unnamed-chunk-14-1.png"/>
+<meta property="og:image:width" content="1248"/>
+<meta property="og:image:height" content="768"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="James&#39; R Blog"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
-<meta property="twitter:card" content="summary"/>
+<meta property="twitter:card" content="summary_large_image"/>
 <meta property="twitter:title" content="James&#39; R Blog: Cat Names"/>
 <meta property="twitter:description" content="Identifying cats that are named after animals."/>
 <meta property="twitter:url" content="https://jamescurley.blog/posts/2020-10-13-cat-names/"/>
+<meta property="twitter:image" content="https://jamescurley.blog/posts/2020-10-13-cat-names/cat-names_files/figure-html5/unnamed-chunk-14-1.png"/>
+<meta property="twitter:image:width" content="1248"/>
+<meta property="twitter:image:height" content="768"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
 <meta name="citation_title" content="James&#39; R Blog: Cat Names"/>
@@ -59,7 +65,7 @@
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["cat-names_files/bowser-1.9.3/bowser.min.js","cat-names_files/distill-2.2.21/template.v2.js","cat-names_files/jquery-1.11.3/jquery.min.js","cat-names_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["cat-names_files/bowser-1.9.3/bowser.min.js","cat-names_files/distill-2.2.21/template.v2.js","cat-names_files/figure-html5/unnamed-chunk-14-1.png","cat-names_files/jquery-1.11.3/jquery.min.js","cat-names_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 
@@ -1332,7 +1338,237 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <div class="d-article">
+<p>One of my favorite datasets for teaching is the Austin Animal Center Intake Dataset. The Austin Animal Center has recorded and published data on all intakes since October 1st 2013. That means we have 7 years worth of data! You can see the <a href="https://data.austintexas.gov/Health-and-Community-Services/Austin-Animal-Center-Intakes/wter-evkm/data">current data here</a>.</p>
+<p>Recently I was thinking about the cat of two friends of mine - Chris &amp; Randi. Their cat is called Mr. Doggy. This led me to wonder - what other animals are cats named after - and which is the most popular?</p>
+<p>Here are the steps I took to answer this. First, load tidyverse to do the data wrangling and plotting:</p>
+<div class="layout-chunk" data-layout="l-body">
 
+</div>
+<p>I downloaded the Austin Animal Center Intake data up to 13th October 2020 and put it on my github page. You can directly import that into R from my webpage like this:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+# A tibble: 6 x 12
+  `Animal ID` Name  DateTime MonthYear `Found Location` `Intake Type`
+  &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;            &lt;chr&gt;        
+1 A786884     *Bro~ 01/03/2~ 01/03/20~ 2501 Magin Mead~ Stray        
+2 A706918     Belle 07/05/2~ 07/05/20~ 9409 Bluegrass ~ Stray        
+3 A724273     Runs~ 04/14/2~ 04/14/20~ 2818 Palomino T~ Stray        
+4 A665644     &lt;NA&gt;  10/21/2~ 10/21/20~ Austin (TX)      Stray        
+5 A682524     Rio   06/29/2~ 06/29/20~ 800 Grove Blvd ~ Stray        
+6 A743852     Odin  02/18/2~ 02/18/20~ Austin (TX)      Owner Surren~
+# ... with 6 more variables: `Intake Condition` &lt;chr&gt;, `Animal
+#   Type` &lt;chr&gt;, `Sex upon Intake` &lt;chr&gt;, `Age upon Intake` &lt;chr&gt;,
+#   Breed &lt;chr&gt;, Color &lt;chr&gt;</code></pre>
+</div>
+<p>We have 12 columns in total. These are as follows:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+ [1] &quot;Animal ID&quot;        &quot;Name&quot;             &quot;DateTime&quot;        
+ [4] &quot;MonthYear&quot;        &quot;Found Location&quot;   &quot;Intake Type&quot;     
+ [7] &quot;Intake Condition&quot; &quot;Animal Type&quot;      &quot;Sex upon Intake&quot; 
+[10] &quot;Age upon Intake&quot;  &quot;Breed&quot;            &quot;Color&quot;           </code></pre>
+</div>
+<p>Let’s look at what animal type is:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+     Bird       Cat       Dog Livestock     Other 
+      567     45568     68650        21      6407 </code></pre>
+</div>
+<p>For this analysis, we’ll just focus on cats:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+# A tibble: 6 x 12
+  `Animal ID` Name  DateTime MonthYear `Found Location` `Intake Type`
+  &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;            &lt;chr&gt;        
+1 A665644     &lt;NA&gt;  10/21/2~ 10/21/20~ Austin (TX)      Stray        
+2 A774147     &lt;NA&gt;  06/11/2~ 06/11/20~ 6600 Elm Creek ~ Stray        
+3 A731435     *Cas~ 08/08/2~ 08/08/20~ Austin (TX)      Owner Surren~
+4 A790209     Ziggy 03/06/2~ 03/06/20~ 4424 S Mopac Ex~ Public Assist
+5 A743114     &lt;NA&gt;  02/04/2~ 02/04/20~ 208 Beaver St i~ Stray        
+6 A657188     Tommy 11/10/2~ 11/10/20~ Austin (TX)      Owner Surren~
+# ... with 6 more variables: `Intake Condition` &lt;chr&gt;, `Animal
+#   Type` &lt;chr&gt;, `Sex upon Intake` &lt;chr&gt;, `Age upon Intake` &lt;chr&gt;,
+#   Breed &lt;chr&gt;, Color &lt;chr&gt;</code></pre>
+</div>
+<p>To make the data a bit more readable, let’s just keep the columns that give the name, intake type, sex, age, breed and color. I’ll also clean up the column names:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+# A tibble: 6 x 6
+  name   type    sex         age     breed              color         
+  &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;              &lt;chr&gt;         
+1 &lt;NA&gt;   Sick    Intact Fem~ 4 weeks Domestic Shorthai~ Calico        
+2 &lt;NA&gt;   Injured Intact Fem~ 4 weeks Domestic Shorthai~ Black/White   
+3 *Casey Normal  Neutered M~ 5 mont~ Domestic Shorthai~ Cream Tabby   
+4 Ziggy  Normal  Intact Fem~ 4 years Domestic Shorthai~ Brown Tabby/W~
+5 &lt;NA&gt;   Injured Intact Fem~ 2 years Domestic Shorthai~ Black/White   
+6 Tommy  Normal  Neutered M~ 14 yea~ Domestic Shorthai~ Brown Tabby/W~</code></pre>
+</div>
+<p>As you can see, not every cat has a given name. But we can do a search for any name we want. Let’s see if there are any cats with the name “fluff” or “fluffy”. I’ll first make all the cat names lower case, and I’ll remove the asterisks that some names have:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+# A tibble: 6 x 6
+  name  type    sex          age     breed              color         
+  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;   &lt;chr&gt;              &lt;chr&gt;         
+1 &lt;NA&gt;  Sick    Intact Fema~ 4 weeks Domestic Shorthai~ Calico        
+2 &lt;NA&gt;  Injured Intact Fema~ 4 weeks Domestic Shorthai~ Black/White   
+3 casey Normal  Neutered Ma~ 5 mont~ Domestic Shorthai~ Cream Tabby   
+4 ziggy Normal  Intact Fema~ 4 years Domestic Shorthai~ Brown Tabby/W~
+5 &lt;NA&gt;  Injured Intact Fema~ 2 years Domestic Shorthai~ Black/White   
+6 tommy Normal  Neutered Ma~ 14 yea~ Domestic Shorthai~ Brown Tabby/W~</code></pre>
+</div>
+<p>We can use <code>grepl()</code> to search for partial name matches:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+# A tibble: 52 x 6
+   name      type    sex         age    breed             color       
+   &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;             &lt;chr&gt;       
+ 1 fluffy    Normal  Intact Fem~ 3 wee~ Domestic Medium ~ Brown Tabby 
+ 2 fluffy    Normal  Spayed Fem~ 2 mon~ Domestic Shortha~ Blue Tabby  
+ 3 fluffern~ Normal  Intact Male 4 wee~ Domestic Shortha~ Blue        
+ 4 fluff     Normal  Intact Fem~ 3 wee~ Domestic Shortha~ Brown Tabby~
+ 5 fluffy    Injured Neutered M~ 9 yea~ Domestic Longhai~ Black/White 
+ 6 fluff     Normal  Spayed Fem~ 2 yea~ Domestic Longhai~ Black       
+ 7 fluff     Normal  Spayed Fem~ 5 yea~ Domestic Shortha~ Blue Tabby  
+ 8 fluffy    Normal  Unknown     2 yea~ Domestic Longhai~ Cream       
+ 9 fluffy    Normal  Spayed Fem~ 2 yea~ Domestic Longhai~ Black       
+10 fluffy    Normal  Neutered M~ 5 yea~ Domestic Medium ~ Blue Tabby  
+# ... with 42 more rows</code></pre>
+</div>
+<p>Turns out there are 52 different <code>*fluf*</code> variations - they are easier to see if we use <code>table()</code> on the <code>name</code> column:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+.
+         fluff        fluffer fluffer nutter    flufferkins 
+            19              2              1              1 
+   fluffernutt     flufferton      fluffette         fluffy 
+             1              1              1             21 
+   fluffy butt   fluffy fluff    franz fluff    fuzzyfluffy 
+             1              1              1              1 
+  mr. fluffers 
+             1 </code></pre>
+</div>
+<h5 id="cats-that-are-also-animals">Cats that are also animals:</h5>
+<p>Next, I realized that I needed a list of animals. Goggle helped me out and I found <a href="https://gist.githubusercontent.com/atduskgreg/3cf8ef48cb0d29cf151bedad81553a54/raw/82f142562cf50b0f6fb8010f890b2f934093553e/animals.txt">this list here</a> straight away. I just found <code>read.csv()</code> the quickest way of doing this:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+       V1
+1 Canidae
+2 Felidae
+3     Cat
+4  Cattle
+5     Dog
+6  Donkey</code></pre>
+<pre><code>
+                       V1
+518         Ringneck dove
+519                 Sheep
+520 Siamese fighting fish
+521         Society finch
+522                   Yak
+523         Water buffalo</code></pre>
+</div>
+<p>Next, we just need to filter the <code>cats1</code> dataset for whether they contain the animal name. If we went for direct matches, we would be able to pull out e.g. “dog” but not “Mr dog”. But then, if we just went for partial matches, we might get some errors too. First I’ll try direct matches - i.e. the cat just has another animal’s name:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+# A tibble: 545 x 6
+   name    type   sex        age    breed                 color       
+   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;  &lt;chr&gt;                 &lt;chr&gt;       
+ 1 sparrow Normal Neutered ~ 1 mon~ Domestic Shorthair M~ Black/White 
+ 2 harrier Normal Intact Ma~ 1 mon~ Domestic Shorthair M~ Brown Tabby 
+ 3 dolphin Normal Intact Fe~ 5 mon~ Domestic Shorthair M~ Blue        
+ 4 cat     Normal Spayed Fe~ 6 yea~ Maine Coon Mix        Brown Tabby 
+ 5 eagle   Normal Intact Ma~ 4 wee~ American Curl Shorth~ Lynx Point  
+ 6 deer    Normal Intact Fe~ 3 wee~ Domestic Shorthair    Tortie      
+ 7 bear    Normal Intact Ma~ 9 mon~ Siamese/Domestic Sho~ Black       
+ 8 kiwi    Normal Neutered ~ 1 year Domestic Shorthair M~ Brown Tabby~
+ 9 possum  Normal Intact Fe~ 1 day  Domestic Shorthair M~ Calico      
+10 monkey  Normal Intact Fe~ 3 yea~ Domestic Shorthair M~ Tortie      
+# ... with 535 more rows</code></pre>
+</div>
+<p>Let’s get a frequency count of these names:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+.
+  armadillo      badger        bass         bat        bear 
+          1           6           2           1          28 
+        bee      beetle        bird   blackbird         bug 
+          3           3           1           1           7 
+  butterfly     caribou         cat caterpillar     catfish 
+          4           2           6           2           2 
+    cheetah   chickadee     chicken  chinchilla    chipmunk 
+          4           2           7           2           1 
+     cicada       cobra      condor        crab     cricket 
+          1           1           1           1          14 
+       crow        deer       dingo     dolphin        dove 
+          1           2           1           2           3 
+  dragonfly        duck       eagle    elephant         elk 
+          3           4           5           1           3 
+     ermine      falcon       finch     firefly        fish 
+          1           4           3           4           2 
+        fly         fox        frog       goose      gopher 
+          1           2           2          15           1 
+grasshopper       guppy     harrier        hawk      jaguar 
+          7           9           1           5           3 
+        jay    kangaroo        kiwi       koala     ladybug 
+          8           1          14           1           6 
+       lark     lemming     leopard        lion     lobster 
+          2           1           1           2           1 
+       lynx    mackerel      marlin        mink        mite 
+          5           1           1           1           1 
+     monkey       moose       mouse     narwhal        newt 
+         21          18          15           1           2 
+    opossum        orca       otter         owl       panda 
+          4           1           8           3           9 
+    panther     penguin       perch         pig      pigeon 
+         12           5           1           1           5 
+   platypus        pony      possum      puffin        puma 
+          1           1           5           2          10 
+     rabbit     raccoon       raven     rooster    scorpion 
+          4           1          19           4           1 
+     shrimp       skunk       snipe     sparrow      spider 
+          2           2           1          10           3 
+      squid    squirrel    sturgeon        swan       swift 
+          5           6           1           2           1 
+      tiger        toad    tortoise       trout        tuna 
+         68           3           1           2          13 
+     turkey      turtle     wallaby      weasel        wolf 
+         10           9           1           2           1 
+  wolverine      wombat        wren       zebra 
+          2           3           7           2 </code></pre>
+</div>
+<p>Looks like there is no dog !</p>
+<p>Here are the top 10:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+# A tibble: 114 x 2
+# Groups:   name [114]
+   name        n
+   &lt;chr&gt;   &lt;int&gt;
+ 1 tiger      68
+ 2 bear       28
+ 3 monkey     21
+ 4 raven      19
+ 5 moose      18
+ 6 goose      15
+ 7 mouse      15
+ 8 cricket    14
+ 9 kiwi       14
+10 tuna       13
+# ... with 104 more rows</code></pre>
+</div>
+<p>Let’s make a plot of any animal that has more than 5 instances:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="cat-names_files/figure-html5/unnamed-chunk-14-1.png" width="624" /></p>
+</div>
+<p>That will do for now! There’s much more we can do with this dataset in the future. Although, I will do a quick, final check for “Mr Dog” or “Mr Doggie”</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+# A tibble: 1 x 6
+  name   type   sex           age     breed                 color     
+  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt;                 &lt;chr&gt;     
+1 hotdog Normal Spayed Female 2 years Domestic Longhair Mix Blue Tabby</code></pre>
+</div>
+<p>Nope - just ‘hotdog’ - a two year old blue tabby.</p>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">

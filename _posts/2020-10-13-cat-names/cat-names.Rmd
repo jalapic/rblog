@@ -19,3 +19,139 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
+One of my favorite datasets for teaching is the Austin Animal Center Intake Dataset. The Austin Animal Center has recorded and published data on all intakes since October 1st 2013. That means we have 7 years worth of data!   You can see the [current data here](https://data.austintexas.gov/Health-and-Community-Services/Austin-Animal-Center-Intakes/wter-evkm/data). 
+
+
+Recently I was thinking about the cat of two friends of mine - Chris & Randi. Their cat is called Mr. Doggy. This led me to wonder - what other animals are cats named after - and which is the most popular?
+
+
+Here are the steps I took to answer this.   First, load tidyverse to do the data wrangling and plotting:
+
+```{r,warning=FALSE,message=FALSE} 
+library(tidyverse)
+```
+
+
+I downloaded the Austin Animal Center Intake data up to 13th October 2020 and put it on my github page.  You can directly import that into R from my webpage like this:
+
+```{r,warning=FALSE,message=FALSE} 
+df <- read_csv("https://raw.githubusercontent.com/jalapic/rblog/master/raw_data/Austin_Animal_Center_Intakes.csv")
+head(df)
+```
+
+We have 12 columns in total. These are as follows:
+
+```{r,warning=FALSE,message=FALSE} 
+colnames(df)
+```
+
+Let's look at what animal type is:
+
+```{r,warning=FALSE,message=FALSE} 
+table(df$`Animal Type`)
+```
+
+For this analysis, we'll just focus on cats:
+
+
+```{r,warning=FALSE,message=FALSE} 
+cats <- df %>% filter(`Animal Type` == "Cat")
+head(cats)
+```
+
+To make the data a bit more readable, let's just keep the columns that give the name, intake type, sex, age, breed and color. I'll also clean up the column names:
+
+
+```{r,warning=FALSE,message=FALSE} 
+cats1 <- cats %>% select(2,7,9:12)
+colnames(cats1) <- c("name","type","sex","age","breed","color")
+head(cats1)
+
+```
+
+
+As you can see, not every cat has a given name. But we can do a search for any name we want.  Let's see if there are any cats with the name "fluff" or "fluffy". I'll first make all the cat names lower case, and I'll remove the asterisks that some names have:  
+
+
+```{r,warning=FALSE,message=FALSE} 
+
+cats1$name <- tolower(gsub("\\*", "", cats1$name))
+head(cats1)
+
+```
+
+We can use `grepl()` to search for partial name matches:
+
+```{r,warning=FALSE,message=FALSE} 
+cats1 %>% filter(grepl("fluf", name))
+```
+
+Turns out there are 52 different `*fluf*` variations - they are easier to see if we use `table()` on the `name` column:
+
+
+
+```{r,warning=FALSE,message=FALSE} 
+cats1 %>% filter(grepl("fluf", name)) %>% .$name %>% table()
+```
+
+
+##### Cats that are also animals:
+
+Next, I realized that I needed a list of animals.  Goggle helped me out and I found [this list here](https://gist.githubusercontent.com/atduskgreg/3cf8ef48cb0d29cf151bedad81553a54/raw/82f142562cf50b0f6fb8010f890b2f934093553e/animals.txt) straight away.  I just found `read.csv()` the quickest way of doing this:
+
+```{r,warning=FALSE,message=FALSE} 
+animals <- read.csv("https://gist.githubusercontent.com/atduskgreg/3cf8ef48cb0d29cf151bedad81553a54/raw/82f142562cf50b0f6fb8010f890b2f934093553e/animals.txt",header=F, stringsAsFactors = F)
+
+head(animals)
+tail(animals)
+```
+
+Next, we just need to filter the `cats1` dataset for whether they contain the animal name.  If we went for direct matches, we would be able to pull out e.g. "dog" but not "Mr dog".  But then, if we just went for partial matches, we might get some errors too. First I'll try direct matches - i.e. the cat just has another animal's name:
+
+```{r,warning=FALSE,message=FALSE} 
+cats1 %>% filter(name %in% tolower(animals[,1]))
+```
+
+Let's get a frequency count of these names:
+
+
+```{r,warning=FALSE,message=FALSE} 
+cats1 %>% filter(name %in% tolower(animals[,1])) %>% 
+  .$name %>% table()
+```
+
+Looks like there is no dog !
+
+
+Here are the top 10:
+
+```{r,warning=FALSE,message=FALSE} 
+cats1 %>% filter(name %in% tolower(animals[,1])) %>% 
+  group_by(name) %>% count() %>% arrange(-n)
+```
+
+Let's make a plot of any animal that has more than 5 instances:
+
+
+
+```{r,warning=FALSE,message=FALSE} 
+cats1 %>% filter(name %in% tolower(animals[,1])) %>% 
+  group_by(name) %>% count() %>% arrange(-n) %>%
+  filter(n>5) %>%
+ ggplot( aes(x = reorder(name, n), y = n) ) + 
+  geom_col(fill = "#123abc", color="#193642", alpha=.4) +
+  xlab("") +
+  ylab("Total Cats") +
+  ggtitle("Cats as Animals") +
+  theme_classic() +
+  coord_flip()
+```
+
+That will do for now!  There's much more we can do with this dataset in the future.  Although, I will do a quick, final check for "Mr Dog" or "Mr Doggie"
+
+```{r,warning=FALSE,message=FALSE} 
+cats1 %>% filter(grepl("dog", name))
+```
+Nope - just 'hotdog' - a two year old blue tabby.
+
+
