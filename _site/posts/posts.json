@@ -1,21 +1,5 @@
 [
   {
-    "path": "posts/welcome/",
-    "title": "Welcome to My Blog",
-    "description": "Welcome to our new blog, My Blog. We hope you enjoy \nreading what we have to say!",
-    "author": [
-      {
-        "name": "Nora Jones",
-        "url": "https://example.com/norajones"
-      }
-    ],
-    "date": "2020-10-13",
-    "categories": [],
-    "preview": {},
-    "last_modified": "2020-10-13T10:29:07-05:00",
-    "input_file": {}
-  },
-  {
     "path": "posts/2020-10-13-cat-names/",
     "title": "Cat Names",
     "description": "A short description of the post.",
@@ -32,6 +16,22 @@
     ],
     "preview": {},
     "last_modified": "2020-10-13T10:47:11-05:00",
-    "input_file": "cat-names.utf8.md"
+    "input_file": {}
+  },
+  {
+    "path": "posts/welcome/",
+    "title": "Welcome to My Blog",
+    "description": "Welcome to our new blog, My Blog. We hope you enjoy \nreading what we have to say!",
+    "author": [
+      {
+        "name": "Nora Jones",
+        "url": "https://example.com/norajones"
+      }
+    ],
+    "date": "2020-10-13",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2020-10-13T10:29:07-05:00",
+    "input_file": {}
   }
 ]
