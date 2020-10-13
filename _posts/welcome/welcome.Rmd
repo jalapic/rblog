@@ -1,13 +1,11 @@
 ---
 title: "Welcome to My Blog"
 description: |
-  Welcome to our new blog, My Blog. We hope you enjoy 
-  reading what we have to say!
+  Welcome to this blog, James' R Blog. I hope you enjoy 
+  reading it!
 author:
-  - name: Nora Jones 
-    url: https://example.com/norajones
-    affiliation: Spacely Sprockets
-    affiliation_url: https://example.com/spacelysprokets
+  - name: James Curley 
+    url: https://jamescurley.blog
 date: 10-13-2020
 output:
   distill::distill_article:
@@ -16,11 +14,11 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-
-# Learn more about creating blogs with Distill at:
-# https://rstudio.github.io/distill/blog.html
-
 ```
 
+
+Welcome to this blog. I'm an Associate Professor in Psychology at UT Austin.  My plan is to put here bits and pieces of R code and data that I find fun or useful. They are probably things that I want to play around with that aren't directly related to my research, or stuff that students might like to work on.
+
+Get in touch with me at curley AT utexas DOT edu
 
 
