@@ -196,6 +196,8 @@ cats1 %>% filter(grepl("dog", name))
 <br>
 Nope - just 'hotdog' - a two year old blue tabby.
 
+![](../../img/bluetabby.png)
+
 <br>
 <br>
 

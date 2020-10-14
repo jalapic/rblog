@@ -1,9 +1,21 @@
 ---
-title: "About this blog"
+title: "James' R Blog"
 description: |
-  Some additional details about the blog
+  Thanks for reading
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+
+<br>
+
+Hi. My name is James Curley and I'm an Associate Professor in the Psychology Department at the University of Texas at Austin.  I'm British. I like scrabble and cricket.
+
+In this blog I will make short posts related to data or code that I find interesting - or useful for my students. This isn't a place where I'll likely post anything related to my research.  I'd be interested in feedback.
+
+My GitHub page [is here](https://github.com/jalapic)
+
+This is [my twitter](https://twitter.com/jalapic)
+
+You can reach me at 'curley' AT 'utexas' DOT 'edu'
