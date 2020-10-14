@@ -1,8 +1,7 @@
 ---
 title: "Patterns of Female Names over Time"
 description: |
-  A short description of the post.
-preview: ../../img/babynames.png
+  Investigating similarity of name popularity over time.
 author:
   - name: James Curley
     url: jamescurley.blog
@@ -385,7 +384,7 @@ Cluster 7 appears to include names from the 1960s, being popular a litle after t
 
 
 <br>
-```{r, warning=FALSE, message=FALSE, echo=TRUE}
+```{r, warning=FALSE, message=FALSE, echo=TRUE, preview=TRUE}
 babynames %>%
   filter(sex=="F") %>%
   filter(name %in% group1x[resF1.k$cluster==7]) %>% 
@@ -462,7 +461,10 @@ tsne_D = tsne(D, k=2,  epoch_callback = ecb, perplexity=50)
 ```
 <br>
 
-![](../../img/babynames.png)
+```{r, out.width = "400px"}
+knitr::include_graphics("../../img/babynames.png")
+```
+
 <br>
 
 This is pretty cool. This data reduction and visualization method actually maps pretty well to what we did before. The different groups are denoted by different colors. Some logical patterns emerge. 

@@ -12,13 +12,13 @@
       <title>Patterns of Female Names over Time</title>
       <dc:creator>James Curley</dc:creator>
       <link>https://jamescurley.blog/posts/2020-10-14-patterns-of-female-names-over-time</link>
-      <description>A short description of the post.</description>
+      <description>Investigating similarity of name popularity over time.</description>
       <category>babynames</category>
       <category>clustering</category>
       <category>time_series</category>
       <guid>https://jamescurley.blog/posts/2020-10-14-patterns-of-female-names-over-time</guid>
       <pubDate>Thu, 15 Oct 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://jamescurley.blog/posts/2020-10-14-patterns-of-female-names-over-time/../../img/babynames.png" medium="image" type="image/png" width="1506" height="806"/>
+      <media:content url="https://jamescurley.blog/posts/2020-10-14-patterns-of-female-names-over-time/patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-28-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
       <title>World Cup Birthday Problem</title>
