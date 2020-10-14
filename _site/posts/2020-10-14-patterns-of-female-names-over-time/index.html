@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+<title>James' R Blog: Patterns of Female Names over Time</title>
+
+<meta property="description" itemprop="description" content="A short description of the post."/>
+
+<link rel="canonical" href="https://jamescurley.blog/posts/2020-10-14-patterns-of-female-names-over-time/"/>
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2020-10-15"/>
+<meta property="article:created" itemprop="dateCreated" content="2020-10-15"/>
+<meta name="article:author" content="James Curley"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="James&#39; R Blog: Patterns of Female Names over Time"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="A short description of the post."/>
+<meta property="og:url" content="https://jamescurley.blog/posts/2020-10-14-patterns-of-female-names-over-time/"/>
+<meta property="og:image" content="https://jamescurley.blog/posts/2020-10-14-patterns-of-female-names-over-time/../../img/babynames.png"/>
+<meta property="og:image:width" content="1506"/>
+<meta property="og:image:height" content="806"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="James&#39; R Blog"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary_large_image"/>
+<meta property="twitter:title" content="James&#39; R Blog: Patterns of Female Names over Time"/>
+<meta property="twitter:description" content="A short description of the post."/>
+<meta property="twitter:url" content="https://jamescurley.blog/posts/2020-10-14-patterns-of-female-names-over-time/"/>
+<meta property="twitter:image" content="https://jamescurley.blog/posts/2020-10-14-patterns-of-female-names-over-time/../../img/babynames.png"/>
+<meta property="twitter:image:width" content="1506"/>
+<meta property="twitter:image:height" content="806"/>
+
+<!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+<meta name="citation_title" content="James&#39; R Blog: Patterns of Female Names over Time"/>
+<meta name="citation_fulltext_html_url" content="https://jamescurley.blog/posts/2020-10-14-patterns-of-female-names-over-time/"/>
+<meta name="citation_online_date" content="2020/10/15"/>
+<meta name="citation_publication_date" content="2020/10/15"/>
+<meta name="citation_author" content="James Curley"/>
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","preview","author","categories","date","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Patterns of Female Names over Time"]},{"type":"character","attributes":{},"value":["A short description of the post."]},{"type":"character","attributes":{},"value":["../../img/babynames.png"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["James Curley"]},{"type":"character","attributes":{},"value":["jamescurley.blog"]}]}]},{"type":"character","attributes":{},"value":["babynames","clustering","time_series"]},{"type":"character","attributes":{},"value":["10-15-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://jamescurley.blog/posts/2020-10-14-patterns-of-female-names-over-time/"]},{"type":"character","attributes":{},"value":["https://jamescurley.blog/posts/2020-10-14-patterns-of-female-names-over-time/"]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["patterns-of-female-names-over-time_files/bowser-1.9.3/bowser.min.js","patterns-of-female-names-over-time_files/distill-2.2.21/template.v2.js","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-10-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-19-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-21-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-22-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-23-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-24-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-25-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-26-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-27-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-28-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-29-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-3-1.png","patterns-of-female-names-over-time_files/jquery-1.11.3/jquery.min.js","patterns-of-female-names-over-time_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #455a64;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative;}
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+</style>
+
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for table of contents */
+
+.d-toc {
+  color: rgba(0,0,0,0.8);
+  font-size: 0.8em;
+  line-height: 1em;
+}
+
+.d-toc-header {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 1.3em;
+}
+
+.d-toc a {
+  border-bottom: none;
+}
+
+.d-toc ul {
+  padding-left: 0;
+}
+
+.d-toc li>ul {
+  padding-top: 0.8em;
+  padding-left: 16px;
+  margin-bottom: 0.6em;
+}
+
+.d-toc ul,
+.d-toc li {
+  list-style-type: none;
+}
+
+.d-toc li {
+  margin-bottom: 0.9em;
+}
+
+.d-toc-separator {
+  margin-top: 20px;
+  margin-bottom: 2em;
+}
+
+.d-article-with-toc {
+  border-top: none;
+  padding-top: 0;
+}
+
+
+
+/* Tweak code blocks (note that this CSS is repeated above in an injection
+   into the d-code shadow dom) */
+
+d-code {
+  overflow-x: auto !important;
+}
+
+pre.d-code code.d-code {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+pre.text-output {
+
+  font-size: 12px;
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+@media(min-width: 768px) {
+
+d-code {
+  overflow-x: visible !important;
+}
+
+pre.d-code code.d-code  {
+    padding-left: 18px;
+    font-size: 14px;
+}
+pre.text-output {
+  font-size: 14px;
+}
+}
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+.sidebar-section.custom {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.custom p {
+  margin-bottom: 0.5em;
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // create d-bibliography
+  var bibliography = $('<d-bibliography></d-bibliography>');
+  $('#distill-bibliography').wrap(bibliography);
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace citations with <d-cite>
+  $('.citation').each(function(i, val) {
+    appendix = true;
+    var cites = $(this).attr('data-cites').split(" ");
+    var dt_cite = $('<d-cite></d-cite>');
+    dt_cite.attr('key', cites.join());
+    $(this).replaceWith(dt_cite);
+  });
+  // remove refs
+  $('#refs').remove();
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-toc a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // replace code blocks with d-code
+  $('pre>code').each(function(i, val) {
+    var code = $(this);
+    var pre = code.parent();
+    var clz = "";
+    var language = pre.attr('class');
+    if (language) {
+      // map unknown languages to "clike" (without this they just dissapear)
+      if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                               "javascript", "js", "julia", "lua", "markdown",
+                               "markup", "mathml", "python", "svg", "xml"]) == -1)
+        language = "clike";
+      language = ' language="' + language + '"';
+      var dt_code = $('<d-code block' + language + clz + '></d-code>');
+      dt_code.text(code.text());
+      pre.replaceWith(dt_code);
+    } else {
+      code.addClass('text-output').unwrap().changeElementType('pre');
+    }
+  });
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('d-code, pre.text-output, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // table of contents
+    if (have_authors) // adjust border if we are in authors
+      $('.d-toc').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+    $('d-code').each(function(i, val) {
+      var style = document.createElement('style');
+      style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                        '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+      if (this.shadowRoot)
+        this.shadowRoot.appendChild(style);
+    });
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-toc-header').remove();
+  $('.d-toc').remove();
+  $('.d-toc-separator').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Patterns of Female Names over Time","description":"A short description of the post.","authors":[{"author":"James Curley","authorURL":"jamescurley.blog","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-10-15T00:00:00.000-05:00","citationText":"Curley, 2020"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="../../index.html" class="title">James' R Blog</a>
+</div>
+<div class="nav-right">
+<a href="../../index.html">Home</a>
+<a href="../../about.html">About</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Patterns of Female Names over Time</h1>
+<p><p>A short description of the post.</p></p>
+</div>
+
+<div class="d-byline">
+  James Curley jamescurley.blog 
+  
+<br/>10-15-2020
+</div>
+
+<div class="d-article">
+<p><br> The <a href="https://github.com/hadley/babynames">babynames package</a> put together by Hadley Wickham is a lot of fun for teaching R. This package contains a dataset of the same name that contains the number of boys and girls born each year since 1880 with every name.</p>
+<p>What you’ll notice if you play around with graphing the distribution of children born with particular names is that there are different patterns. Some names were popular long ago, some are only popular recently, others have had ups and downs in popularity. For a bit of fun, I thought it would be interesting to try and identify different patterns through principal components analysis (PCA) and clustering techniques.</p>
+<p>Let’s load the libraries we’ll need and the data:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+### load packages
+library(babynames) 
+library(gridExtra)
+library(tidyverse)
+library(colorspace)
+library(tsne)
+
+
+head(babynames)</code></pre>
+<pre><code>
+# A tibble: 6 x 5
+   year sex   name          n   prop
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;int&gt;  &lt;dbl&gt;
+1  1880 F     Mary       7065 0.0724
+2  1880 F     Anna       2604 0.0267
+3  1880 F     Emma       2003 0.0205
+4  1880 F     Elizabeth  1939 0.0199
+5  1880 F     Minnie     1746 0.0179
+6  1880 F     Margaret   1578 0.0162</code></pre>
+<pre class="r"><code>
+tail(babynames)</code></pre>
+<pre><code>
+# A tibble: 6 x 5
+   year sex   name       n       prop
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;int&gt;      &lt;dbl&gt;
+1  2017 M     Zyhier     5 0.00000255
+2  2017 M     Zykai      5 0.00000255
+3  2017 M     Zykeem     5 0.00000255
+4  2017 M     Zylin      5 0.00000255
+5  2017 M     Zylis      5 0.00000255
+6  2017 M     Zyrie      5 0.00000255</code></pre>
+</div>
+<p><br></p>
+<p>As can be seen, this dataset records the number of children (n) of each name (name) that are boys or girls (sex) that were born in each year (year). The data go from 1880-2017. Additionally, the proportion (prop) of children born with that name in each year.</p>
+<p>To plot the pattern of an individual name over time, I’m going to write a little custom function:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Function to plot a name over time
+plot_name &lt;- function(bname = NULL) {
+  babynames %&gt;%
+  filter(name==bname) %&gt;% 
+  ggplot(aes(year, n)) +
+  geom_line(aes(color=sex), lwd=1) +
+  scale_color_manual(values = c(&quot;firebrick1&quot;, &quot;dodgerblue&quot;)) +
+  theme_bw() +
+  ggtitle(bname)
+}</code></pre>
+</div>
+<p><br></p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+grid.arrange(
+  plot_name(&quot;Barbara&quot;),
+  plot_name(&quot;Megan&quot;),
+  plot_name(&quot;Jennifer&quot;),
+  plot_name(&quot;Irene&quot;),
+  ncol=2
+)</code></pre>
+<p><img src="patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+</div>
+<p><br></p>
+<p>We’ll just focus on female names. These are the most popular female names of all time:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+babynames %&gt;%
+  filter(sex == &quot;F&quot;) %&gt;%
+  group_by(name) %&gt;%
+  summarize(total = sum(n)) %&gt;%
+  arrange(-total)</code></pre>
+<pre><code>
+# A tibble: 67,046 x 2
+   name        total
+   &lt;chr&gt;       &lt;int&gt;
+ 1 Mary      4123200
+ 2 Elizabeth 1629679
+ 3 Patricia  1571692
+ 4 Jennifer  1466281
+ 5 Linda     1452249
+ 6 Barbara   1434060
+ 7 Margaret  1246649
+ 8 Susan     1121440
+ 9 Dorothy   1107096
+10 Sarah     1073895
+# ... with 67,036 more rows</code></pre>
+</div>
+<p><br></p>
+<p>We can also see that there are 67,046 unique female names in the dataset. Here are some of the least common names:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+babynames %&gt;%
+  filter(sex == &quot;F&quot;) %&gt;%
+  group_by(name) %&gt;%
+  summarize(total = sum(n)) %&gt;%
+  arrange(total)</code></pre>
+<pre><code>
+# A tibble: 67,046 x 2
+   name     total
+   &lt;chr&gt;    &lt;int&gt;
+ 1 Aada         5
+ 2 Aaden        5
+ 3 Aadilynn     5
+ 4 Aafreen      5
+ 5 Aagot        5
+ 6 Aaheli       5
+ 7 Aaiyana      5
+ 8 Aaja         5
+ 9 Aakira       5
+10 Aakiyah      5
+# ... with 67,036 more rows</code></pre>
+</div>
+<p><br></p>
+<p>In fact there are 9,595 names that appear 5 times only in the dataset. To be entered into the data, each name must have been registered at least five times in a given year. So for all of these names, in one year there were five children born with that given name - and that was the only year.</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+babynames %&gt;%
+  filter(sex == &quot;F&quot;) %&gt;%
+  group_by(name) %&gt;%
+  summarize(total = sum(n)) %&gt;%
+  filter(total==5) %&gt;%
+  nrow()</code></pre>
+<pre><code>
+[1] 9595</code></pre>
+</div>
+<p><br></p>
+<p>For instance, the first name on the list - Aada - was given to five children in 2015:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+babynames %&gt;% filter(name == &quot;Aada&quot;)</code></pre>
+<pre><code>
+# A tibble: 1 x 5
+   year sex   name      n       prop
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt;      &lt;dbl&gt;
+1  2015 F     Aada      5 0.00000257</code></pre>
+</div>
+<p><br></p>
+<p><strong>Reshape Data</strong></p>
+<p>The first exploration of these data that I’d like to do is to perform a PCA on the distribution of the frquency of names over years. This will give us a general idea of how many different ‘components/groups’ we might expect.</p>
+<p>To do this, we need to have our data in a ‘wide’ format, with each column/variable representing a year and each row representing the total number of births that year for that particular name. We’ll put the names into rownames so we can keep that information, but only have numbers in the dataframe.</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+babywideF &lt;- 
+  babynames %&gt;% 
+  filter(sex==&quot;F&quot;) %&gt;% 
+  select(name, year, n) %&gt;%
+  pivot_wider(names_from = year, values_from = n, values_fill = list(n = 0))
+
+rownames(babywideF)&lt;- babywideF %&gt;% .$name  #set rownames
+babywideF &lt;- babywideF %&gt;% select(-name) # remove name variable</code></pre>
+</div>
+<p><br></p>
+<p>Here are the first 5 rows and 4 columns of the dataframe, as well as the rownames:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+babywideF[1:5,1:4]</code></pre>
+<pre><code>
+# A tibble: 5 x 4
+  `1880` `1881` `1882` `1883`
+   &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;
+1   7065   6919   8148   8012
+2   2604   2698   3143   3306
+3   2003   2034   2303   2367
+4   1939   1852   2186   2255
+5   1746   1653   2004   2035</code></pre>
+<pre class="r"><code>
+rownames(babywideF)[1:5]</code></pre>
+<pre><code>
+[1] &quot;Mary&quot;      &quot;Anna&quot;      &quot;Emma&quot;      &quot;Elizabeth&quot; &quot;Minnie&quot;   </code></pre>
+</div>
+<p><br></p>
+<p><strong>PCA</strong></p>
+<p>For this sort of exploratory analysis, I’m going to simply use the default PCA function in R - <code>princomp()</code> and plot scree plots.</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+### principal components analysis - females
+resF.pca &lt;- princomp(babywideF)
+plot(resF.pca)</code></pre>
+<p><img src="patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
+</div>
+<p><br></p>
+<p>The above scree plot seems to indicate that there is one major component of names that accounts for the majority of variance. There then appears to be a few more components that account for a fair amount of variance. Depending on how micro-detailed we want to go, we could look for 4 or 5 components fairly reasonably. Though there may be something of interest in looking at 7 or 8 groups.</p>
+<p><br></p>
+<p><strong>Clustering</strong></p>
+<p>To explore which names show more similar distribution patterns to one another over time, I’m going to firstly use k-means hierarchical clustering. There are pros and cons to all clustering methods. A problem with k-means is that you can get different clusters each time you run it due to how the method operates. An upside is that it is a fairly flexible method…</p>
+<p>The clustering is done with the <code>kmeans()</code> function and by setting the number of clusters to find. After saving the results, we can look at how many individual names have been put into each cluster (the relative number of the cluster isn’t that important - e.g. if we re-run the clustering, the clusters with most names could be called by a different cluster number in future runs). I am going to <code>set.seed()</code> to make sure that this code is repeatable.</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+###k-means clustering analysis
+set.seed(100)
+resF.k &lt;- kmeans(babywideF, 6)
+table(resF.k$cluster)</code></pre>
+<pre><code>
+    1     2     3     4     5     6 
+   14    19    71    15   119 66808 </code></pre>
+</div>
+<p><br></p>
+<p>The majority of names (66,808) are contained within the 1st component. The other five components have a much more manageable number of names.</p>
+<p>Let’s look at some of these names in more detail. We’ll start with the smallest cluster - remember, these are names that should show very similar trends over time in the frequency of births:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+names(resF.k$cluster[resF.k$cluster==1])</code></pre>
+<pre><code>
+ [1] &quot;Anna&quot;     &quot;Margaret&quot; &quot;Alice&quot;    &quot;Helen&quot;    &quot;Frances&quot;  &quot;Marie&quot;   
+ [7] &quot;Ruth&quot;     &quot;Virginia&quot; &quot;Mildred&quot;  &quot;Evelyn&quot;   &quot;Betty&quot;    &quot;Dorothy&quot; 
+[13] &quot;Doris&quot;    &quot;Shirley&quot; </code></pre>
+</div>
+<p><br></p>
+<p>This first group seems to make sense. You could well imagine someone called Mildred who had friends from her childhood called Dorothy and Betty.</p>
+<p>The next smallest cluster has these names, which appear to be boomer-era names:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+names(resF.k$cluster[resF.k$cluster==4])</code></pre>
+<pre><code>
+ [1] &quot;Mary&quot;     &quot;Nancy&quot;    &quot;Susan&quot;    &quot;Barbara&quot;  &quot;Cynthia&quot;  &quot;Linda&quot;   
+ [7] &quot;Kathleen&quot; &quot;Donna&quot;    &quot;Deborah&quot;  &quot;Carol&quot;    &quot;Karen&quot;    &quot;Patricia&quot;
+[13] &quot;Sharon&quot;   &quot;Sandra&quot;   &quot;Debra&quot;   </code></pre>
+</div>
+<p><br></p>
+<p>Then we have this cluster, which look to be more children of the 1980s:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+names(resF.k$cluster[resF.k$cluster==2])</code></pre>
+<pre><code>
+ [1] &quot;Elizabeth&quot; &quot;Sarah&quot;     &quot;Laura&quot;     &quot;Amanda&quot;    &quot;Rebecca&quot;  
+ [6] &quot;Amy&quot;       &quot;Christina&quot; &quot;Melissa&quot;   &quot;Angela&quot;    &quot;Jessica&quot;  
+[11] &quot;Lisa&quot;      &quot;Stephanie&quot; &quot;Kelly&quot;     &quot;Heather&quot;   &quot;Michelle&quot; 
+[16] &quot;Jennifer&quot;  &quot;Ashley&quot;    &quot;Kimberly&quot;  &quot;Nicole&quot;   </code></pre>
+</div>
+<p><br></p>
+<p>The next biggest cluster are names that are more recent still:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+names(resF.k$cluster[resF.k$cluster==3])</code></pre>
+<pre><code>
+ [1] &quot;Emma&quot;      &quot;Ella&quot;      &quot;Grace&quot;     &quot;Julia&quot;     &quot;Katherine&quot;
+ [6] &quot;Caroline&quot;  &quot;Katie&quot;     &quot;Hannah&quot;    &quot;Emily&quot;     &quot;Rachel&quot;   
+[11] &quot;Sara&quot;      &quot;Sophia&quot;    &quot;Victoria&quot;  &quot;Leah&quot;      &quot;Isabella&quot; 
+[16] &quot;Olivia&quot;    &quot;Madeline&quot;  &quot;Samantha&quot;  &quot;Chloe&quot;     &quot;Molly&quot;    
+[21] &quot;Savannah&quot;  &quot;Ava&quot;       &quot;Abigail&quot;   &quot;Amber&quot;     &quot;Monica&quot;   
+[26] &quot;Natalie&quot;   &quot;Alicia&quot;    &quot;Courtney&quot;  &quot;Andrea&quot;    &quot;Crystal&quot;  
+[31] &quot;Jamie&quot;     &quot;Melanie&quot;   &quot;Sydney&quot;    &quot;Erin&quot;      &quot;Haley&quot;    
+[36] &quot;Gabrielle&quot; &quot;Alexandra&quot; &quot;Vanessa&quot;   &quot;Cassandra&quot; &quot;Jasmine&quot;  
+[41] &quot;Allison&quot;   &quot;Erica&quot;     &quot;Chelsea&quot;   &quot;Shannon&quot;   &quot;Shelby&quot;   
+[46] &quot;Paige&quot;     &quot;Jenna&quot;     &quot;April&quot;     &quot;Morgan&quot;    &quot;Megan&quot;    
+[51] &quot;Lauren&quot;    &quot;Lindsey&quot;   &quot;Alexis&quot;    &quot;Kayla&quot;     &quot;Mia&quot;      
+[56] &quot;Brooke&quot;    &quot;Danielle&quot;  &quot;Kristen&quot;   &quot;Tiffany&quot;   &quot;Kelsey&quot;   
+[61] &quot;Jordan&quot;    &quot;Alyssa&quot;    &quot;Taylor&quot;    &quot;Destiny&quot;   &quot;Brianna&quot;  
+[66] &quot;Brittany&quot;  &quot;Hailey&quot;    &quot;Katelyn&quot;   &quot;Madison&quot;   &quot;Kaitlyn&quot;  
+[71] &quot;Mackenzie&quot;</code></pre>
+</div>
+<p><br></p>
+<p>Finally, we have a large cluster of 119 names. The relationship of these names to each other might take some more digging:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+names(resF.k$cluster[resF.k$cluster==5])</code></pre>
+<pre><code>
+  [1] &quot;Annie&quot;      &quot;Clara&quot;      &quot;Florence&quot;   &quot;Martha&quot;     &quot;Carrie&quot;    
+  [6] &quot;Edith&quot;      &quot;Rose&quot;       &quot;Catherine&quot;  &quot;Lillian&quot;    &quot;Louise&quot;    
+ [11] &quot;Ethel&quot;      &quot;Eva&quot;        &quot;Edna&quot;       &quot;Josephine&quot;  &quot;Ellen&quot;     
+ [16] &quot;Charlotte&quot;  &quot;Jane&quot;       &quot;Irene&quot;      &quot;Kathryn&quot;    &quot;Esther&quot;    
+ [21] &quot;Theresa&quot;    &quot;Pauline&quot;    &quot;Anne&quot;       &quot;Ann&quot;        &quot;Eleanor&quot;   
+ [26] &quot;Maria&quot;      &quot;Ruby&quot;       &quot;Christine&quot;  &quot;Sylvia&quot;     &quot;Carolyn&quot;   
+ [31] &quot;Sally&quot;      &quot;Sue&quot;        &quot;Jean&quot;       &quot;Jeanette&quot;   &quot;Lois&quot;      
+ [36] &quot;Teresa&quot;     &quot;Loretta&quot;    &quot;Lucille&quot;    &quot;Regina&quot;     &quot;Roberta&quot;   
+ [41] &quot;Norma&quot;      &quot;Annette&quot;    &quot;Janet&quot;      &quot;Juanita&quot;    &quot;Julie&quot;     
+ [46] &quot;Vivian&quot;     &quot;Gladys&quot;     &quot;Rita&quot;       &quot;Tina&quot;       &quot;Anita&quot;     
+ [51] &quot;Marjorie&quot;   &quot;Bonnie&quot;     &quot;June&quot;       &quot;Dolores&quot;    &quot;Peggy&quot;     
+ [56] &quot;Connie&quot;     &quot;Jeanne&quot;     &quot;Joan&quot;       &quot;Wanda&quot;      &quot;Diana&quot;     
+ [61] &quot;Marcia&quot;     &quot;Paula&quot;      &quot;Leslie&quot;     &quot;Geraldine&quot;  &quot;Debbie&quot;    
+ [66] &quot;Phyllis&quot;    &quot;Suzanne&quot;    &quot;Elaine&quot;     &quot;Judith&quot;     &quot;Judy&quot;      
+ [71] &quot;Lynn&quot;       &quot;Thelma&quot;     &quot;Audrey&quot;     &quot;Gloria&quot;     &quot;Gail&quot;      
+ [76] &quot;Jo&quot;         &quot;Rosemary&quot;   &quot;Joyce&quot;      &quot;Dana&quot;       &quot;Eileen&quot;    
+ [81] &quot;Lorraine&quot;   &quot;Denise&quot;     &quot;Laurie&quot;     &quot;Valerie&quot;    &quot;Tracy&quot;     
+ [86] &quot;Beth&quot;       &quot;Yvonne&quot;     &quot;Cindy&quot;      &quot;Dawn&quot;       &quot;Joanne&quot;    
+ [91] &quot;Renee&quot;      &quot;Carla&quot;      &quot;Jacqueline&quot; &quot;Joann&quot;      &quot;Beverly&quot;   
+ [96] &quot;Janice&quot;     &quot;Pamela&quot;     &quot;Maureen&quot;    &quot;Darlene&quot;    &quot;Brenda&quot;    
+[101] &quot;Diane&quot;      &quot;Marilyn&quot;    &quot;Colleen&quot;    &quot;Robin&quot;      &quot;Jill&quot;      
+[106] &quot;Sheila&quot;     &quot;Vickie&quot;     &quot;Cheryl&quot;     &quot;Sherry&quot;     &quot;Kathy&quot;     
+[111] &quot;Rhonda&quot;     &quot;Vicki&quot;      &quot;Kim&quot;        &quot;Michele&quot;    &quot;Cathy&quot;     
+[116] &quot;Wendy&quot;      &quot;Terri&quot;      &quot;Lori&quot;       &quot;Tammy&quot;     </code></pre>
+</div>
+<p><br></p>
+<p>Just for completeness, here is a random sample of 10 names from ‘cluster 6’. As can be seen, these tend to be uncommon names.</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+set.seed(17)
+sample(names(resF.k$cluster[resF.k$cluster==6]),10)</code></pre>
+<pre><code>
+ [1] &quot;Ronna&quot;      &quot;Yaely&quot;      &quot;Sarahmarie&quot; &quot;Kiyasha&quot;    &quot;Norell&quot;    
+ [6] &quot;Jaleeza&quot;    &quot;Darlina&quot;    &quot;Chari&quot;      &quot;Kanaiya&quot;    &quot;Sherridan&quot; </code></pre>
+</div>
+<p><br></p>
+<p><strong>Repeat the Process?</strong></p>
+<p>It might be more beneficial to repeat this process, but exclude the less common names. To do this we will filter our data by not keeping any names that appear in cluster 6. This leaves us with 238 names.</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+group1x &lt;- names(resF.k$cluster[resF.k$cluster&lt;6])
+length(group1x)</code></pre>
+<pre><code>
+[1] 238</code></pre>
+</div>
+<p><br></p>
+<p>We can only keep these names, and redo our PCA:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+babywideF1 &lt;- babywideF %&gt;%  filter(rownames(.) %in% group1x) 
+
+### principal components analysis - females
+resF1.pca &lt;- princomp(babywideF1)
+plot(resF1.pca)</code></pre>
+<p><img src="patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-19-1.png" width="624" /></p>
+</div>
+<p><br></p>
+<p>The scree plot again indicates approximately three or four main components, plus perhaps 3 or 4 ‘fringe’ ones. Let’s redo our K-means clustering with 7 clusters, just because it might be more fun/interesting to try and split names up as much as possible to see if it makes logical sense.</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+###k-means clustering analysis
+set.seed(10)
+resF1.k &lt;- kmeans(babywideF1, 7)
+table(resF1.k$cluster)</code></pre>
+<pre><code>
+ 1  2  3  4  5  6  7 
+73  5 16 18 67  4 55 </code></pre>
+</div>
+<p><br></p>
+<p>Again, let’s look at these in a bit more detail, this time looking from smallest group to largest. The first four appear to be older names. When we can compare their distributions on a plot, we can see that they are very similar having large peaks in the 1950s - although Mary also has a large peak in the 1920s:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+babynames %&gt;%
+  filter(sex==&quot;F&quot;) %&gt;%
+  filter(name %in% group1x[resF1.k$cluster==6]) %&gt;% 
+  ggplot(aes(year, n)) +
+  geom_line(aes(color=name, group=name), lwd=1) +
+  theme_classic() +
+  scale_color_discrete_qualitative(palette = &quot;Dark 2&quot;)</code></pre>
+<p><img src="patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-21-1.png" width="624" /></p>
+</div>
+<p><br></p>
+<p>The next cluster of five names are even older names, all peaking in the 1920s:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+babynames %&gt;%
+  filter(sex==&quot;F&quot;) %&gt;%
+  filter(name %in% group1x[resF1.k$cluster==2]) %&gt;% 
+  ggplot(aes(year, n)) +
+  geom_line(aes(color=name, group=name), lwd=1) +
+  theme_classic() +
+  scale_color_discrete_qualitative(palette = &quot;Dark 2&quot;)</code></pre>
+<p><img src="patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-22-1.png" width="624" /></p>
+</div>
+<p><br></p>
+<p>If I’m being picky, I would suggest that the peak of Betty is just after the other four names, and Margaret has a second peak in the 1950s. It’s possible we could find other names that match these patterns, but grouping these five together obviously has some merits.</p>
+<p>The next group is cluster 3, which has 16 names - all very popular names during the 1950s &amp; 1960s:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+babynames %&gt;%
+  filter(sex==&quot;F&quot;) %&gt;%
+  filter(name %in% group1x[resF1.k$cluster==3]) %&gt;% 
+  ggplot(aes(year, n)) +
+  geom_line(aes(color=name, group=name), lwd=1, alpha = .8) +
+  theme_classic() +
+  scale_color_discrete_qualitative(palette = &quot;Harmonic&quot;)</code></pre>
+<p><img src="patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-23-1.png" width="624" /></p>
+</div>
+<p><br></p>
+<p>The next group is cluster 4, which has 18 names:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+babynames %&gt;%
+  filter(sex==&quot;F&quot;) %&gt;%
+  filter(name %in% group1x[resF1.k$cluster==4]) %&gt;% 
+  ggplot(aes(year, n)) +
+  geom_line(aes(color=name, group=name), lwd=1, alpha=.8) +
+  theme_classic() </code></pre>
+<p><img src="patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-24-1.png" width="624" /></p>
+</div>
+<p><br></p>
+<p>This group looks to be generally names that were popular during the 1970s and 1980s. However, there are a couple of names in here which look a bit out of place. The green line that has a large peak in the 1920s is Elizabeth. The blue line with a peak just after the 1960s is Lisa. The green line with the largest peak in the early 1970s is Jennifer. This name does have a similar pattern to the others - it’s just that it is so popular it has an elevated peak.</p>
+<p>Here are Elizabeth and Lisa separated from the rest - Elizabeth is trimodal in its distribution having multiple periods of poularity!</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+grid.arrange(
+  plot_name(&quot;Elizabeth&quot;),
+  plot_name(&quot;Lisa&quot;),
+  ncol=2
+)</code></pre>
+<p><img src="patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-25-1.png" width="624" /></p>
+</div>
+<p><br></p>
+<p>The last three clusters - clusters 1, 5 and 7 have between 55-73 names each. Here, I’ll just plot each without showing the names.</p>
+<p>Cluster 5 appears to include names from the 1990s, some having mini-peaks in the 1920s:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+babynames %&gt;%
+  filter(sex==&quot;F&quot;) %&gt;%
+  filter(name %in% group1x[resF1.k$cluster==5]) %&gt;% 
+  ggplot(aes(year, n)) +
+  geom_line(aes(group=name), color=&quot;#123abc&quot;, lwd=1, alpha=.2) +
+  theme_classic() +
+  theme(legend.position = &#39;none&#39;)</code></pre>
+<p><img src="patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-26-1.png" width="624" /></p>
+</div>
+<p><br></p>
+<p>Three of the names that appear to have had the peaks in the 1920s as well as post 1990s are Ella, Grace and Julia:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+babynames %&gt;%
+  filter(sex==&quot;F&quot;) %&gt;%
+  filter(name==&quot;Grace&quot; | name==&quot;Julia&quot; | name==&quot;Ella&quot;) %&gt;% 
+  ggplot(aes(year, n)) +
+  geom_line(aes(color=name), lwd=1) +
+  theme_classic()</code></pre>
+<p><img src="patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-27-1.png" width="624" /></p>
+</div>
+<p><br></p>
+<p>Cluster 7 appears to include names from the 1960s, being popular a litle after the boomers of cluster 3.</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+babynames %&gt;%
+  filter(sex==&quot;F&quot;) %&gt;%
+  filter(name %in% group1x[resF1.k$cluster==7]) %&gt;% 
+  ggplot(aes(year, n)) +
+  geom_line(aes(group=name), color=&quot;lightseagreen&quot;, lwd=1, alpha=.2) +
+  theme_classic() +
+  theme(legend.position = &#39;none&#39;)</code></pre>
+<p><img src="patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-28-1.png" width="624" /></p>
+</div>
+<p><br></p>
+<p>Cluster 1 is a little more mixed. There are clearly some 1920s names in here, but also possibly some other pre WW2 popular names.</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+babynames %&gt;%
+  filter(sex==&quot;F&quot;) %&gt;%
+  filter(name %in% group1x[resF1.k$cluster==1]) %&gt;% 
+  ggplot(aes(year, n)) +
+  geom_line(aes(group=name), color=&quot;orange&quot;, lwd=1, alpha=.2) +
+  theme_classic() +
+  theme(legend.position = &#39;none&#39;)</code></pre>
+<p><img src="patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-29-1.png" width="624" /></p>
+</div>
+<p><br></p>
+<p><strong>TSNE mapping</strong></p>
+<p>An intriguing way of mapping multidimensional data into a 2d plot is to use <a href="https://cran.r-project.org/web/packages/tsne/tsne.pdf">T-distributed Stochastic Neighbor Embedding</a>. This can be done in the R package <code>tsne</code>.</p>
+<p>Below I create a distance object, <code>D</code>, on which we will run the tsne analysis. I also create a dataframe to store the names, cluster id, and cluster color.</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+D &lt;- dist(babywideF1)  #create distance object
+
+
+cluster1 &lt;- group1x[resF1.k$cluster==1]
+cluster2 &lt;- group1x[resF1.k$cluster==2]
+cluster3 &lt;- group1x[resF1.k$cluster==3]
+cluster4 &lt;- group1x[resF1.k$cluster==4]
+cluster5 &lt;- group1x[resF1.k$cluster==5]
+cluster6 &lt;- group1x[resF1.k$cluster==6]
+cluster7 &lt;- group1x[resF1.k$cluster==7]
+
+
+
+# creating dataframe for plotting colors and text on final plot
+namesdf &lt;- data.frame(
+              name = c(cluster1, cluster2, cluster3, cluster4, 
+                       cluster5, cluster6, cluster7), 
+              group = c(rep(1, length(cluster1)), 
+                        rep(2, length(cluster2)), 
+                        rep(3, length(cluster3)), 
+                        rep(4, length(cluster4)), 
+                        rep(5, length(cluster5)), 
+                        rep(6, length(cluster6)), 
+                        rep(7, length(cluster7)))
+           )
+                    
+
+namesdf &lt;- namesdf[match(group1x, namesdf$name),] #names in correct order to match rownames of babywideF1 
+
+colors = rainbow(7)
+names(colors) = unique(namesdf$group)
+
+#define function used in plotting
+ecb = function(x,y){ plot(x,t=&#39;n&#39;); text(x,labels=namesdf$name, col=colors[namesdf$group], cex=0.5) }
+
+#plot
+tsne_D = tsne(D, k=2,  epoch_callback = ecb, perplexity=50)</code></pre>
+</div>
+<p><br></p>
+<p><img src="../../img/babynames.png" /> <br></p>
+<p>This is pretty cool. This data reduction and visualization method actually maps pretty well to what we did before. The different groups are denoted by different colors. Some logical patterns emerge.</p>
+<p>The 1950s names - Barbara, Linda, Mary and Patricia are together in purple on the left hand side. Close by in lime green are the boomer names that were popular a little later. At the top in yellow are the names that were really popular in the 1920s (e.g. Dorothy, Helen).</p>
+<p>The names that have become very popular recently (e.g. Isabella, Madison, Abigail) are on the far right side of visual space in light blue. Interestingly, Grace and Julia position next to each other with Ella not too far away - these are the names that were popular early and then have had a recent resurgence.</p>
+<p>The names in green at the bottom are those such as Jennifer that were very popular in the late 70s and 80s. Significantly, Lisa and Kimberly are close to each other - this might be because their peaks were pre 1975. Julie is another with pre-1975 peaks, but that name is in a different cluster. The names in blue close to the green group are the names that blossomed in the 80s and 90s before more recently declining in popularity such as Megan and Lauren.</p>
+<p>Finally, much could be done to look for further patterns in the red and pink groups, but that will have to wait for another time ! There is also much that can be done with the less common names - again, we’ll look at those another time.</p>
+<!--radix_placeholder_article_footer-->
+<div class="article-footer">
+  <p class="social_footer">
+    <span class="disqus-comments">
+      <i class="fas fa-comments"></i>
+      &nbsp;
+      <span class="disqus-comment-count" data-disqus-identifier="posts/2020-10-14-patterns-of-female-names-over-time/">Comment on this article</span>
+    </span>
+    <span class="article-sharing">
+      Share: &nbsp;
+      <a href="https://twitter.com/share?text=Patterns%20of%20Female%20Names%20over%20Time&amp;url=https%3A%2F%2Fjamescurley.blog%2Fposts%2F2020-10-14-patterns-of-female-names-over-time%2F">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fjamescurley.blog%2Fposts%2F2020-10-14-patterns-of-female-names-over-time%2F&amp;title=Patterns%20of%20Female%20Names%20over%20Time">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </span>
+  </p>
+  <script id="dsq-count-scr" src="https://james-curley-blog.disqus.com/count.js" async></script>
+  <div id="disqus_thread" class="hidden"></div>
+  <script>
+var disqus_config = function () {
+  this.page.url = 'https://jamescurley.blog/posts/2020-10-14-patterns-of-female-names-over-time/';
+  this.page.identifier = 'posts/2020-10-14-patterns-of-female-names-over-time/';
+};
+(function() {
+  var d = document, s = d.createElement('script');
+  s.src = 'https://james-curley-blog.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+</script>
+</div>
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+  <h3 id="citation">Citation</h3>
+  <p>For attribution, please cite this work as</p>
+  <pre class="citation-appendix short">Curley (2020, Oct. 15). James' R Blog: Patterns of Female Names over Time. Retrieved from https://jamescurley.blog/posts/2020-10-14-patterns-of-female-names-over-time/</pre>
+  <p>BibTeX citation</p>
+  <pre class="citation-appendix long">@misc{curley2020patterns,
+  author = {Curley, James},
+  title = {James' R Blog: Patterns of Female Names over Time},
+  url = {https://jamescurley.blog/posts/2020-10-14-patterns-of-female-names-over-time/},
+  year = {2020}
+}</pre>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
