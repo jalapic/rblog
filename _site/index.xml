@@ -7,7 +7,19 @@
     <description>Random R coding projects
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Tue, 13 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 14 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>World Cup Birthday Problem</title>
+      <dc:creator>James Curley</dc:creator>
+      <link>https://jamescurley.blog/posts/2020-10-13-world-cup-birthday-problem</link>
+      <description>Do world cup squad members share birthdays?</description>
+      <category>puzzles</category>
+      <category>regex</category>
+      <category>soccer</category>
+      <guid>https://jamescurley.blog/posts/2020-10-13-world-cup-birthday-problem</guid>
+      <pubDate>Wed, 14 Oct 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://jamescurley.blog/posts/2020-10-13-world-cup-birthday-problem/world-cup-birthday-problem_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Cat Names</title>
       <dc:creator>James Curley</dc:creator>

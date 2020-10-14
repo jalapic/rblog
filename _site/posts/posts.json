@@ -1,5 +1,27 @@
 [
   {
+    "path": "posts/2020-10-13-world-cup-birthday-problem/",
+    "title": "World Cup Birthday Problem",
+    "description": "Do world cup squad members share birthdays?",
+    "author": [
+      {
+        "name": "James Curley",
+        "url": "jamescurley.blog"
+      }
+    ],
+    "date": "2020-10-14",
+    "categories": [
+      "puzzles",
+      "regex",
+      "soccer"
+    ],
+    "preview": "posts/2020-10-13-world-cup-birthday-problem/world-cup-birthday-problem_files/figure-html5/unnamed-chunk-9-1.png",
+    "last_modified": "2020-10-13T20:59:35-05:00",
+    "input_file": "world-cup-birthday-problem.utf8.md",
+    "preview_width": 1248,
+    "preview_height": 768
+  },
+  {
     "path": "posts/2020-10-13-cat-names/",
     "title": "Cat Names",
     "description": "Identifying cats that are named after animals.",

@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>World Cup Birthday Problem</title>
+  
+  <meta property="description" itemprop="description" content="Do world cup squad members share birthdays?"/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2020-10-14"/>
+  <meta property="article:created" itemprop="dateCreated" content="2020-10-14"/>
+  <meta name="article:author" content="James Curley"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="World Cup Birthday Problem"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Do world cup squad members share birthdays?"/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="World Cup Birthday Problem"/>
+  <meta property="twitter:description" content="Do world cup squad members share birthdays?"/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","categories","date","output"]}},"value":[{"type":"character","attributes":{},"value":["World Cup Birthday Problem"]},{"type":"character","attributes":{},"value":["Do world cup squad members share birthdays?\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["James Curley"]},{"type":"character","attributes":{},"value":["jamescurley.blog"]}]}]},{"type":"character","attributes":{},"value":["puzzles","regex","soccer"]},{"type":"character","attributes":{},"value":["10-14-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["world-cup-birthday-problem_files/bowser-1.9.3/bowser.min.js","world-cup-birthday-problem_files/distill-2.2.21/template.v2.js","world-cup-birthday-problem_files/figure-html5/unnamed-chunk-9-1.png","world-cup-birthday-problem_files/jquery-1.11.3/jquery.min.js","world-cup-birthday-problem_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="world-cup-birthday-problem_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="world-cup-birthday-problem_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="world-cup-birthday-problem_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="world-cup-birthday-problem_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"World Cup Birthday Problem","description":"Do world cup squad members share birthdays?","authors":[{"author":"James Curley","authorURL":"jamescurley.blog","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-10-14T00:00:00.000-05:00","citationText":"Curley, 2020"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>World Cup Birthday Problem</h1>
+<p><p>Do world cup squad members share birthdays?</p></p>
+</div>
+
+<div class="d-byline">
+  James Curley jamescurley.blog 
+  
+<br/>10-14-2020
+</div>
+
+<div class="d-article">
+<p><br><br></p>
+<h3 id="the-birthday-problem">The Birthday Problem</h3>
+<p>The Birthday Problem is quite a well known puzzle. If you attended a party of 20 people or so and were asked how likely it was that any two people at the party shared a birthday - what would you think? Most people when they are first confronted with this question think the probability will be quite small. After all, there are 365 days in the year, and only 20 people at the party. However, it turns out that the chances are pretty decent.</p>
+<p>There is, obviously, some probability mathematics behind this that will tell us that the chances of any two people sharing a birthday at the party of 20 people is around 41%. You can read more about <a href="https://en.wikipedia.org/wiki/Birthday_problem">the math here</a>.</p>
+<p>Instead of going through the math, I’d like to show this visually using a simulation. Then we’ll check this problem against some real world data - using soccer world cup squads.</p>
+<p><br></p>
+<h4 id="simulating-the-birthday-problem">Simulating the Birthday Problem</h4>
+<p>What we’re doing below is to use <code>sample()</code> to randomly select <code>n</code> number of numbers between 1 and 365. These are our days of the year - we’re just going to ignore leap years. Importantly, we’re selecting these numbers WITH replacement.</p>
+<p>For example, let’s select five numbers between 1 and 365 with replacement</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+sample(1:365, 5, T)</code></pre>
+<pre><code>
+[1]  97 136 210 332  74</code></pre>
+</div>
+<p><br></p>
+<p>As you can see from these numbers, none are duplicated. However, if we got 25 numbers, then we have more chance of getting some numbers twice:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+vs &lt;- sample(1:365, 25, T)
+vs</code></pre>
+<pre><code>
+ [1] 328 345 242 230  23  76  65 251 141 281 182 262 363 139 284 342
+[17]  78 238  46  98 141   5 140 318 125</code></pre>
+</div>
+<p><br></p>
+<p>We next use the function <code>duplicated()</code> to find out if any of the numbers are …. duplicated.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+duplicated(vs)</code></pre>
+<pre><code>
+ [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[12] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE
+[23] FALSE FALSE FALSE</code></pre>
+</div>
+<p>Here, the 21st number is duplicated - which is 141. It appears twice in the list - this would correspond to a shared birthday of May 20th (the 141st day of the year).</p>
+<p><br></p>
+<p>The code below runs 10,000 lots of group sizes of 1-50. For each group size, and for each permutation, we count how many of the birthdays are duplicated:</p>
+<p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+nperm &lt;- 20000
+maxn &lt;- 50
+
+res &lt;- matrix(NA, nrow = maxn, ncol = nperm)
+
+for(n in 1:maxn) {
+  for(i in 1:nperm) {
+    x &lt;- sample(1:365, n, T)
+    res[[n,i]] &lt;- sum(duplicated(x))
+  }
+}</code></pre>
+</div>
+<p><br></p>
+<p>The table below visualizes the first 5 iterations of group sizes of 1-15. Obviously, if it’s a party of one person it’s a lame party and also nobody is going to share a birthday. What you can see in the results below, is that in the 3rd run, people shared birthdays when there were 8 or 15 people at the party. In the 4th run, people shared birthdays when there were 12 or 14 people at the party.</p>
+<p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# first 5 iterations of group sizes 1-15
+res[1:15,1:5]</code></pre>
+<pre><code>
+      [,1] [,2] [,3] [,4] [,5]
+ [1,]    0    0    0    0    0
+ [2,]    0    0    0    0    0
+ [3,]    0    0    0    0    0
+ [4,]    0    0    0    0    0
+ [5,]    0    0    0    0    0
+ [6,]    0    0    0    0    0
+ [7,]    0    0    0    0    0
+ [8,]    0    0    1    0    0
+ [9,]    0    0    0    0    0
+[10,]    0    0    0    0    0
+[11,]    0    0    0    0    0
+[12,]    0    1    0    1    0
+[13,]    0    0    0    0    0
+[14,]    0    0    0    1    0
+[15,]    1    0    1    0    0</code></pre>
+</div>
+<p><br></p>
+<p>For each group size, we can count over all 20,000 iterations how many of the 20,000 instances had at least two people that shared a birthday. We can then work out the proportion of times this happens:</p>
+<p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+v &lt;- apply(res, 1, function(x) sum(x&gt;0))
+round(v/nperm,2)</code></pre>
+<pre><code>
+ [1] 0.00 0.00 0.01 0.02 0.03 0.04 0.06 0.08 0.09 0.12 0.14 0.16 0.19
+[14] 0.22 0.25 0.28 0.31 0.34 0.38 0.41 0.44 0.48 0.51 0.54 0.57 0.60
+[27] 0.62 0.65 0.68 0.71 0.73 0.75 0.77 0.80 0.81 0.84 0.85 0.86 0.88
+[40] 0.89 0.90 0.91 0.93 0.93 0.94 0.95 0.96 0.96 0.97 0.97</code></pre>
+</div>
+<p><br></p>
+<p>This shows you that when there are only 5 people at the party, you have a 3% chance of there being shared birthdays. When there are 40 people at a party, there is a 89% chance of there being a shared birthday. It turns out that when there are 23 people at a party there is a 51% chance of there being a shared birthday. 23 is the number of people where it’s more likely for there to be people that share a birthday than not.</p>
+<p>We can make a simple visualization of this:</p>
+<p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+plot(1:maxn, v/nperm, type=&#39;l&#39;, lwd=2,
+     xlab=&quot;Party Size&quot;, ylab=&quot;Probability of Birthday Being Shared&quot;)
+abline(h=0.5, col=&quot;red&quot;,lty=2)
+abline(v=23, col=&quot;black&quot;,lty=3)</code></pre>
+<p><img src="world-cup-birthday-problem_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
+</div>
+<p><br> <br> <br></p>
+<h4 id="world-cup-data">World Cup Data</h4>
+<p><br></p>
+<p>When soccer teams compete at major championships, coaches have to pick squads of 23 for the tournament. Obviously, based on the above, this is a fairly interesting number. It led me to wonder, what proportion of world cup squads have players that shared birthdays?</p>
+<p>The 32 squads for the 2018 world cup are <a href="https://en.wikipedia.org/wiki/2018_FIFA_World_Cup_squads">available here</a>. What I’m doing below is to use the R package <code>rvest</code> to scrape these tables from wikipedia.</p>
+<p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(rvest)    
+URL &lt;- &quot;https://en.wikipedia.org/wiki/2018_FIFA_World_Cup_squads&quot;
+
+squads &lt;- URL %&gt;% 
+  read_html %&gt;%
+  html_nodes(&quot;table&quot;) %&gt;%
+  html_table() %&gt;%
+  head(32)</code></pre>
+</div>
+<p><br></p>
+<p>The squads are stored in a list. Let’s look at the first four rows of the first squad, which is Egypt:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+squads[[1]][1:4,]</code></pre>
+<pre><code>
+  No. Pos.                    Player
+1   1  1GK Essam El Hadary (captain)
+2   2  2DF                  Ali Gabr
+3   3  2DF          Ahmed Elmohamady
+4   4  3MF                Omar Gaber
+                     Date of birth (age) Caps Goals
+1  (1973-01-15)15 January 1973 (aged 45)  158     0
+2   (1989-01-01)1 January 1989 (aged 29)   21     1
+3 (1987-09-09)9 September 1987 (aged 30)   78     2
+4  (1992-01-30)30 January 1992 (aged 26)   24     0
+                  Club
+1           Al-Taawoun
+2 West Bromwich Albion
+3          Aston Villa
+4       Los Angeles FC</code></pre>
+</div>
+<p><br></p>
+<p>Each table has the following column names:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+colnames(squads[[1]])</code></pre>
+<pre><code>
+[1] &quot;No.&quot;                 &quot;Pos.&quot;                &quot;Player&quot;             
+[4] &quot;Date of birth (age)&quot; &quot;Caps&quot;                &quot;Goals&quot;              
+[7] &quot;Club&quot;               </code></pre>
+</div>
+<p><br></p>
+<p>As you might notice, the date of birth colum is a bit of a mess, which we’ll deal with shortly. There is also no ‘country’ column, which would be useful. To create this, I realized that on the same wikipedia page, if we grabbed all text that was written with a <code>&lt;h3&gt;</code> HTML tag, we could get the country names and add them in to each squad - after getting rid of a bit of extraneous text at the end of them.</p>
+<p>Also shown are the first 4 rows of the 23rd squad, South Korea:</p>
+<p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+names(squads) &lt;- URL %&gt;% 
+  read_html %&gt;%
+  html_nodes(&quot;h3&quot;) %&gt;%
+  html_text() %&gt;%
+  head(32) %&gt;%
+  gsub(&quot;\\[edit\\]&quot;,&quot;&quot;,.)
+
+squads &lt;- Map(cbind, squads, country = names(squads))
+
+squads[[23]][1:4,]</code></pre>
+<pre><code>
+  No. Pos.          Player                     Date of birth (age)
+1   1  1GK   Kim Seung-gyu (1990-09-30)30 September 1990 (aged 27)
+2   2  2DF        Lee Yong  (1986-12-24)24 December 1986 (aged 31)
+3   3  2DF Jung Seung-hyun      (1994-04-03)3 April 1994 (aged 24)
+4   4  2DF      Oh Ban-suk       (1988-05-20)20 May 1988 (aged 30)
+  Caps Goals                   Club     country
+1   33     0            Vissel Kobe South Korea
+2   28     0 Jeonbuk Hyundai Motors South Korea
+3    6     0             Sagan Tosu South Korea
+4    2     0            Jeju United South Korea</code></pre>
+</div>
+<p><br></p>
+<p>What we really care about for this post is whether players in the same squad share a birthday. Let’s illustrate this looking at South Korea’s birthdays.</p>
+<p>Here are all the birthdays as listed in the date of birth column:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+x &lt;- squads[[23]]$`Date of birth (age)`
+x</code></pre>
+<pre><code>
+ [1] &quot;(1990-09-30)30 September 1990 (aged 27)&quot;
+ [2] &quot;(1986-12-24)24 December 1986 (aged 31)&quot; 
+ [3] &quot;(1994-04-03)3 April 1994 (aged 24)&quot;     
+ [4] &quot;(1988-05-20)20 May 1988 (aged 30)&quot;      
+ [5] &quot;(1988-10-04)4 October 1988 (aged 29)&quot;   
+ [6] &quot;(1987-01-16)16 January 1987 (aged 31)&quot;  
+ [7] &quot;(1992-07-08)8 July 1992 (aged 25)&quot;      
+ [8] &quot;(1990-10-30)30 October 1990 (aged 27)&quot;  
+ [9] &quot;(1988-04-14)14 April 1988 (aged 30)&quot;    
+[10] &quot;(1998-01-06)6 January 1998 (aged 20)&quot;   
+[11] &quot;(1996-01-26)26 January 1996 (aged 22)&quot;  
+[12] &quot;(1990-02-25)25 February 1990 (aged 28)&quot; 
+[13] &quot;(1989-02-27)27 February 1989 (aged 29)&quot; 
+[14] &quot;(1990-09-17)17 September 1990 (aged 27)&quot;
+[15] &quot;(1989-12-14)14 December 1989 (aged 28)&quot; 
+[16] &quot;(1989-01-24)24 January 1989 (aged 29)&quot;  
+[17] &quot;(1992-08-10)10 August 1992 (aged 25)&quot;   
+[18] &quot;(1992-06-09)9 June 1992 (aged 26)&quot;      
+[19] &quot;(1990-02-27)27 February 1990 (aged 28)&quot; 
+[20] &quot;(1991-09-28)28 September 1991 (aged 26)&quot;
+[21] &quot;(1987-07-06)6 July 1987 (aged 30)&quot;      
+[22] &quot;(1988-03-10)10 March 1988 (aged 30)&quot;    
+[23] &quot;(1991-09-25)25 September 1991 (aged 26)&quot;</code></pre>
+</div>
+<p><br></p>
+<p>We don’t need all this stuff, so we can grab everything inside the brackets using a regex. To be honest, I’m sure there is an easier way of doing this - this is just the way I could figure out quickly:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+#get all inside brackets
+gsub(&quot;\\(([^()]*)\\)|.&quot;, &quot;\\1&quot;, x, perl=T)</code></pre>
+<pre><code>
+ [1] &quot;1990-09-30aged 27&quot; &quot;1986-12-24aged 31&quot; &quot;1994-04-03aged 24&quot;
+ [4] &quot;1988-05-20aged 30&quot; &quot;1988-10-04aged 29&quot; &quot;1987-01-16aged 31&quot;
+ [7] &quot;1992-07-08aged 25&quot; &quot;1990-10-30aged 27&quot; &quot;1988-04-14aged 30&quot;
+[10] &quot;1998-01-06aged 20&quot; &quot;1996-01-26aged 22&quot; &quot;1990-02-25aged 28&quot;
+[13] &quot;1989-02-27aged 29&quot; &quot;1990-09-17aged 27&quot; &quot;1989-12-14aged 28&quot;
+[16] &quot;1989-01-24aged 29&quot; &quot;1992-08-10aged 25&quot; &quot;1992-06-09aged 26&quot;
+[19] &quot;1990-02-27aged 28&quot; &quot;1991-09-28aged 26&quot; &quot;1987-07-06aged 30&quot;
+[22] &quot;1988-03-10aged 30&quot; &quot;1991-09-25aged 26&quot;</code></pre>
+</div>
+<p><br></p>
+<p>Clearly, this is still too much info. However, because the data is so uniform in type, we can use <code>substr()</code> to get the text from the 6th to 10th character of each string. That corresponds to the month and day of birth (years aren’t important for this problem):</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+#day-month
+vec &lt;- substr(gsub(&quot;\\(([^()]*)\\)|.&quot;, &quot;\\1&quot;, x, perl=T),6,10)
+vec</code></pre>
+<pre><code>
+ [1] &quot;09-30&quot; &quot;12-24&quot; &quot;04-03&quot; &quot;05-20&quot; &quot;10-04&quot; &quot;01-16&quot; &quot;07-08&quot; &quot;10-30&quot;
+ [9] &quot;04-14&quot; &quot;01-06&quot; &quot;01-26&quot; &quot;02-25&quot; &quot;02-27&quot; &quot;09-17&quot; &quot;12-14&quot; &quot;01-24&quot;
+[17] &quot;08-10&quot; &quot;06-09&quot; &quot;02-27&quot; &quot;09-28&quot; &quot;07-06&quot; &quot;03-10&quot; &quot;09-25&quot;</code></pre>
+</div>
+<p><br></p>
+<p>We can used <code>duplicated()</code> to now return all the dates that are duplicates:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+duplicated(vec) | duplicated(vec, fromLast=TRUE)</code></pre>
+<pre><code>
+ [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[12] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE
+[23] FALSE</code></pre>
+<pre class="r"><code>
+vec[duplicated(vec) | duplicated(vec, fromLast=TRUE)]</code></pre>
+<pre><code>
+[1] &quot;02-27&quot; &quot;02-27&quot;</code></pre>
+</div>
+<p><br></p>
+<p>So, in the South Korean squad, there are two players who share birthdays on 27th February.</p>
+<p><br></p>
+<p>The below is a custom function using the above logic to check each squad for duplicated birthdays and to put them into each squad’s dataframe:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dob_dup &lt;- function(df){
+  x &lt;- df$`Date of birth (age)`
+  vec &lt;- substr(gsub(&quot;\\(([^()]*)\\)|.&quot;, &quot;\\1&quot;, x, perl=T),6,10)
+  df$daymonth &lt;- vec
+  df$dupl &lt;- duplicated(vec) | duplicated(vec, fromLast=TRUE)
+  return(df)
+}</code></pre>
+</div>
+<p><br></p>
+<p>Here, we apply the function to all squads (using <code>map()</code> from <code>tidyverse</code> to be able to apply the function over each squad dataframe in the list). I’m showing you Morocco’s first five players as an example:</p>
+<p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(tidyverse)
+squads &lt;- squads %&gt;% map(dob_dup)
+squads[[6]][1:5,]</code></pre>
+<pre><code>
+  No. Pos.                  Player
+1   1  1GK          Yassine Bounou
+2   2  2DF           Achraf Hakimi
+3   3  2DF            Hamza Mendyl
+4   4  2DF         Manuel da Costa
+5   5  2DF Medhi Benatia (captain)
+                    Date of birth (age) Caps Goals
+1    (1991-04-05)5 April 1991 (aged 27)   11     0
+2 (1998-11-04)4 November 1998 (aged 19)   10     1
+3 (1997-10-21)21 October 1997 (aged 20)   13     0
+4      (1986-05-06)6 May 1986 (aged 32)   28     1
+5   (1987-04-17)17 April 1987 (aged 31)   57     2
+                 Club country daymonth  dupl
+1              Girona Morocco    04-05  TRUE
+2         Real Madrid Morocco    11-04 FALSE
+3               Lille Morocco    10-21 FALSE
+4 Istanbul Basaksehir Morocco    05-06 FALSE
+5            Juventus Morocco    04-17 FALSE</code></pre>
+</div>
+<p><br></p>
+<p>Applying this to every squad, we can then count up the number of players that share a birthday in each squad of 23 players:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+v &lt;- squads %&gt;% map(~ sum(.$dupl)) %&gt;% unlist()
+v</code></pre>
+<pre><code>
+       Egypt       Russia Saudi Arabia      Uruguay         Iran 
+           0            2            0            0            2 
+     Morocco     Portugal        Spain    Australia      Denmark 
+           4            6            2            2            0 
+      France         Peru    Argentina      Croatia      Iceland 
+           2            2            0            2            0 
+     Nigeria       Brazil   Costa Rica       Serbia  Switzerland 
+           2            4            2            0            0 
+     Germany       Mexico  South Korea       Sweden      Belgium 
+           2            0            2            0            0 
+     England       Panama      Tunisia     Colombia        Japan 
+           2            0            0            0            0 
+      Poland      Senegal 
+           8            0 </code></pre>
+</div>
+<p><br></p>
+<p>Poland lead the way with 8 players sharing birthdays ! Here they are:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+squads[[31]] %&gt;% filter(dupl==T)</code></pre>
+<pre><code>
+  No. Pos.              Player
+1   1  1GK   Wojciech Szczesny
+2   2  2DF       Michal Pazdan
+3   6  3MF      Jacek Góralski
+4  10  3MF Grzegorz Krychowiak
+5  14  4FW   Lukasz Teodorczyk
+6  20  2DF     Lukasz Piszczek
+7  21  3MF       Rafal Kurzawa
+8  22  1GK    Lukasz Fabianski
+                      Date of birth (age) Caps Goals
+1     (1990-04-18)18 April 1990 (aged 28)   35     0
+2 (1987-09-21)21 September 1987 (aged 30)   33     0
+3 (1992-09-21)21 September 1992 (aged 25)    5     0
+4   (1990-01-29)29 January 1990 (aged 28)   51     2
+5       (1991-06-03)3 June 1991 (aged 27)   17     4
+6       (1985-06-03)3 June 1985 (aged 33)   63     3
+7   (1993-01-29)29 January 1993 (aged 25)    3     0
+8     (1985-04-18)18 April 1985 (aged 33)   45     0
+                  Club country daymonth dupl
+1             Juventus  Poland    04-18 TRUE
+2         Legia Warsaw  Poland    09-21 TRUE
+3   Ludogorets Razgrad  Poland    09-21 TRUE
+4 West Bromwich Albion  Poland    01-29 TRUE
+5           Anderlecht  Poland    06-03 TRUE
+6    Borussia Dortmund  Poland    06-03 TRUE
+7        Górnik Zabrze  Poland    01-29 TRUE
+8         Swansea City  Poland    04-18 TRUE</code></pre>
+</div>
+<p><br></p>
+<p>So, how many of the thirty-two 23 man squads had at least two players that shared a birthday ?</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+v[v&gt;0]</code></pre>
+<pre><code>
+     Russia        Iran     Morocco    Portugal       Spain 
+          2           2           4           6           2 
+  Australia      France        Peru     Croatia     Nigeria 
+          2           2           2           2           2 
+     Brazil  Costa Rica     Germany South Korea     England 
+          4           2           2           2           2 
+     Poland 
+          8 </code></pre>
+</div>
+<p><br></p>
+<p>It turns out that 16/32 squads had players that shared birthdays - so 50% which is basically what our simulation above told us was the probability.</p>
+<p>However, this is not probably the full story. You may notice that we have more shared birthdays than two in many squads. Interestingly, it turns out that soccer squads may not be completely random samples with respect to birthdays. Often in sports teams, soccer included, players tend to be born <a href="https://en.wikipedia.org/wiki/Relative_age_effect">in certain months of the year</a>. This is often due to older children in age groups being picked for school teams and so on. We may well have some sampling bias in our data - something we can explore in another post.</p>
+<p><br></p>
+<p>Out of interest, here is the full list of all players that share birthdays in squads:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+squads %&gt;% map(dob_dup) %&gt;% map(~filter(., dupl==T)) %&gt;%
+  map(~ select(., c(1:3, 5:9))) %&gt;% data.table::rbindlist()</code></pre>
+<pre><code>
+    No. Pos.                      Player Caps Goals
+ 1:  15  3MF           Aleksei Miranchuk   18     4
+ 2:  16  3MF             Anton Miranchuk    6     0
+ 3:  14  4FW               Saman Ghoddos    8     1
+ 4:  15  2DF            Pejman Montazeri   46     1
+ 5:   1  1GK              Yassine Bounou   11     0
+ 6:  10  3MF             Younès Belhanda   47     5
+ 7:  17  2DF                 Nabil Dirar   34     3
+ 8:  22  1GK        Ahmed Reda Tagnaouti    2     0
+ 9:   4  3MF            Manuel Fernandes   14     3
+10:   5  2DF           Raphaël Guerreiro   24     2
+11:   6  2DF                  José Fonte   31     0
+12:   7  4FW Cristiano Ronaldo (captain)  150    81
+13:   8  3MF               João Moutinho  110     7
+14:  16  3MF             Bruno Fernandes    6     1
+15:   8  3MF                        Koke   40     0
+16:  21  4FW                 David Silva  121    35
+17:  16  2DF                 Aziz Behich   23     2
+18:  23  3MF                   Tom Rogic   37     7
+19:   2  2DF             Benjamin Pavard    6     0
+20:  16  1GK              Steve Mandanda   27     0
+21:  10  4FW            Jefferson Farfán   84    25
+22:  22  2DF               Nilson Loyola    3     0
+23:   8  3MF               Mateo Kovacic   41     1
+24:  20  4FW                 Marko Pjaca   16     1
+25:   4  3MF               Wilfred Ndidi   17     0
+26:  21  2DF              Tyronne Ebuehi    7     0
+27:   1  1GK                     Alisson   26     0
+28:   6  2DF                 Filipe Luís   33     2
+29:  19  3MF                     Willian   57     8
+30:  20  4FW             Roberto Firmino   21     6
+31:   8  2DF                Bryan Oviedo   44     1
+32:  20  3MF                David Guzmán   43     0
+33:  15  2DF                 Niklas Süle   11     0
+34:  17  2DF              Jérôme Boateng   71     1
+35:  13  3MF                Koo Ja-cheol   68    19
+36:  19  2DF              Kim Young-gwon   53     2
+37:   2  2DF                 Kyle Walker   35     0
+38:   5  2DF                 John Stones   26     0
+39:   1  1GK           Wojciech Szczesny   35     0
+40:   2  2DF               Michal Pazdan   33     0
+41:   6  3MF              Jacek Góralski    5     0
+42:  10  3MF         Grzegorz Krychowiak   51     2
+43:  14  4FW           Lukasz Teodorczyk   17     4
+44:  20  2DF             Lukasz Piszczek   63     3
+45:  21  3MF               Rafal Kurzawa    3     0
+46:  22  1GK            Lukasz Fabianski   45     0
+    No. Pos.                      Player Caps Goals
+                    Club     country daymonth
+ 1:     Lokomotiv Moscow      Russia    10-17
+ 2:     Lokomotiv Moscow      Russia    10-17
+ 3:            Östersund        Iran    09-06
+ 4:            Esteghlal        Iran    09-06
+ 5:               Girona     Morocco    04-05
+ 6:          Galatasaray     Morocco    02-25
+ 7:           Fenerbahçe     Morocco    02-25
+ 8:            IR Tanger     Morocco    04-05
+ 9:     Lokomotiv Moscow    Portugal    02-05
+10:    Borussia Dortmund    Portugal    12-22
+11:        Dalian Yifang    Portugal    12-22
+12:          Real Madrid    Portugal    02-05
+13:               Monaco    Portugal    09-08
+14:          Sporting CP    Portugal    09-08
+15:      Atlético Madrid       Spain    01-08
+16:      Manchester City       Spain    01-08
+17:            Bursaspor   Australia    12-16
+18:               Celtic   Australia    12-16
+19:        VfB Stuttgart      France    03-28
+20:            Marseille      France    03-28
+21:     Lokomotiv Moscow        Peru    10-26
+22:               Melgar        Peru    10-26
+23:          Real Madrid     Croatia    05-06
+24:           Schalke 04     Croatia    05-06
+25:       Leicester City     Nigeria    12-16
+26:         ADO Den Haag     Nigeria    12-16
+27:                 Roma      Brazil    10-02
+28:      Atlético Madrid      Brazil    08-09
+29:              Chelsea      Brazil    08-09
+30:            Liverpool      Brazil    10-02
+31:           Sunderland  Costa Rica    02-18
+32:     Portland Timbers  Costa Rica    02-18
+33:        Bayern Munich     Germany    09-03
+34:        Bayern Munich     Germany    09-03
+35:          FC Augsburg South Korea    02-27
+36: Guangzhou Evergrande South Korea    02-27
+37:      Manchester City     England    05-28
+38:      Manchester City     England    05-28
+39:             Juventus      Poland    04-18
+40:         Legia Warsaw      Poland    09-21
+41:   Ludogorets Razgrad      Poland    09-21
+42: West Bromwich Albion      Poland    01-29
+43:           Anderlecht      Poland    06-03
+44:    Borussia Dortmund      Poland    06-03
+45:        Górnik Zabrze      Poland    01-29
+46:         Swansea City      Poland    04-18
+                    Club     country daymonth</code></pre>
+</div>
+<p><br> <br> <br></p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
