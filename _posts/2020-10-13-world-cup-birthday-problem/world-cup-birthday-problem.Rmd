@@ -19,7 +19,6 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-<br><br>
 
 ### The Birthday Problem
 
