@@ -314,7 +314,7 @@ Out of interest, here is the full list of all players that share birthdays in sq
 ```{r message=FALSE, warning=FALSE, echo=TRUE}
 
 squads %>% map(dob_dup) %>% map(~filter(., dupl==T)) %>%
-  map(~ select(., c(3, 5, 7:9))) %>% data.table::rbindlist()
+  map(~ select(., c(3, 7:9))) %>% data.table::rbindlist()
 
 ```
 <br>

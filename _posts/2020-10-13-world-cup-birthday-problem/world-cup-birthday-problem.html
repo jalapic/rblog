@@ -1339,56 +1339,56 @@ v[v&gt;0]</code></pre>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 squads %&gt;% map(dob_dup) %&gt;% map(~filter(., dupl==T)) %&gt;%
-  map(~ select(., c(3, 5, 7:9))) %&gt;% data.table::rbindlist()</code></pre>
+  map(~ select(., c(3, 7:9))) %&gt;% data.table::rbindlist()</code></pre>
 <pre><code>
-                         Player Caps                 Club     country
- 1:           Aleksei Miranchuk   18     Lokomotiv Moscow      Russia
- 2:             Anton Miranchuk    6     Lokomotiv Moscow      Russia
- 3:               Saman Ghoddos    8            Östersund        Iran
- 4:            Pejman Montazeri   46            Esteghlal        Iran
- 5:              Yassine Bounou   11               Girona     Morocco
- 6:             Younès Belhanda   47          Galatasaray     Morocco
- 7:                 Nabil Dirar   34           Fenerbahçe     Morocco
- 8:        Ahmed Reda Tagnaouti    2            IR Tanger     Morocco
- 9:            Manuel Fernandes   14     Lokomotiv Moscow    Portugal
-10:           Raphaël Guerreiro   24    Borussia Dortmund    Portugal
-11:                  José Fonte   31        Dalian Yifang    Portugal
-12: Cristiano Ronaldo (captain)  150          Real Madrid    Portugal
-13:               João Moutinho  110               Monaco    Portugal
-14:             Bruno Fernandes    6          Sporting CP    Portugal
-15:                        Koke   40      Atlético Madrid       Spain
-16:                 David Silva  121      Manchester City       Spain
-17:                 Aziz Behich   23            Bursaspor   Australia
-18:                   Tom Rogic   37               Celtic   Australia
-19:             Benjamin Pavard    6        VfB Stuttgart      France
-20:              Steve Mandanda   27            Marseille      France
-21:            Jefferson Farfán   84     Lokomotiv Moscow        Peru
-22:               Nilson Loyola    3               Melgar        Peru
-23:               Mateo Kovacic   41          Real Madrid     Croatia
-24:                 Marko Pjaca   16           Schalke 04     Croatia
-25:               Wilfred Ndidi   17       Leicester City     Nigeria
-26:              Tyronne Ebuehi    7         ADO Den Haag     Nigeria
-27:                     Alisson   26                 Roma      Brazil
-28:                 Filipe Luís   33      Atlético Madrid      Brazil
-29:                     Willian   57              Chelsea      Brazil
-30:             Roberto Firmino   21            Liverpool      Brazil
-31:                Bryan Oviedo   44           Sunderland  Costa Rica
-32:                David Guzmán   43     Portland Timbers  Costa Rica
-33:                 Niklas Süle   11        Bayern Munich     Germany
-34:              Jérôme Boateng   71        Bayern Munich     Germany
-35:                Koo Ja-cheol   68          FC Augsburg South Korea
-36:              Kim Young-gwon   53 Guangzhou Evergrande South Korea
-37:                 Kyle Walker   35      Manchester City     England
-38:                 John Stones   26      Manchester City     England
-39:           Wojciech Szczesny   35             Juventus      Poland
-40:               Michal Pazdan   33         Legia Warsaw      Poland
-41:              Jacek Góralski    5   Ludogorets Razgrad      Poland
-42:         Grzegorz Krychowiak   51 West Bromwich Albion      Poland
-43:           Lukasz Teodorczyk   17           Anderlecht      Poland
-44:             Lukasz Piszczek   63    Borussia Dortmund      Poland
-45:               Rafal Kurzawa    3        Górnik Zabrze      Poland
-46:            Lukasz Fabianski   45         Swansea City      Poland
-                         Player Caps                 Club     country
+                         Player                 Club     country
+ 1:           Aleksei Miranchuk     Lokomotiv Moscow      Russia
+ 2:             Anton Miranchuk     Lokomotiv Moscow      Russia
+ 3:               Saman Ghoddos            Östersund        Iran
+ 4:            Pejman Montazeri            Esteghlal        Iran
+ 5:              Yassine Bounou               Girona     Morocco
+ 6:             Younès Belhanda          Galatasaray     Morocco
+ 7:                 Nabil Dirar           Fenerbahçe     Morocco
+ 8:        Ahmed Reda Tagnaouti            IR Tanger     Morocco
+ 9:            Manuel Fernandes     Lokomotiv Moscow    Portugal
+10:           Raphaël Guerreiro    Borussia Dortmund    Portugal
+11:                  José Fonte        Dalian Yifang    Portugal
+12: Cristiano Ronaldo (captain)          Real Madrid    Portugal
+13:               João Moutinho               Monaco    Portugal
+14:             Bruno Fernandes          Sporting CP    Portugal
+15:                        Koke      Atlético Madrid       Spain
+16:                 David Silva      Manchester City       Spain
+17:                 Aziz Behich            Bursaspor   Australia
+18:                   Tom Rogic               Celtic   Australia
+19:             Benjamin Pavard        VfB Stuttgart      France
+20:              Steve Mandanda            Marseille      France
+21:            Jefferson Farfán     Lokomotiv Moscow        Peru
+22:               Nilson Loyola               Melgar        Peru
+23:               Mateo Kovacic          Real Madrid     Croatia
+24:                 Marko Pjaca           Schalke 04     Croatia
+25:               Wilfred Ndidi       Leicester City     Nigeria
+26:              Tyronne Ebuehi         ADO Den Haag     Nigeria
+27:                     Alisson                 Roma      Brazil
+28:                 Filipe Luís      Atlético Madrid      Brazil
+29:                     Willian              Chelsea      Brazil
+30:             Roberto Firmino            Liverpool      Brazil
+31:                Bryan Oviedo           Sunderland  Costa Rica
+32:                David Guzmán     Portland Timbers  Costa Rica
+33:                 Niklas Süle        Bayern Munich     Germany
+34:              Jérôme Boateng        Bayern Munich     Germany
+35:                Koo Ja-cheol          FC Augsburg South Korea
+36:              Kim Young-gwon Guangzhou Evergrande South Korea
+37:                 Kyle Walker      Manchester City     England
+38:                 John Stones      Manchester City     England
+39:           Wojciech Szczesny             Juventus      Poland
+40:               Michal Pazdan         Legia Warsaw      Poland
+41:              Jacek Góralski   Ludogorets Razgrad      Poland
+42:         Grzegorz Krychowiak West Bromwich Albion      Poland
+43:           Lukasz Teodorczyk           Anderlecht      Poland
+44:             Lukasz Piszczek    Borussia Dortmund      Poland
+45:               Rafal Kurzawa        Górnik Zabrze      Poland
+46:            Lukasz Fabianski         Swansea City      Poland
+                         Player                 Club     country
     daymonth
  1:    10-17
  2:    10-17
