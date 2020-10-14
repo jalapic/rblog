@@ -1704,104 +1704,56 @@ v[v&gt;0]</code></pre>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 squads %&gt;% map(dob_dup) %&gt;% map(~filter(., dupl==T)) %&gt;%
-  map(~ select(., c(3, 7:9))) %&gt;% data.table::rbindlist()</code></pre>
+  map(~ select(., c(3, 5,8:9))) %&gt;% data.table::rbindlist()</code></pre>
 <pre><code>
-                         Player                 Club     country
- 1:           Aleksei Miranchuk     Lokomotiv Moscow      Russia
- 2:             Anton Miranchuk     Lokomotiv Moscow      Russia
- 3:               Saman Ghoddos            Östersund        Iran
- 4:            Pejman Montazeri            Esteghlal        Iran
- 5:              Yassine Bounou               Girona     Morocco
- 6:             Younès Belhanda          Galatasaray     Morocco
- 7:                 Nabil Dirar           Fenerbahçe     Morocco
- 8:        Ahmed Reda Tagnaouti            IR Tanger     Morocco
- 9:            Manuel Fernandes     Lokomotiv Moscow    Portugal
-10:           Raphaël Guerreiro    Borussia Dortmund    Portugal
-11:                  José Fonte        Dalian Yifang    Portugal
-12: Cristiano Ronaldo (captain)          Real Madrid    Portugal
-13:               João Moutinho               Monaco    Portugal
-14:             Bruno Fernandes          Sporting CP    Portugal
-15:                        Koke      Atlético Madrid       Spain
-16:                 David Silva      Manchester City       Spain
-17:                 Aziz Behich            Bursaspor   Australia
-18:                   Tom Rogic               Celtic   Australia
-19:             Benjamin Pavard        VfB Stuttgart      France
-20:              Steve Mandanda            Marseille      France
-21:            Jefferson Farfán     Lokomotiv Moscow        Peru
-22:               Nilson Loyola               Melgar        Peru
-23:               Mateo Kovacic          Real Madrid     Croatia
-24:                 Marko Pjaca           Schalke 04     Croatia
-25:               Wilfred Ndidi       Leicester City     Nigeria
-26:              Tyronne Ebuehi         ADO Den Haag     Nigeria
-27:                     Alisson                 Roma      Brazil
-28:                 Filipe Luís      Atlético Madrid      Brazil
-29:                     Willian              Chelsea      Brazil
-30:             Roberto Firmino            Liverpool      Brazil
-31:                Bryan Oviedo           Sunderland  Costa Rica
-32:                David Guzmán     Portland Timbers  Costa Rica
-33:                 Niklas Süle        Bayern Munich     Germany
-34:              Jérôme Boateng        Bayern Munich     Germany
-35:                Koo Ja-cheol          FC Augsburg South Korea
-36:              Kim Young-gwon Guangzhou Evergrande South Korea
-37:                 Kyle Walker      Manchester City     England
-38:                 John Stones      Manchester City     England
-39:           Wojciech Szczesny             Juventus      Poland
-40:               Michal Pazdan         Legia Warsaw      Poland
-41:              Jacek Góralski   Ludogorets Razgrad      Poland
-42:         Grzegorz Krychowiak West Bromwich Albion      Poland
-43:           Lukasz Teodorczyk           Anderlecht      Poland
-44:             Lukasz Piszczek    Borussia Dortmund      Poland
-45:               Rafal Kurzawa        Górnik Zabrze      Poland
-46:            Lukasz Fabianski         Swansea City      Poland
-                         Player                 Club     country
-    daymonth
- 1:    10-17
- 2:    10-17
- 3:    09-06
- 4:    09-06
- 5:    04-05
- 6:    02-25
- 7:    02-25
- 8:    04-05
- 9:    02-05
-10:    12-22
-11:    12-22
-12:    02-05
-13:    09-08
-14:    09-08
-15:    01-08
-16:    01-08
-17:    12-16
-18:    12-16
-19:    03-28
-20:    03-28
-21:    10-26
-22:    10-26
-23:    05-06
-24:    05-06
-25:    12-16
-26:    12-16
-27:    10-02
-28:    08-09
-29:    08-09
-30:    10-02
-31:    02-18
-32:    02-18
-33:    09-03
-34:    09-03
-35:    02-27
-36:    02-27
-37:    05-28
-38:    05-28
-39:    04-18
-40:    09-21
-41:    09-21
-42:    01-29
-43:    06-03
-44:    06-03
-45:    01-29
-46:    04-18
-    daymonth</code></pre>
+                         Player Caps     country daymonth
+ 1:           Aleksei Miranchuk   18      Russia    10-17
+ 2:             Anton Miranchuk    6      Russia    10-17
+ 3:               Saman Ghoddos    8        Iran    09-06
+ 4:            Pejman Montazeri   46        Iran    09-06
+ 5:              Yassine Bounou   11     Morocco    04-05
+ 6:             Younès Belhanda   47     Morocco    02-25
+ 7:                 Nabil Dirar   34     Morocco    02-25
+ 8:        Ahmed Reda Tagnaouti    2     Morocco    04-05
+ 9:            Manuel Fernandes   14    Portugal    02-05
+10:           Raphaël Guerreiro   24    Portugal    12-22
+11:                  José Fonte   31    Portugal    12-22
+12: Cristiano Ronaldo (captain)  150    Portugal    02-05
+13:               João Moutinho  110    Portugal    09-08
+14:             Bruno Fernandes    6    Portugal    09-08
+15:                        Koke   40       Spain    01-08
+16:                 David Silva  121       Spain    01-08
+17:                 Aziz Behich   23   Australia    12-16
+18:                   Tom Rogic   37   Australia    12-16
+19:             Benjamin Pavard    6      France    03-28
+20:              Steve Mandanda   27      France    03-28
+21:            Jefferson Farfán   84        Peru    10-26
+22:               Nilson Loyola    3        Peru    10-26
+23:               Mateo Kovacic   41     Croatia    05-06
+24:                 Marko Pjaca   16     Croatia    05-06
+25:               Wilfred Ndidi   17     Nigeria    12-16
+26:              Tyronne Ebuehi    7     Nigeria    12-16
+27:                     Alisson   26      Brazil    10-02
+28:                 Filipe Luís   33      Brazil    08-09
+29:                     Willian   57      Brazil    08-09
+30:             Roberto Firmino   21      Brazil    10-02
+31:                Bryan Oviedo   44  Costa Rica    02-18
+32:                David Guzmán   43  Costa Rica    02-18
+33:                 Niklas Süle   11     Germany    09-03
+34:              Jérôme Boateng   71     Germany    09-03
+35:                Koo Ja-cheol   68 South Korea    02-27
+36:              Kim Young-gwon   53 South Korea    02-27
+37:                 Kyle Walker   35     England    05-28
+38:                 John Stones   26     England    05-28
+39:           Wojciech Szczesny   35      Poland    04-18
+40:               Michal Pazdan   33      Poland    09-21
+41:              Jacek Góralski    5      Poland    09-21
+42:         Grzegorz Krychowiak   51      Poland    01-29
+43:           Lukasz Teodorczyk   17      Poland    06-03
+44:             Lukasz Piszczek   63      Poland    06-03
+45:               Rafal Kurzawa    3      Poland    01-29
+46:            Lukasz Fabianski   45      Poland    04-18
+                         Player Caps     country daymonth</code></pre>
 </div>
 <p><br> <br> <br></p>
 <!--radix_placeholder_article_footer-->
