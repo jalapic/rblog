@@ -1438,7 +1438,7 @@ round(v/nperm,2)</code></pre>
 </div>
 <p><br></p>
 <p>This shows you that when there are only 5 people at the party, you have a 3% chance of there being shared birthdays. When there are 40 people at a party, there is a 89% chance of there being a shared birthday. It turns out that when there are 23 people at a party there is a 51% chance of there being a shared birthday. 23 is the number of people where it’s more likely for there to be people that share a birthday than not.</p>
-<p>We can make a simple visualization of this:</p>
+<p>We can make a simple visualization of this. The solid black line represents the probability (y-axis) of at least two people sharing a party for a given group size (x-axis):</p>
 <p><br></p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1448,9 +1448,8 @@ abline(h=0.5, col=&quot;red&quot;,lty=2)
 abline(v=23, col=&quot;black&quot;,lty=3)</code></pre>
 <p><img src="world-cup-birthday-problem_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
 </div>
-<p><br> <br> <br></p>
+<p><br> <br></p>
 <h4 id="world-cup-data">World Cup Data</h4>
-<p><br></p>
 <p>When soccer teams compete at major championships, coaches have to pick squads of 23 for the tournament. Obviously, based on the above, this is a fairly interesting number. It led me to wonder, what proportion of world cup squads have players that shared birthdays?</p>
 <p>The 32 squads for the 2018 world cup are <a href="https://en.wikipedia.org/wiki/2018_FIFA_World_Cup_squads">available here</a>. What I’m doing below is to use the R package <code>rvest</code> to scrape these tables from wikipedia.</p>
 <p><br></p>
@@ -1466,26 +1465,21 @@ squads &lt;- URL %&gt;%
   head(32)</code></pre>
 </div>
 <p><br></p>
-<p>The squads are stored in a list. Let’s look at the first four rows of the first squad, which is Egypt:</p>
+<p>The squads are stored in a list. Let’s look at the first four rows of the seventh squad, which is Portugal. It’s a bit ugly to look at because it’s split over several rows, but hopefully you can see what type of data we have:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-squads[[1]][1:4,]</code></pre>
+squads[[7]][1:4,]</code></pre>
 <pre><code>
-  No. Pos.                    Player
-1   1  1GK Essam El Hadary (captain)
-2   2  2DF                  Ali Gabr
-3   3  2DF          Ahmed Elmohamady
-4   4  3MF                Omar Gaber
-                     Date of birth (age) Caps Goals
-1  (1973-01-15)15 January 1973 (aged 45)  158     0
-2   (1989-01-01)1 January 1989 (aged 29)   21     1
-3 (1987-09-09)9 September 1987 (aged 30)   78     2
-4  (1992-01-30)30 January 1992 (aged 26)   24     0
-                  Club
-1           Al-Taawoun
-2 West Bromwich Albion
-3          Aston Villa
-4       Los Angeles FC</code></pre>
+  No. Pos.           Player                    Date of birth (age)
+1   1  1GK     Rui Patrício (1988-02-15)15 February 1988 (aged 30)
+2   2  2DF      Bruno Alves (1981-11-27)27 November 1981 (aged 36)
+3   3  2DF             Pepe (1983-02-26)26 February 1983 (aged 35)
+4   4  3MF Manuel Fernandes  (1986-02-05)5 February 1986 (aged 32)
+  Caps Goals             Club
+1   69     0      Sporting CP
+2   96    11          Rangers
+3   95     5         Besiktas
+4   14     3 Lokomotiv Moscow</code></pre>
 </div>
 <p><br></p>
 <p>Each table has the following column names:</p>
@@ -1498,8 +1492,8 @@ colnames(squads[[1]])</code></pre>
 [7] &quot;Club&quot;               </code></pre>
 </div>
 <p><br></p>
-<p>As you might notice, the date of birth colum is a bit of a mess, which we’ll deal with shortly. There is also no ‘country’ column, which would be useful. To create this, I realized that on the same wikipedia page, if we grabbed all text that was written with a <code>&lt;h3&gt;</code> HTML tag, we could get the country names and add them in to each squad - after getting rid of a bit of extraneous text at the end of them.</p>
-<p>Also shown are the first 4 rows of the 23rd squad, South Korea:</p>
+<p>As you might notice, the date of birth column is a bit of a mess, which we’ll deal with shortly. There is also no ‘country’ column, which would be useful. To create this, I realized that on the same wikipedia page, if we grabbed all text that was written with a <code>&lt;h3&gt;</code> HTML tag, we could get the country names and add them in to each squad - after getting rid of a bit of extraneous text that comes along at the end of each them when we scrape the data.</p>
+<p>Shown below are the first 4 rows of the 23rd squad, South Korea, once we’ve added in the country name:</p>
 <p><br></p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1604,7 +1598,7 @@ vec[duplicated(vec) | duplicated(vec, fromLast=TRUE)]</code></pre>
 [1] &quot;02-27&quot; &quot;02-27&quot;</code></pre>
 </div>
 <p><br></p>
-<p>So, in the South Korean squad, there are two players who share birthdays on 27th February.</p>
+<p>So, in the South Korean squad, there are two players who share birthdays on 27th February. These players happen to be Koo Ja-cheol &amp; Kim Young-gwon - but this is all revealed at the bottom.</p>
 <p><br></p>
 <p>The below is a custom function using the above logic to check each squad for duplicated birthdays and to put them into each squad’s dataframe:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1673,35 +1667,17 @@ v</code></pre>
 <br>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-squads[[31]] %&gt;% filter(dupl==T)</code></pre>
+squads[[31]] %&gt;% filter(dupl==T) %&gt;% select(1:3,5,7,9)</code></pre>
 <pre><code>
-  No. Pos.              Player
-1   1  1GK   Wojciech Szczesny
-2   2  2DF       Michal Pazdan
-3   6  3MF      Jacek Góralski
-4  10  3MF Grzegorz Krychowiak
-5  14  4FW   Lukasz Teodorczyk
-6  20  2DF     Lukasz Piszczek
-7  21  3MF       Rafal Kurzawa
-8  22  1GK    Lukasz Fabianski
-                      Date of birth (age) Caps Goals
-1     (1990-04-18)18 April 1990 (aged 28)   35     0
-2 (1987-09-21)21 September 1987 (aged 30)   33     0
-3 (1992-09-21)21 September 1992 (aged 25)    5     0
-4   (1990-01-29)29 January 1990 (aged 28)   51     2
-5       (1991-06-03)3 June 1991 (aged 27)   17     4
-6       (1985-06-03)3 June 1985 (aged 33)   63     3
-7   (1993-01-29)29 January 1993 (aged 25)    3     0
-8     (1985-04-18)18 April 1985 (aged 33)   45     0
-                  Club country daymonth dupl
-1             Juventus  Poland    04-18 TRUE
-2         Legia Warsaw  Poland    09-21 TRUE
-3   Ludogorets Razgrad  Poland    09-21 TRUE
-4 West Bromwich Albion  Poland    01-29 TRUE
-5           Anderlecht  Poland    06-03 TRUE
-6    Borussia Dortmund  Poland    06-03 TRUE
-7        Górnik Zabrze  Poland    01-29 TRUE
-8         Swansea City  Poland    04-18 TRUE</code></pre>
+  No. Pos.              Player Caps                 Club daymonth
+1   1  1GK   Wojciech Szczesny   35             Juventus    04-18
+2   2  2DF       Michal Pazdan   33         Legia Warsaw    09-21
+3   6  3MF      Jacek Góralski    5   Ludogorets Razgrad    09-21
+4  10  3MF Grzegorz Krychowiak   51 West Bromwich Albion    01-29
+5  14  4FW   Lukasz Teodorczyk   17           Anderlecht    06-03
+6  20  2DF     Lukasz Piszczek   63    Borussia Dortmund    06-03
+7  21  3MF       Rafal Kurzawa    3        Górnik Zabrze    01-29
+8  22  1GK    Lukasz Fabianski   45         Swansea City    04-18</code></pre>
 </div>
 <p><br></p>
 <p>So, how many of the thirty-two 23 man squads had at least two players that shared a birthday ?</p>
@@ -1728,104 +1704,104 @@ v[v&gt;0]</code></pre>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 squads %&gt;% map(dob_dup) %&gt;% map(~filter(., dupl==T)) %&gt;%
-  map(~ select(., c(1:3, 5:9))) %&gt;% data.table::rbindlist()</code></pre>
+  map(~ select(., c(3, 5, 7:9))) %&gt;% data.table::rbindlist()</code></pre>
 <pre><code>
-    No. Pos.                      Player Caps Goals
- 1:  15  3MF           Aleksei Miranchuk   18     4
- 2:  16  3MF             Anton Miranchuk    6     0
- 3:  14  4FW               Saman Ghoddos    8     1
- 4:  15  2DF            Pejman Montazeri   46     1
- 5:   1  1GK              Yassine Bounou   11     0
- 6:  10  3MF             Younès Belhanda   47     5
- 7:  17  2DF                 Nabil Dirar   34     3
- 8:  22  1GK        Ahmed Reda Tagnaouti    2     0
- 9:   4  3MF            Manuel Fernandes   14     3
-10:   5  2DF           Raphaël Guerreiro   24     2
-11:   6  2DF                  José Fonte   31     0
-12:   7  4FW Cristiano Ronaldo (captain)  150    81
-13:   8  3MF               João Moutinho  110     7
-14:  16  3MF             Bruno Fernandes    6     1
-15:   8  3MF                        Koke   40     0
-16:  21  4FW                 David Silva  121    35
-17:  16  2DF                 Aziz Behich   23     2
-18:  23  3MF                   Tom Rogic   37     7
-19:   2  2DF             Benjamin Pavard    6     0
-20:  16  1GK              Steve Mandanda   27     0
-21:  10  4FW            Jefferson Farfán   84    25
-22:  22  2DF               Nilson Loyola    3     0
-23:   8  3MF               Mateo Kovacic   41     1
-24:  20  4FW                 Marko Pjaca   16     1
-25:   4  3MF               Wilfred Ndidi   17     0
-26:  21  2DF              Tyronne Ebuehi    7     0
-27:   1  1GK                     Alisson   26     0
-28:   6  2DF                 Filipe Luís   33     2
-29:  19  3MF                     Willian   57     8
-30:  20  4FW             Roberto Firmino   21     6
-31:   8  2DF                Bryan Oviedo   44     1
-32:  20  3MF                David Guzmán   43     0
-33:  15  2DF                 Niklas Süle   11     0
-34:  17  2DF              Jérôme Boateng   71     1
-35:  13  3MF                Koo Ja-cheol   68    19
-36:  19  2DF              Kim Young-gwon   53     2
-37:   2  2DF                 Kyle Walker   35     0
-38:   5  2DF                 John Stones   26     0
-39:   1  1GK           Wojciech Szczesny   35     0
-40:   2  2DF               Michal Pazdan   33     0
-41:   6  3MF              Jacek Góralski    5     0
-42:  10  3MF         Grzegorz Krychowiak   51     2
-43:  14  4FW           Lukasz Teodorczyk   17     4
-44:  20  2DF             Lukasz Piszczek   63     3
-45:  21  3MF               Rafal Kurzawa    3     0
-46:  22  1GK            Lukasz Fabianski   45     0
-    No. Pos.                      Player Caps Goals
-                    Club     country daymonth
- 1:     Lokomotiv Moscow      Russia    10-17
- 2:     Lokomotiv Moscow      Russia    10-17
- 3:            Östersund        Iran    09-06
- 4:            Esteghlal        Iran    09-06
- 5:               Girona     Morocco    04-05
- 6:          Galatasaray     Morocco    02-25
- 7:           Fenerbahçe     Morocco    02-25
- 8:            IR Tanger     Morocco    04-05
- 9:     Lokomotiv Moscow    Portugal    02-05
-10:    Borussia Dortmund    Portugal    12-22
-11:        Dalian Yifang    Portugal    12-22
-12:          Real Madrid    Portugal    02-05
-13:               Monaco    Portugal    09-08
-14:          Sporting CP    Portugal    09-08
-15:      Atlético Madrid       Spain    01-08
-16:      Manchester City       Spain    01-08
-17:            Bursaspor   Australia    12-16
-18:               Celtic   Australia    12-16
-19:        VfB Stuttgart      France    03-28
-20:            Marseille      France    03-28
-21:     Lokomotiv Moscow        Peru    10-26
-22:               Melgar        Peru    10-26
-23:          Real Madrid     Croatia    05-06
-24:           Schalke 04     Croatia    05-06
-25:       Leicester City     Nigeria    12-16
-26:         ADO Den Haag     Nigeria    12-16
-27:                 Roma      Brazil    10-02
-28:      Atlético Madrid      Brazil    08-09
-29:              Chelsea      Brazil    08-09
-30:            Liverpool      Brazil    10-02
-31:           Sunderland  Costa Rica    02-18
-32:     Portland Timbers  Costa Rica    02-18
-33:        Bayern Munich     Germany    09-03
-34:        Bayern Munich     Germany    09-03
-35:          FC Augsburg South Korea    02-27
-36: Guangzhou Evergrande South Korea    02-27
-37:      Manchester City     England    05-28
-38:      Manchester City     England    05-28
-39:             Juventus      Poland    04-18
-40:         Legia Warsaw      Poland    09-21
-41:   Ludogorets Razgrad      Poland    09-21
-42: West Bromwich Albion      Poland    01-29
-43:           Anderlecht      Poland    06-03
-44:    Borussia Dortmund      Poland    06-03
-45:        Górnik Zabrze      Poland    01-29
-46:         Swansea City      Poland    04-18
-                    Club     country daymonth</code></pre>
+                         Player Caps                 Club     country
+ 1:           Aleksei Miranchuk   18     Lokomotiv Moscow      Russia
+ 2:             Anton Miranchuk    6     Lokomotiv Moscow      Russia
+ 3:               Saman Ghoddos    8            Östersund        Iran
+ 4:            Pejman Montazeri   46            Esteghlal        Iran
+ 5:              Yassine Bounou   11               Girona     Morocco
+ 6:             Younès Belhanda   47          Galatasaray     Morocco
+ 7:                 Nabil Dirar   34           Fenerbahçe     Morocco
+ 8:        Ahmed Reda Tagnaouti    2            IR Tanger     Morocco
+ 9:            Manuel Fernandes   14     Lokomotiv Moscow    Portugal
+10:           Raphaël Guerreiro   24    Borussia Dortmund    Portugal
+11:                  José Fonte   31        Dalian Yifang    Portugal
+12: Cristiano Ronaldo (captain)  150          Real Madrid    Portugal
+13:               João Moutinho  110               Monaco    Portugal
+14:             Bruno Fernandes    6          Sporting CP    Portugal
+15:                        Koke   40      Atlético Madrid       Spain
+16:                 David Silva  121      Manchester City       Spain
+17:                 Aziz Behich   23            Bursaspor   Australia
+18:                   Tom Rogic   37               Celtic   Australia
+19:             Benjamin Pavard    6        VfB Stuttgart      France
+20:              Steve Mandanda   27            Marseille      France
+21:            Jefferson Farfán   84     Lokomotiv Moscow        Peru
+22:               Nilson Loyola    3               Melgar        Peru
+23:               Mateo Kovacic   41          Real Madrid     Croatia
+24:                 Marko Pjaca   16           Schalke 04     Croatia
+25:               Wilfred Ndidi   17       Leicester City     Nigeria
+26:              Tyronne Ebuehi    7         ADO Den Haag     Nigeria
+27:                     Alisson   26                 Roma      Brazil
+28:                 Filipe Luís   33      Atlético Madrid      Brazil
+29:                     Willian   57              Chelsea      Brazil
+30:             Roberto Firmino   21            Liverpool      Brazil
+31:                Bryan Oviedo   44           Sunderland  Costa Rica
+32:                David Guzmán   43     Portland Timbers  Costa Rica
+33:                 Niklas Süle   11        Bayern Munich     Germany
+34:              Jérôme Boateng   71        Bayern Munich     Germany
+35:                Koo Ja-cheol   68          FC Augsburg South Korea
+36:              Kim Young-gwon   53 Guangzhou Evergrande South Korea
+37:                 Kyle Walker   35      Manchester City     England
+38:                 John Stones   26      Manchester City     England
+39:           Wojciech Szczesny   35             Juventus      Poland
+40:               Michal Pazdan   33         Legia Warsaw      Poland
+41:              Jacek Góralski    5   Ludogorets Razgrad      Poland
+42:         Grzegorz Krychowiak   51 West Bromwich Albion      Poland
+43:           Lukasz Teodorczyk   17           Anderlecht      Poland
+44:             Lukasz Piszczek   63    Borussia Dortmund      Poland
+45:               Rafal Kurzawa    3        Górnik Zabrze      Poland
+46:            Lukasz Fabianski   45         Swansea City      Poland
+                         Player Caps                 Club     country
+    daymonth
+ 1:    10-17
+ 2:    10-17
+ 3:    09-06
+ 4:    09-06
+ 5:    04-05
+ 6:    02-25
+ 7:    02-25
+ 8:    04-05
+ 9:    02-05
+10:    12-22
+11:    12-22
+12:    02-05
+13:    09-08
+14:    09-08
+15:    01-08
+16:    01-08
+17:    12-16
+18:    12-16
+19:    03-28
+20:    03-28
+21:    10-26
+22:    10-26
+23:    05-06
+24:    05-06
+25:    12-16
+26:    12-16
+27:    10-02
+28:    08-09
+29:    08-09
+30:    10-02
+31:    02-18
+32:    02-18
+33:    09-03
+34:    09-03
+35:    02-27
+36:    02-27
+37:    05-28
+38:    05-28
+39:    04-18
+40:    09-21
+41:    09-21
+42:    01-29
+43:    06-03
+44:    06-03
+45:    01-29
+46:    04-18
+    daymonth</code></pre>
 </div>
 <p><br> <br> <br></p>
 <!--radix_placeholder_article_footer-->
