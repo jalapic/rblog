@@ -317,7 +317,7 @@ babynames %>%
   filter(sex=="F") %>%
   filter(name %in% group1x[resF1.k$cluster==3]) %>% 
   ggplot(aes(year, n)) +
-  geom_line(aes(color=name, group=name), lwd=1, alpha = .8) +
+  geom_line(aes(color=name, group=name), alpha = .4) +
   theme_classic() +
   scale_color_discrete_qualitative(palette = "Harmonic")
 ```
@@ -331,7 +331,7 @@ babynames %>%
   filter(sex=="F") %>%
   filter(name %in% group1x[resF1.k$cluster==4]) %>% 
   ggplot(aes(year, n)) +
-  geom_line(aes(color=name, group=name), lwd=1, alpha=.8) +
+  geom_line(aes(color=name, group=name), alpha=.4) +
   theme_classic() 
 ```
 <br>

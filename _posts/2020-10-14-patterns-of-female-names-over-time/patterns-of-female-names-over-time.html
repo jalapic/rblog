@@ -1359,7 +1359,7 @@ babynames %&gt;%
   filter(sex==&quot;F&quot;) %&gt;%
   filter(name %in% group1x[resF1.k$cluster==3]) %&gt;% 
   ggplot(aes(year, n)) +
-  geom_line(aes(color=name, group=name), lwd=1, alpha = .8) +
+  geom_line(aes(color=name, group=name), alpha = .4) +
   theme_classic() +
   scale_color_discrete_qualitative(palette = &quot;Harmonic&quot;)</code></pre>
 <p><img src="patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-23-1.png" width="624" /></p>
@@ -1373,7 +1373,7 @@ babynames %&gt;%
   filter(sex==&quot;F&quot;) %&gt;%
   filter(name %in% group1x[resF1.k$cluster==4]) %&gt;% 
   ggplot(aes(year, n)) +
-  geom_line(aes(color=name, group=name), lwd=1, alpha=.8) +
+  geom_line(aes(color=name, group=name), alpha=.4) +
   theme_classic() </code></pre>
 <p><img src="patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-24-1.png" width="624" /></p>
 </div>
