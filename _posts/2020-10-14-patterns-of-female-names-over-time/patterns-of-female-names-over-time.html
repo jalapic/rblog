@@ -49,7 +49,7 @@
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["patterns-of-female-names-over-time_files/bowser-1.9.3/bowser.min.js","patterns-of-female-names-over-time_files/distill-2.2.21/template.v2.js","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-10-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-19-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-21-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-22-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-23-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-24-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-25-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-26-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-27-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-28-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-29-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-3-1.png","patterns-of-female-names-over-time_files/jquery-1.11.3/jquery.min.js","patterns-of-female-names-over-time_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["patterns-of-female-names-over-time_files/bowser-1.9.3/bowser.min.js","patterns-of-female-names-over-time_files/distill-2.2.21/template.v2.js","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-10-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-19-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-21-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-22-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-23-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-24-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-25-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-26-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-27-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-28-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-29-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-3-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-30-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-30-10.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-30-2.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-30-3.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-30-4.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-30-5.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-30-6.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-30-7.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-30-8.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-30-9.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-31-1.png","patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-32-1.png","patterns-of-female-names-over-time_files/jquery-1.11.3/jquery.min.js","patterns-of-female-names-over-time_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1429,7 +1429,7 @@ babynames %&gt;%
   geom_line(aes(group=name), color=&quot;lightseagreen&quot;, lwd=1, alpha=.2) +
   theme_classic() +
   theme(legend.position = &#39;none&#39;)</code></pre>
-<p><img src="patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-28-1.png" width="624" data-distill-preview=1 /></p>
+<p><img src="patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-28-1.png" width="624" /></p>
 </div>
 <p><br></p>
 <p>Cluster 1 is a little more mixed. There are clearly some 1920s names in here, but also possibly some other pre WW2 popular names.</p>
@@ -1448,12 +1448,14 @@ babynames %&gt;%
 <p><br></p>
 <p><strong>TSNE mapping</strong></p>
 <p>An intriguing way of mapping multidimensional data into a 2d plot is to use <a href="https://cran.r-project.org/web/packages/tsne/tsne.pdf">T-distributed Stochastic Neighbor Embedding</a>. This can be done in the R package <code>tsne</code>.</p>
-<p>Below I create a distance object, <code>D</code>, on which we will run the tsne analysis. I also create a dataframe to store the names, cluster id, and cluster color.</p>
+<p>Below I create a distance object, <code>D</code>, on which we will run the tsne analysis. I also create a dataframe to store the names, cluster id, and final coordinates of each name.</p>
 <br>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 D &lt;- dist(babywideF1)  #create distance object
 
+
+# creating dataframe for plotting colors and text on final plot
 
 cluster1 &lt;- group1x[resF1.k$cluster==1]
 cluster2 &lt;- group1x[resF1.k$cluster==2]
@@ -1465,7 +1467,6 @@ cluster7 &lt;- group1x[resF1.k$cluster==7]
 
 
 
-# creating dataframe for plotting colors and text on final plot
 namesdf &lt;- data.frame(
               name = c(cluster1, cluster2, cluster3, cluster4, 
                        cluster5, cluster6, cluster7), 
@@ -1484,21 +1485,49 @@ namesdf &lt;- namesdf[match(group1x, namesdf$name),] #names in correct order to 
 colors = rainbow(7)
 names(colors) = unique(namesdf$group)
 
-#define function used in plotting
-ecb = function(x,y){ plot(x,t=&#39;n&#39;); text(x,labels=namesdf$name, col=colors[namesdf$group], cex=0.5) }
 
-#plot
-tsne_D = tsne(D, k=2,  epoch_callback = ecb, perplexity=50)</code></pre>
+#define function used in plotting
+ecb = function(x,y){ plot(x,t=&#39;n&#39;); text(x,labels=rownames(babywideF1), col=colors[namesdf$group], cex=1) }
+
+
+set.seed(100)
+tsne_D &lt;- tsne(D, k=2,  epoch_callback = ecb, perplexity=50)</code></pre>
 </div>
+<p><br></p>
+<p>We can add the output of <code>tsne</code> into the dataframe:</p>
 <p><br></p>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="../../img/babynames.png" width="400px" /></p>
+<pre class="r"><code>
+namesdf$x &lt;- tsne_D[,1]
+namesdf$y &lt;- tsne_D[,2]             
+
+head(namesdf)</code></pre>
+<pre><code>
+         name group           x          y
+180      Mary     6 -13.2455975  -4.889826
+1        Anna     1   0.1428635 -11.981969
+113      Emma     5  12.1987696  -1.243631
+95  Elizabeth     4  -1.7484964   9.684795
+74   Margaret     2  -4.7970545 -11.556546
+2       Alice     1  -1.9868251 -10.067491</code></pre>
 </div>
 <p><br></p>
+<p>Rather than using the default plot of the <code>tsne</code> package, I have plotted the data using <code>ggplot2</code> in 2D space:</p>
+<p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+ggplot(namesdf, aes(x=x, y=y, color=factor(group), label=name)) +
+  geom_text(size=2) +
+  theme_classic() +
+  theme(legend.position=&#39;none&#39;)</code></pre>
+<p><img src="patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-32-1.png" width="624" data-distill-preview=1 /></p>
+</div>
+<p><br></p>
+<p><br></p>
 <p>This is pretty cool. This data reduction and visualization method actually maps pretty well to what we did before. The different groups are denoted by different colors. Some logical patterns emerge.</p>
-<p>The 1950s names - Barbara, Linda, Mary and Patricia are together in purple on the left hand side. Close by in lime green are the boomer names that were popular a little later. At the top in yellow are the names that were really popular in the 1920s (e.g. Dorothy, Helen).</p>
+<p>The 1950s names - Barbara, Linda, Mary and Patricia are together in purple on the left hand side. Close by in lime green are the boomer names that were popular a little later. At the bottom in yellow are the names that were really popular in the 1920s (e.g. Dorothy, Helen).</p>
 <p>The names that have become very popular recently (e.g. Isabella, Madison, Abigail) are on the far right side of visual space in light blue. Interestingly, Grace and Julia position next to each other with Ella not too far away - these are the names that were popular early and then have had a recent resurgence.</p>
-<p>The names in green at the bottom are those such as Jennifer that were very popular in the late 70s and 80s. Significantly, Lisa and Kimberly are close to each other - this might be because their peaks were pre 1975. Julie is another with pre-1975 peaks, but that name is in a different cluster. The names in blue close to the green group are the names that blossomed in the 80s and 90s before more recently declining in popularity such as Megan and Lauren.</p>
+<p>The names in green at the topare those such as Jennifer that were very popular in the late 70s and 80s. Significantly, Lisa and Kimberly are close to each other - this might be because their peaks were pre 1975. Julie is another with pre-1975 peaks, but that name is in a different cluster. The names in blue close to the green group are the names that blossomed in the 80s and 90s before more recently declining in popularity such as Megan and Lauren.</p>
 <p>Finally, much could be done to look for further patterns in the red and pink groups, but that will have to wait for another time ! There is also much that can be done with the less common names - again, we’ll look at those another time.</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

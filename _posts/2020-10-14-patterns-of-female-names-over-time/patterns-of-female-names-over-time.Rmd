@@ -384,7 +384,7 @@ Cluster 7 appears to include names from the 1960s, being popular a litle after t
 
 
 <br>
-```{r, warning=FALSE, message=FALSE, echo=TRUE, preview=TRUE}
+```{r, warning=FALSE, message=FALSE, echo=TRUE}
 babynames %>%
   filter(sex=="F") %>%
   filter(name %in% group1x[resF1.k$cluster==7]) %>% 
@@ -414,14 +414,16 @@ babynames %>%
 
 An intriguing way of mapping multidimensional data into a 2d plot is to use [T-distributed Stochastic Neighbor Embedding](https://cran.r-project.org/web/packages/tsne/tsne.pdf). This can be done in the R package `tsne`.
 
-Below I create a distance object, `D`, on which we will run the tsne analysis. I also create a dataframe to store the names, cluster id, and cluster color.
+Below I create a distance object, `D`, on which we will run the tsne analysis. I also create a dataframe to store the names, cluster id, and final coordinates of each name.
 
 
 <br>
-```{r, warning=FALSE, message=FALSE, echo=TRUE, eval=F}
+```{r, warning=FALSE, message=FALSE, echo=TRUE, fig.show='hide'}
 
 D <- dist(babywideF1)  #create distance object
 
+
+# creating dataframe for plotting colors and text on final plot
 
 cluster1 <- group1x[resF1.k$cluster==1]
 cluster2 <- group1x[resF1.k$cluster==2]
@@ -433,7 +435,6 @@ cluster7 <- group1x[resF1.k$cluster==7]
 
 
 
-# creating dataframe for plotting colors and text on final plot
 namesdf <- data.frame(
               name = c(cluster1, cluster2, cluster3, cluster4, 
                        cluster5, cluster6, cluster7), 
@@ -452,27 +453,55 @@ namesdf <- namesdf[match(group1x, namesdf$name),] #names in correct order to mat
 colors = rainbow(7)
 names(colors) = unique(namesdf$group)
 
+
 #define function used in plotting
-ecb = function(x,y){ plot(x,t='n'); text(x,labels=namesdf$name, col=colors[namesdf$group], cex=0.5) }
+ecb = function(x,y){ plot(x,t='n'); text(x,labels=rownames(babywideF1), col=colors[namesdf$group], cex=1) }
 
-#plot
-tsne_D = tsne(D, k=2,  epoch_callback = ecb, perplexity=50)
 
+set.seed(100)
+tsne_D <- tsne(D, k=2,  epoch_callback = ecb, perplexity=50)
+```
+
+<br>
+
+We can add the output of `tsne` into the dataframe:
+
+<br>
+
+```{r, warning=FALSE, message=FALSE, echo=TRUE}
+
+namesdf$x <- tsne_D[,1]
+namesdf$y <- tsne_D[,2]             
+
+head(namesdf)
+```
+
+<br>
+
+Rather than using the default plot of the `tsne` package, I have plotted the data using `ggplot2` in 2D space:
+
+<br>
+
+```{r, warning=FALSE, message=FALSE, echo=TRUE, preview=TRUE}
+ggplot(namesdf, aes(x=x, y=y, color=factor(group), label=name)) +
+  geom_text(size=2) +
+  theme_classic() +
+  theme(legend.position='none')
 ```
 <br>
 
-```{r, out.width = "400px"}
-knitr::include_graphics("../../img/babynames.png")
-```
+
+
+
 
 <br>
 
 This is pretty cool. This data reduction and visualization method actually maps pretty well to what we did before. The different groups are denoted by different colors. Some logical patterns emerge. 
 
-The 1950s names - Barbara, Linda, Mary and Patricia are together in purple on the left hand side.  Close by in lime green are the boomer names that were popular a little later. At the top in yellow are the names that were really popular in the 1920s (e.g. Dorothy, Helen).
+The 1950s names - Barbara, Linda, Mary and Patricia are together in purple on the left hand side.  Close by in lime green are the boomer names that were popular a little later. At the bottom in yellow are the names that were really popular in the 1920s (e.g. Dorothy, Helen).
 
 The names that have become very popular recently (e.g. Isabella, Madison, Abigail) are on the far right side of visual space in light blue. Interestingly, Grace and Julia position next to each other with Ella not too far away - these are the names that were popular early and then have had a recent resurgence.
 
-The names in green at the bottom are those such as Jennifer that were very popular in the late 70s and 80s. Significantly, Lisa and Kimberly are close to each other - this might be because their peaks were pre 1975. Julie is another with pre-1975 peaks, but that name is in a different cluster. The names in blue close to the green group are the names that blossomed in the 80s and 90s before more recently declining in popularity such as Megan and Lauren.
+The names in green at the topare those such as Jennifer that were very popular in the late 70s and 80s. Significantly, Lisa and Kimberly are close to each other - this might be because their peaks were pre 1975. Julie is another with pre-1975 peaks, but that name is in a different cluster. The names in blue close to the green group are the names that blossomed in the 80s and 90s before more recently declining in popularity such as Megan and Lauren.
 
 Finally, much could be done to look for further patterns in the red and pink groups, but that will have to wait for another time !  There is also much that can be done with the less common names - again, we'll look at those another time.
