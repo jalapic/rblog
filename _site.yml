@@ -8,6 +8,10 @@ collections:
     disqus: james-curley-blog
     share: [twitter, linkedin]
 output_dir: "_site"
+google_analytics: "UA-180723471-1"
+twitter:
+  site: "@jalapic"
+  creator: "@jalapic"
 navbar:
   right:
     - text: "Home"
