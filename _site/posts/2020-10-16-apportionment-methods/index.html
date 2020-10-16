@@ -1,0 +1,2808 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+<title>James' R Blog: Apportionment Methods</title>
+
+<meta property="description" itemprop="description" content="Discussion of apportionment problems and the rabbit hole I went down."/>
+
+<link rel="canonical" href="https://jamescurley.blog/posts/2020-10-16-apportionment-methods/"/>
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2020-10-17"/>
+<meta property="article:created" itemprop="dateCreated" content="2020-10-17"/>
+<meta name="article:author" content="James Curley"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="James&#39; R Blog: Apportionment Methods"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="Discussion of apportionment problems and the rabbit hole I went down."/>
+<meta property="og:url" content="https://jamescurley.blog/posts/2020-10-16-apportionment-methods/"/>
+<meta property="og:image" content="https://jamescurley.blog/posts/2020-10-16-apportionment-methods/apportionment-methods_files/figure-html5/unnamed-chunk-1-1.png"/>
+<meta property="og:image:width" content="1248"/>
+<meta property="og:image:height" content="768"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="James&#39; R Blog"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary_large_image"/>
+<meta property="twitter:title" content="James&#39; R Blog: Apportionment Methods"/>
+<meta property="twitter:description" content="Discussion of apportionment problems and the rabbit hole I went down."/>
+<meta property="twitter:url" content="https://jamescurley.blog/posts/2020-10-16-apportionment-methods/"/>
+<meta property="twitter:image" content="https://jamescurley.blog/posts/2020-10-16-apportionment-methods/apportionment-methods_files/figure-html5/unnamed-chunk-1-1.png"/>
+<meta property="twitter:image:width" content="1248"/>
+<meta property="twitter:image:height" content="768"/>
+
+<!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+<meta name="citation_title" content="James&#39; R Blog: Apportionment Methods"/>
+<meta name="citation_fulltext_html_url" content="https://jamescurley.blog/posts/2020-10-16-apportionment-methods/"/>
+<meta name="citation_online_date" content="2020/10/17"/>
+<meta name="citation_publication_date" content="2020/10/17"/>
+<meta name="citation_author" content="James Curley"/>
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","categories","author","date","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Apportionment Methods"]},{"type":"character","attributes":{},"value":["Discussion of apportionment problems and the rabbit hole I went down."]},{"type":"character","attributes":{},"value":["puzzles","politics","Rpackage"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["James Curley"]},{"type":"character","attributes":{},"value":["jamescurley.blog"]}]}]},{"type":"character","attributes":{},"value":["10-17-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://jamescurley.blog/posts/2020-10-16-apportionment-methods/"]},{"type":"character","attributes":{},"value":["https://jamescurley.blog/posts/2020-10-16-apportionment-methods/"]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["apportionment-methods_files/bowser-1.9.3/bowser.min.js","apportionment-methods_files/distill-2.2.21/template.v2.js","apportionment-methods_files/figure-html5/unnamed-chunk-1-1.png","apportionment-methods_files/figure-html5/unnamed-chunk-2-1.png","apportionment-methods_files/figure-html5/unnamed-chunk-40-1.png","apportionment-methods_files/figure-html5/unnamed-chunk-6-1.png","apportionment-methods_files/jquery-1.11.3/jquery.min.js","apportionment-methods_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #455a64;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative;}
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+</style>
+
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for table of contents */
+
+.d-toc {
+  color: rgba(0,0,0,0.8);
+  font-size: 0.8em;
+  line-height: 1em;
+}
+
+.d-toc-header {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 1.3em;
+}
+
+.d-toc a {
+  border-bottom: none;
+}
+
+.d-toc ul {
+  padding-left: 0;
+}
+
+.d-toc li>ul {
+  padding-top: 0.8em;
+  padding-left: 16px;
+  margin-bottom: 0.6em;
+}
+
+.d-toc ul,
+.d-toc li {
+  list-style-type: none;
+}
+
+.d-toc li {
+  margin-bottom: 0.9em;
+}
+
+.d-toc-separator {
+  margin-top: 20px;
+  margin-bottom: 2em;
+}
+
+.d-article-with-toc {
+  border-top: none;
+  padding-top: 0;
+}
+
+
+
+/* Tweak code blocks (note that this CSS is repeated above in an injection
+   into the d-code shadow dom) */
+
+d-code {
+  overflow-x: auto !important;
+}
+
+pre.d-code code.d-code {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+pre.text-output {
+
+  font-size: 12px;
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+@media(min-width: 768px) {
+
+d-code {
+  overflow-x: visible !important;
+}
+
+pre.d-code code.d-code  {
+    padding-left: 18px;
+    font-size: 14px;
+}
+pre.text-output {
+  font-size: 14px;
+}
+}
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+.sidebar-section.custom {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.custom p {
+  margin-bottom: 0.5em;
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // create d-bibliography
+  var bibliography = $('<d-bibliography></d-bibliography>');
+  $('#distill-bibliography').wrap(bibliography);
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace citations with <d-cite>
+  $('.citation').each(function(i, val) {
+    appendix = true;
+    var cites = $(this).attr('data-cites').split(" ");
+    var dt_cite = $('<d-cite></d-cite>');
+    dt_cite.attr('key', cites.join());
+    $(this).replaceWith(dt_cite);
+  });
+  // remove refs
+  $('#refs').remove();
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-toc a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // replace code blocks with d-code
+  $('pre>code').each(function(i, val) {
+    var code = $(this);
+    var pre = code.parent();
+    var clz = "";
+    var language = pre.attr('class');
+    if (language) {
+      // map unknown languages to "clike" (without this they just dissapear)
+      if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                               "javascript", "js", "julia", "lua", "markdown",
+                               "markup", "mathml", "python", "svg", "xml"]) == -1)
+        language = "clike";
+      language = ' language="' + language + '"';
+      var dt_code = $('<d-code block' + language + clz + '></d-code>');
+      dt_code.text(code.text());
+      pre.replaceWith(dt_code);
+    } else {
+      code.addClass('text-output').unwrap().changeElementType('pre');
+    }
+  });
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('d-code, pre.text-output, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // table of contents
+    if (have_authors) // adjust border if we are in authors
+      $('.d-toc').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+    $('d-code').each(function(i, val) {
+      var style = document.createElement('style');
+      style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                        '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+      if (this.shadowRoot)
+        this.shadowRoot.appendChild(style);
+    });
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-toc-header').remove();
+  $('.d-toc').remove();
+  $('.d-toc-separator').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Apportionment Methods","description":"Discussion of apportionment problems and the rabbit hole I went down.","authors":[{"author":"James Curley","authorURL":"jamescurley.blog","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-10-17T00:00:00.000-05:00","citationText":"Curley, 2020"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="../../index.html" class="title">James' R Blog</a>
+</div>
+<div class="nav-right">
+<a href="../../index.html">Home</a>
+<a href="../../about.html">About</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Apportionment Methods</h1>
+<p><p>Discussion of apportionment problems and the rabbit hole I went down.</p></p>
+</div>
+
+<div class="d-byline">
+  James Curley jamescurley.blog 
+  
+<br/>10-17-2020
+</div>
+
+<div class="d-article">
+<p>This blog post was originally written in 2015 - I’m just migrating it here now. I have not looked at any of this since then - but it’s been fun to go through this again.</p>
+<p><strong>Warning</strong>: This is long post. The big picture can be gotten from the first few paragraphs. After that, I dive into all the various functions I wrote to solve apportionment problems as applied to US government.</p>
+<p>I think the moral of this story, is that sometimes you find a scratch you need to itch, and you can’t let it go and it ends up with you making an R package for something that you don’t really have a need for.</p>
+<p>So why did I start to write an <a href="https://github.com/jalapic/apportR">apportionment package</a> that works out how to best apportion seats by state to the US House of Representatives? It seems illogical as I am not an American, I am not a political scientist, and if I’m honest, I don’t fully understand the American political system or really have much interest in it. Further, I’d never even heard of apportionment as a thing until I fell down this rabbit hole.</p>
+<p>This is a classic case of having one simple question that I wanted to answer and then being led down a path of ever expanding further questions. It started with me playing around with Bob Rudis’ excellent waffle package. I’ll walk you through the steps…</p>
+<p><br></p>
+<h3 id="heres-what-happened">Here’s what happened:</h3>
+<p>I was interested in plotting data such as the following example. Here there are seven groups A to G, with each one possessing an integer value that are stored in a vector <code>x</code>. The sum of <code>x</code> is 255. Using the <code>waffle()</code> function, I am plotting this data with each square representing ‘5’ of the total sum. I’m also using 5 rows to plot the data.</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(waffle)
+
+set.seed(10)
+x &lt;- round(runif(7, 1, 100),0)
+names(x) &lt;- LETTERS[1:7]
+x</code></pre>
+<pre><code>
+ A  B  C  D  E  F  G 
+51 31 43 70  9 23 28 </code></pre>
+<pre class="r"><code>
+sum(x)</code></pre>
+<pre><code>
+[1] 255</code></pre>
+<pre class="r"><code>
+waffle(x/5, rows=5)</code></pre>
+<p><img src="apportionment-methods_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
+</div>
+<p><br></p>
+<p>It looks pretty. What you might notice is that we have 48 squares meaning that 240 of our total sum are represented (i.e. 48∗5). Or, 15, which would equal 2 squares are not. Breaking it down by group, you can see that there are 10 squares for A meaning that ‘1’ of A’s total of 51 is not represented, 6 squares of B leaving out ‘1’ of B’s total of 31, 8 squares of C meaning that 3 of C’s total of 43 are lost, etc. etc. As D is the only group whose value is divisible by 5, it is the only one whose squares exactly represent its value. The way waffle works is to take the floor or rounded-down value of each groups number (as far as I can tell).</p>
+<p>My other interest was in creating charts that represent percentage plots. i.e. to convert each vector into percentages and then to plot those. Like this:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+x1 &lt;- (100*x)/sum(x)
+x1</code></pre>
+<pre><code>
+        A         B         C         D         E         F         G 
+20.000000 12.156863 16.862745 27.450980  3.529412  9.019608 10.980392 </code></pre>
+<pre class="r"><code>
+waffle(x1, rows=5)</code></pre>
+<p><img src="apportionment-methods_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
+</div>
+<p><br></p>
+<p>The first thing to note is that there obviously aren’t 100 squares - there are 97. If we go group by group, A is perfectly represented by 20 blocks as it’s percentage is exactly 20%. For each of the others, you’ll notice that the number of squares for each group is the integer part of each percentage (or the floor / rounded down value in other terms).</p>
+<p>Summing the fractional parts shows that indeed the missing 3 squares are the fractional parts of each percentage:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+#return fractional parts
+x1%%1 </code></pre>
+<pre><code>
+         A          B          C          D          E          F 
+0.00000000 0.15686275 0.86274510 0.45098039 0.52941176 0.01960784 
+         G 
+0.98039216 </code></pre>
+<pre class="r"><code>
+sum(x1%%1)</code></pre>
+<pre><code>
+[1] 3</code></pre>
+</div>
+<p><br></p>
+<p>Obviously, this method of visualizing these data is perfectly appropriate. It may well be (and often will be) just wrong to have extra squares representing a whole percentage point. However, we could easily concede in our example that group G and group C with fractions of .98 and .86 should get an extra square, whereas group F and group B with fractions of .01 and .16 should not. It would be difficult to decide whether E with a fractional of .53 or D with a fractional of .45 should get the last extra square.</p>
+<p>Because I wanted to produce a number of waffle plots to compare, I did actually want my graphs to be perfect rectangles of 5 rows by 20 columns and for these extra squares to be allocated. The next question was obviously - <strong>what’s the best or fairest method of doing this?</strong></p>
+<p>Unsurprisingly to many of you, I had stumbled upon the <a href="https://en.wikipedia.org/wiki/Apportionment_paradox#:~:text=An%20apportionment%20paradox%20exists%20when,typically%20being%20one%20of%20proportion."><strong>apportionment paradox</strong></a> that has a long history in American and other countries’ political systems.</p>
+<p>The <a href="https://github.com/jalapic/apportR">apportR</a> package was therefore my way of collating all the various methods that have been proposed to solve this problem. And it turned out there are an annoyingly large number of methods.</p>
+<p><br></p>
+<h3 id="fair-division-examples">“Fair Division” examples</h3>
+<p>I will illustrate the general problem with three examples. Each of these datasets comes from my <code>apportR</code> package. The <code>apportR</code> package can be downloaded from <a href="https://github.com/jalapic/apportR">github</a>.</p>
+<p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(devtools)
+devtools::install_github(&quot;jalapic/apportR&quot;)</code></pre>
+</div>
+<p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(apportR)</code></pre>
+</div>
+<p><br></p>
+<p><strong>Housework</strong></p>
+<p>Here is a common example used to illustrate the problem at hand.</p>
+<blockquote>
+<p>Mom has 50 identical pieces of candy that cannot be broken into bits. She tells her five children that she will divide the candy fairly at the end of the week according to the proportion of housework that each performs.</p>
+</blockquote>
+<p>Here are the minutes worked by each child:</p>
+<br>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+housework</code></pre>
+<pre><code>
+ Anna Betty  Carl Derek  Ella 
+  150    78   173   204   295 </code></pre>
+<pre class="r"><code>
+#calculate how many candies each should get
+candies &lt;- (50*housework) / sum(housework)
+candies</code></pre>
+<pre><code>
+     Anna     Betty      Carl     Derek      Ella 
+ 8.333333  4.333333  9.611111 11.333333 16.388889 </code></pre>
+<pre class="r"><code>
+floor(candies)</code></pre>
+<pre><code>
+ Anna Betty  Carl Derek  Ella 
+    8     4     9    11    16 </code></pre>
+<pre class="r"><code>
+sum(floor(candies))</code></pre>
+<pre><code>
+[1] 48</code></pre>
+<pre class="r"><code>
+waffle(candies, rows=5) </code></pre>
+<p><img src="apportionment-methods_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
+</div>
+<p><br></p>
+<p>Anna expects 8.33%, Betty 4.33%, Carl 9.6%, Derek 11.33% and Ella 16.39% of the candies, but they cannot be broken up. Assuming each gets the number of candies equal to their rounded down proportion at least, then Who should get the extra 2 candies that are not yet allocated? Obviously, it’s very hard to work out who. That’s the problem at hand ! (It also turns out this problem is quite contentious when we are dealing with electoral seats and not candies).</p>
+<p><br></p>
+<p><strong>Scholarships</strong></p>
+<blockquote>
+<p>There are 12 scholarships to be given out to each of 3 subjects at a university. They are to be awarded based upon the proportion of majors that each subject has.</p>
+</blockquote>
+<p><br></p>
+<p>Here are the majors in each subject as well as the expected number of scholarships each would get out of the 12 available:</p>
+<p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+   English    History Psychology 
+       231        502        355 </code></pre>
+<pre><code>
+   English    History Psychology 
+  2.547794   5.536765   3.915441 </code></pre>
+<pre><code>
+   English    History Psychology 
+         2          5          3 </code></pre>
+<pre><code>
+[1] 10</code></pre>
+</div>
+<p><br></p>
+<p>If each gets the rounded down value that they would expect, where do the remaining 2 scholarships go ? Presumably Psychology should get an extra one as its fractional is .9, but which of English and History should get the other one?</p>
+<p><br></p>
+<p><strong>House of Representatives</strong></p>
+<blockquote>
+<p>At the 1792 US House of Representatives elections, a total of 105 seats were to be awarded that would be shared between the 15 states of the union proportional to each state’s population size at the 1790 US census.</p>
+</blockquote>
+<p><a href="http://en.wikipedia.org/wiki/United_States_House_of_Representatives_elections,_1792">More reading can be found here</a>. Here are the states and their population sizes in 1790, followed by the expected number of seats for each state based on there being 105 available:</p>
+<p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+    VA     MA     PA     NC     NY     MD     CT     SC     NJ     NH 
+630560 475327 432879 353523 331589 278514 236841 206236 179570 141822 
+    VT     GA     KY     RI     DE 
+ 85533  70835  68705  68446  55540 </code></pre>
+<pre><code>
+       VA        MA        PA        NC        NY        MD        CT 
+18.310361 13.802666 12.570050 10.265690  9.628765  8.087560  6.877449 
+       SC        NJ        NH        VT        GA        KY        RI 
+ 5.988733  5.214399  4.118263  2.483729  2.056925  1.995073  1.987552 
+       DE 
+ 1.612785 </code></pre>
+<pre><code>
+VA MA PA NC NY MD CT SC NJ NH VT GA KY RI DE 
+18 13 12 10  9  8  6  5  5  4  2  2  1  1  1 </code></pre>
+<pre><code>
+[1] 97</code></pre>
+</div>
+<p><br></p>
+<p>Who should get those 8 extra seats ??? This is a slightly more important question to get right than the fair division of candies (depending upon your perspective)!</p>
+<p>I will describe some methods for working this out as well as the functions contained in <code>apportR</code> to represent these methods a bit later in this vignette.</p>
+<p><br></p>
+<h3 id="apportionment-methods-overview">Apportionment Methods Overview</h3>
+<p>The methods for solving these sorts of questions essentially fall into two broad groups. There are the standard (or non-divisor) methods and the divisor methods. Many (if not all) of them have been discovered independently in various disciplines and so each may have several different names. I will mainly focus on the methods from the historical perspective of the US House of Representatives apportionment problem, as it is the most interesting.</p>
+<p><br></p>
+<h4 id="standard-non-divisor-methods">Standard Non-Divisor Methods</h4>
+<p>The two main standard non-divisor methods are:</p>
+<ul>
+<li><p>Hamilton’s Method, aka Largest Remainder Method, <a href="http://en.wikipedia.org/wiki/Samuel_Finley_Vinton">Vinton’s Method</a>, Hare-Niemeyer Method.</p></li>
+<li><p>Lowndes’ Method</p></li>
+</ul>
+<p><br></p>
+<p><strong>Hamilton Method</strong></p>
+<p>The most simple method was first suggested by <a href="http://www.maa.org/publications/periodicals/convergence/apportioning-representatives-in-the-united-states-congress-hamiltons-method-of-apportionment">Alexander Hamilton</a> in 1792.</p>
+<p>Quite straightforwardly, the logic of this method is as follows:</p>
+<ul>
+<li>choose the number of seats available</li>
+<li>calculate the standard divisor (this is equal to the total population / number of seats)</li>
+<li>calculate the standard quota (this is equal to each state population / standard divisor)</li>
+<li>assign each state initially its lower quota (this is the rounded down value of each standard quota)</li>
+<li>calculate how many seats are still to be assigned</li>
+<li>assign extra seats to those states with the highest fractionals from their standard quota in descending order.</li>
+</ul>
+<p><br></p>
+<p><em>Example</em></p>
+<p>There were 120 seats to be allocated in the House in 1790. The population of each state and the total US population at the 1790 census was as follows:</p>
+<p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+usa1790</code></pre>
+<pre><code>
+    VA     MA     PA     NC     NY     MD     CT     SC     NJ     NH 
+630560 475327 432879 353523 331589 278514 236841 206236 179570 141822 
+    VT     GA     KY     RI     DE 
+ 85533  70835  68705  68446  55540 </code></pre>
+<pre class="r"><code>
+sum(usa1790)</code></pre>
+<pre><code>
+[1] 3615920</code></pre>
+</div>
+<p><br></p>
+<p>The standard divisor (which is equivalent to the average number of people that each representative is representing) and standard quotas of each state are therefore:</p>
+<p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+#standard divisor
+std &lt;- sum(usa1790) / 120
+std</code></pre>
+<pre><code>
+[1] 30132.67</code></pre>
+<pre class="r"><code>
+stq &lt;- usa1790 / std
+stq</code></pre>
+<pre><code>
+       VA        MA        PA        NC        NY        MD        CT 
+20.926127 15.774475 14.365771 11.732218 11.004303  9.242926  7.859942 
+       SC        NJ        NH        VT        GA        KY        RI 
+ 6.844266  5.959313  4.706586  2.838547  2.350771  2.280084  2.271488 
+       DE 
+ 1.843182 </code></pre>
+</div>
+<p><br></p>
+<p>The first allocation of seats is the rounded down value of these standard quotas. When summing these values, it is clear that they only sum to 111 seats which is 9 short of the required total of 120.</p>
+<p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+lowq &lt;- floor(stq)
+lowq</code></pre>
+<pre><code>
+VA MA PA NC NY MD CT SC NJ NH VT GA KY RI DE 
+20 15 14 11 11  9  7  6  5  4  2  2  2  2  1 </code></pre>
+<pre class="r"><code>
+sum(lowq)</code></pre>
+<pre><code>
+[1] 111</code></pre>
+</div>
+<p><br></p>
+<p>The states are then arranged in order of their fractional parts and the states with the 9 largest fractionals are awarded an extra seat. That would be NJ to NC.</p>
+<p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+rev(sort(stq%%1))</code></pre>
+<pre><code>
+         NJ          VA          CT          SC          DE 
+0.959313259 0.926126684 0.859941592 0.844266466 0.843182371 
+         VT          MA          NC          NH          PA 
+0.838547313 0.774475099 0.732217527 0.706586429 0.365771367 
+         GA          KY          RI          MD          NY 
+0.350771035 0.280083630 0.271488307 0.242925728 0.004303193 </code></pre>
+</div>
+<p><br></p>
+<p>This can be done using the <code>hamilton()</code> function. The first argument is the named vector of population sizes and the second argument is the number of seats to allocate.</p>
+<p><br></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+hamilton(usa1790, 120)</code></pre>
+<pre><code>
+VA MA PA NC NY MD CT SC NJ NH VT GA KY RI DE 
+21 16 14 12 11  9  8  7  6  5  3  2  2  2  2 </code></pre>
+</div>
+<p><br></p>
+<p>The 1792 bill proposing this method be used was passed but yet it was not brought into use at this time. Instead, this bill was the very first usage of a Presidential veto by George Washington and a divisor method proposed by <a href="http://www.maa.org/publications/periodicals/convergence/apportioning-representatives-in-the-united-states-congress-jeffersons-method-of-apportionment">Thomas Jefferson</a> was used. I will discuss this method in the divisor methods section. Washington vetoed the bill as Hamilton’s method would have meant that some representatives would be representing fewer than 30,000 individuals which was against the constitution. It was first of only two times that Washington used his Presidential veto.</p>
+<p>We can see this here - several states have too many representatives according to the Constitution:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+usa1790 / hamilton(usa1790, 120)</code></pre>
+<pre><code>
+      VA       MA       PA       NC       NY       MD       CT 
+30026.67 29707.94 30919.93 29460.25 30144.45 30946.00 29605.12 
+      SC       NJ       NH       VT       GA       KY       RI 
+29462.29 29928.33 28364.40 28511.00 35417.50 34352.50 34223.00 
+      DE 
+27770.00 </code></pre>
+</div>
+<p> </p>
+<p>Despite this initial lack of support, Hamilton’s method (also known as Vinton’s method by the mid nineteenth century) was passed into law and adopted by 1850 and continued to be used until the turn of the 20th century. It stopped being used at this time because some strange anomalies or paradoxes were discovered. These are as follows:</p>
+<p> </p>
+<p><strong>Alabama Paradox</strong></p>
+<p>In 1880 a government clerk named C. W. Seaton computed apportionments for all potential House sizes between 275 and 350 members. He then wrote to Congress describing that if the House of Representatives had 299 seats, Alabama would get 8 members but it would only receive 7 members if the House had 300 seats. This seemed to be a failure of common sense and became known as the <a href="http://en.wikipedia.org/wiki/Apportionment_paradox#Alabama_paradox">Alabama Paradox</a>.</p>
+<p>Here are the state populations for 1880 and the number of seats that would be given under the Hamilton method if the House had 299 or 300 members:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+usa1880</code></pre>
+<pre><code>
+       Alabama       Arkansas     California       Colorado 
+       1262505         802525         864694         194327 
+   Connecticut       Delaware        Florida        Georgia 
+        622700         146608         269493        1542180 
+      Illinois        Indiana           Iowa         Kansas 
+       3077871        1978301        1624615         996096 
+      Kentucky      Louisiana          Maine       Maryland 
+       1648690         939946         648936         934943 
+ Massachusetts       Michigan      Minnesota    Mississippi 
+       1783085        1636937         780773        1131597 
+      Missouri       Nebraska         Nevada  New Hampshire 
+       2168380         452402          62266         346991 
+    New Jersey       New York North Carolina           Ohio 
+       1131116        5082871        1399750        3198062 
+        Oregon   Pennsylvania   Rhode Island South Carolina 
+        174768        4282891         276531         995577 
+     Tennessee          Texas        Vermont       Virginia 
+       1542359        1591749         332286        1512565 
+ West Virginia      Wisconsin 
+        618457        1315497 </code></pre>
+<pre class="r"><code>
+hamilton(usa1880, 299)</code></pre>
+<pre><code>
+       Alabama       Arkansas     California       Colorado 
+             8              5              5              1 
+   Connecticut       Delaware        Florida        Georgia 
+             4              1              1              9 
+      Illinois        Indiana           Iowa         Kansas 
+            18             12             10              6 
+      Kentucky      Louisiana          Maine       Maryland 
+            10              6              4              6 
+ Massachusetts       Michigan      Minnesota    Mississippi 
+            11             10              5              7 
+      Missouri       Nebraska         Nevada  New Hampshire 
+            13              3              1              2 
+    New Jersey       New York North Carolina           Ohio 
+             7             31              8             19 
+        Oregon   Pennsylvania   Rhode Island South Carolina 
+             1             26              2              6 
+     Tennessee          Texas        Vermont       Virginia 
+             9              9              2              9 
+ West Virginia      Wisconsin 
+             4              8 </code></pre>
+<pre class="r"><code>
+hamilton(usa1880, 300)</code></pre>
+<pre><code>
+       Alabama       Arkansas     California       Colorado 
+             7              5              5              1 
+   Connecticut       Delaware        Florida        Georgia 
+             4              1              1              9 
+      Illinois        Indiana           Iowa         Kansas 
+            19             12             10              6 
+      Kentucky      Louisiana          Maine       Maryland 
+            10              6              4              6 
+ Massachusetts       Michigan      Minnesota    Mississippi 
+            11             10              5              7 
+      Missouri       Nebraska         Nevada  New Hampshire 
+            13              3              1              2 
+    New Jersey       New York North Carolina           Ohio 
+             7             31              8             19 
+        Oregon   Pennsylvania   Rhode Island South Carolina 
+             1             26              2              6 
+     Tennessee          Texas        Vermont       Virginia 
+             9             10              2              9 
+ West Virginia      Wisconsin 
+             4              8 </code></pre>
+</div>
+<p> </p>
+<p>Texas and Illinois would each gain a member whilst Alabama lost one !</p>
+<p> </p>
+<p><strong>New States Paradox</strong></p>
+<p>A second paradox of this method also came to light. This is probably best illustrated using the example of Oklahoma which was admitted to the union in 1907. In 1900 the house had 386 seats. According to OK’s population, they should have got 5 seats.</p>
+<p>The US population in 1900 and seat allocation according to Hamilton’s method was as follows:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+usa1900</code></pre>
+<pre><code>
+     NY      PA      IL      OH      MO      TX      MA      IN 
+7264183 6302115 4821550 4157545 3106665 3048710 2805346 2516462 
+     MI      IA      GA      KY      WI      TN      NC      NJ 
+2420982 2231853 2216331 2147174 2067385 2020616 1893810 1883669 
+     VA      AL      MN      MS      CA      KS      LA      SC 
+1854184 1828697 1749626 1551270 1483504 1470495 1381625 1340316 
+     AR      MD      NE      WV      CT      ME      CO      FL 
+1311564 1188044 1066300  958800  908420  694466  539103  528542 
+     WA      RI      OR      NH      SD      VT      ND      UT 
+ 515572  428556  413536  411588  390638  343641  314454  275277 
+     MT      DE      ID      WY      NV 
+ 232583  184735  159475   92531   40670 </code></pre>
+<pre class="r"><code>
+hamilton(usa1900, 386)</code></pre>
+<pre><code>
+NY PA IL OH MO TX MA IN MI IA GA KY WI TN NC NJ VA AL MN MS CA KS LA 
+38 33 25 21 16 16 14 13 12 11 11 11 11 10 10 10 10  9  9  8  8  8  7 
+SC AR MD NE WV CT ME CO FL WA RI OR NH SD VT ND UT MT DE ID WY NV 
+ 7  7  6  5  5  5  3  3  3  3  2  2  2  2  2  2  1  1  1  1  1  1 </code></pre>
+</div>
+<p> </p>
+<p>but the following happens when adding in Oklahoma and allowing for an extra 5 seats:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+usa1907</code></pre>
+<pre><code>
+     NY      PA      IL      OH      MO      TX      MA      IN 
+7264183 6302115 4821550 4157545 3106665 3048710 2805346 2516462 
+     MI      IA      GA      KY      WI      TN      NC      NJ 
+2420982 2231853 2216331 2147174 2067385 2020616 1893810 1883669 
+     VA      AL      MN      MS      CA      KS      LA      SC 
+1854184 1828697 1749626 1551270 1483504 1470495 1381625 1340316 
+     AR      MD      NE      OK      WV      CT      ME      CO 
+1311564 1188044 1066300 1000000  958800  908420  694466  539103 
+     FL      WA      RI      OR      NH      SD      VT      ND 
+ 528542  515572  428556  413536  411588  390638  343641  314454 
+     UT      MT      DE      ID      WY      NV 
+ 275277  232583  184735  159475   92531   40670 </code></pre>
+<pre class="r"><code>
+hamilton(usa1907, 391)</code></pre>
+<pre><code>
+NY PA IL OH MO TX MA IN MI IA GA KY WI TN NC NJ VA AL MN MS CA KS LA 
+37 33 25 21 16 16 14 13 12 11 11 11 11 10 10 10 10  9  9  8  8  8  7 
+SC AR MD NE OK WV CT ME CO FL WA RI OR NH SD VT ND UT MT DE ID WY NV 
+ 7  7  6  5  5  5  5  4  3  3  3  2  2  2  2  2  2  1  1  1  1  1  1 </code></pre>
+</div>
+<p> </p>
+<p>As you can see, after OK is added in 1907, New York would lose a seat and gives it to Maine! Again, this seems to fail a common sense test.</p>
+<p> </p>
+<p><strong>Population Paradox</strong></p>
+<p>A final paradox that has been found is that states that increase in population more relative to other states over a period of time can even lose seats.</p>
+<p>Here is a fictitious example. Say there are five states (A-E) and this is their population in hundreds of thousands at time 1 (states1) and time 2 (states2):</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+states1 &lt;- c(150, 78, 173, 204, 295)
+states2 &lt;- c(150, 78, 181, 204, 296) #C increases by 8, E by 1
+names(states1)&lt;-names(states2)&lt;-LETTERS[1:5]
+
+states1</code></pre>
+<pre><code>
+  A   B   C   D   E 
+150  78 173 204 295 </code></pre>
+<pre class="r"><code>
+states2</code></pre>
+<pre><code>
+  A   B   C   D   E 
+150  78 181 204 296 </code></pre>
+</div>
+<p> </p>
+<p>A, B and D have remained the same whilst E and C have increased in population. Now say there are 50 seats to allocate - let’s see what happens:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+hamilton(states1, 50)</code></pre>
+<pre><code>
+ A  B  C  D  E 
+ 8  4 10 11 17 </code></pre>
+<pre class="r"><code>
+hamilton(states2, 50)</code></pre>
+<pre><code>
+ A  B  C  D  E 
+ 8  5 10 11 16 </code></pre>
+</div>
+<p> </p>
+<p>Even though E’s population went up by 100,000 it actually lost a representative seat! whilst B whose population stayed the same increased its seat number and C whose population increased by 800,000 remained the same.</p>
+<p> </p>
+<p><strong>Strengths &amp; Weaknesses</strong></p>
+<p>The biggest advantage of this method is that it is very easy to calculate and to explain. This method also never violates the quota rule which states that the number of seats ought to be between the lower and upper quota of the standard quota (effectively the floor and ceiling value). The biggest weaknesses are that it throws up these strange paradoxes or common sense failures, and also that it does systematically favor larger states over smaller ones.</p>
+<p> </p>
+<p>Another aside: The <em>zero seats problem</em> - for calculating seats in the House, there must always be at least one seat allocated to every state. The <code>hamilton</code> function does this automatically, so if for instance the standard quota of any state would be e.g. 0.333 and its fraction was not large enough to receive an extra surplus seat, then it will override this and allocate the seat. This happens several times in US census history for Delaware and Nevada.</p>
+<p>Other users of this function may want to have the option of allocating 0 to a group. Therefore the sister function to <code>hamilton()</code> is <code>hamilton0()</code> which allows for this.</p>
+<p>For example, take the US census in 1880 and 300 available seats in the House:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+usa1880</code></pre>
+<pre><code>
+       Alabama       Arkansas     California       Colorado 
+       1262505         802525         864694         194327 
+   Connecticut       Delaware        Florida        Georgia 
+        622700         146608         269493        1542180 
+      Illinois        Indiana           Iowa         Kansas 
+       3077871        1978301        1624615         996096 
+      Kentucky      Louisiana          Maine       Maryland 
+       1648690         939946         648936         934943 
+ Massachusetts       Michigan      Minnesota    Mississippi 
+       1783085        1636937         780773        1131597 
+      Missouri       Nebraska         Nevada  New Hampshire 
+       2168380         452402          62266         346991 
+    New Jersey       New York North Carolina           Ohio 
+       1131116        5082871        1399750        3198062 
+        Oregon   Pennsylvania   Rhode Island South Carolina 
+        174768        4282891         276531         995577 
+     Tennessee          Texas        Vermont       Virginia 
+       1542359        1591749         332286        1512565 
+ West Virginia      Wisconsin 
+        618457        1315497 </code></pre>
+<pre class="r"><code>
+hamilton(usa1880, 300)</code></pre>
+<pre><code>
+       Alabama       Arkansas     California       Colorado 
+             7              5              5              1 
+   Connecticut       Delaware        Florida        Georgia 
+             4              1              1              9 
+      Illinois        Indiana           Iowa         Kansas 
+            19             12             10              6 
+      Kentucky      Louisiana          Maine       Maryland 
+            10              6              4              6 
+ Massachusetts       Michigan      Minnesota    Mississippi 
+            11             10              5              7 
+      Missouri       Nebraska         Nevada  New Hampshire 
+            13              3              1              2 
+    New Jersey       New York North Carolina           Ohio 
+             7             31              8             19 
+        Oregon   Pennsylvania   Rhode Island South Carolina 
+             1             26              2              6 
+     Tennessee          Texas        Vermont       Virginia 
+             9             10              2              9 
+ West Virginia      Wisconsin 
+             4              8 </code></pre>
+<pre class="r"><code>
+hamilton0(usa1880, 300)</code></pre>
+<pre><code>
+       Alabama       Arkansas     California       Colorado 
+             8              5              5              1 
+   Connecticut       Delaware        Florida        Georgia 
+             4              1              1              9 
+      Illinois        Indiana           Iowa         Kansas 
+            19             12             10              6 
+      Kentucky      Louisiana          Maine       Maryland 
+            10              6              4              6 
+ Massachusetts       Michigan      Minnesota    Mississippi 
+            11             10              5              7 
+      Missouri       Nebraska         Nevada  New Hampshire 
+            13              3              0              2 
+    New Jersey       New York North Carolina           Ohio 
+             7             31              8             19 
+        Oregon   Pennsylvania   Rhode Island South Carolina 
+             1             26              2              6 
+     Tennessee          Texas        Vermont       Virginia 
+             9             10              2              9 
+ West Virginia      Wisconsin 
+             4              8 </code></pre>
+</div>
+<p> </p>
+<p>Clearly, Nevada would not get a seat unless allowances were made to ensure all states received at least one seat. Alabama would have lost out again in this instance !</p>
+<p> </p>
+<p>This zero issue can also be illustrated with a couple of fair division problems. Say we had five candies to divide to each of 3 children dependent upon how many hours of work they completed.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+hours &lt;- c(1,3,11)
+names(hours) &lt;- c(&quot;Xavier&quot;, &quot;Yasmin&quot;, &quot;Zach&quot;)
+hours</code></pre>
+<pre><code>
+Xavier Yasmin   Zach 
+     1      3     11 </code></pre>
+<pre class="r"><code>
+#standard quotas
+(5*hours)/ sum(hours)</code></pre>
+<pre><code>
+   Xavier    Yasmin      Zach 
+0.3333333 1.0000000 3.6666667 </code></pre>
+</div>
+<p> </p>
+<p>If we look at the standard quotas then we should initially give 0 to Xavier, 1 to Yasmin and 3 to Zach. The question then is what to do with the fifth candy. If we allow zeros then that extra one would be given to Zach. If we don’t allow zeros, then that extra one will be given to Xavier.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+hamilton(hours,5)</code></pre>
+<pre><code>
+Xavier Yasmin   Zach 
+     1      1      3 </code></pre>
+<pre class="r"><code>
+hamilton0(hours,5)</code></pre>
+<pre><code>
+Xavier Yasmin   Zach 
+     0      1      4 </code></pre>
+</div>
+<p> </p>
+<p>This also leads us to an issue with the <code>hamilton()</code> function when we automatically assign 1 to every group. If there are many individuals with small standard quotas, then it may become impossible to apportion.</p>
+<p>For instance, if we had ten gold watches to give out proportionally to sales reps who sold the most cars in a car dealership and the data looked like this:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+cars.sold &lt;- c(1, 2, 15, 3, 1, 12, 4)
+names(cars.sold) &lt;- c(paste0(&quot;rep&quot;, 1:7))
+cars.sold</code></pre>
+<pre><code>
+rep1 rep2 rep3 rep4 rep5 rep6 rep7 
+   1    2   15    3    1   12    4 </code></pre>
+<pre class="r"><code>
+#standard quotas
+(cars.sold*10) / sum(cars.sold)</code></pre>
+<pre><code>
+     rep1      rep2      rep3      rep4      rep5      rep6      rep7 
+0.2631579 0.5263158 3.9473684 0.7894737 0.2631579 3.1578947 1.0526316 </code></pre>
+</div>
+<p> </p>
+<p>Using Hamilton’s method everyone would get at least 1 watch accounting for 7 of the watches, but rep3 and rep6 should each get 3 watches, making 11 to be allocated when there are only 10. Clearly this does not work. If it is possible to allocate zero watches to individuals, then we can apportion. Notice that the standard <code>hamilton</code> function reports the error.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+hamilton(cars.sold, 10)</code></pre>
+<pre><code>
+Error in hamilton(cars.sold, 10): not possible to apportion</code></pre>
+<pre class="r"><code>
+hamilton0(cars.sold, 10)</code></pre>
+<pre><code>
+rep1 rep2 rep3 rep4 rep5 rep6 rep7 
+   0    1    4    1    0    3    1 </code></pre>
+</div>
+<p> </p>
+<p>Another note is that the <code>hamilton()</code> function won’t work in situations where 1) the values in the input vector are too small, 2) the number of seats to be allocated are either too small.</p>
+<p>For example, let’s say we had the following vector and wanted to allocate 3 seats:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+z &lt;- c(1,3,11)
+names(z) &lt;- LETTERS[1:3]
+z</code></pre>
+<pre><code>
+ A  B  C 
+ 1  3 11 </code></pre>
+<pre class="r"><code>
+z1 &lt;- sum(z) / 3 #standard divisor
+z1</code></pre>
+<pre><code>
+[1] 5</code></pre>
+<pre class="r"><code>
+z2 &lt;- z/z1 #standard quota
+z2</code></pre>
+<pre><code>
+  A   B   C 
+0.2 0.6 2.2 </code></pre>
+</div>
+<p> </p>
+<p>The above cannot work as the function will try to allocate 1 seat to each of A and B and then 2 to C. The minimum number of seats that can be allocated are 4.</p>
+<p> </p>
+<p> </p>
+<h4 id="lowndes-method"><strong>Lowndes’ Method</strong></h4>
+<p>In 1822, Rep. Lowndes of South Carolina proposed an <a href="http://www.maa.org/publications/periodicals/convergence/apportioning-representatives-in-the-united-states-congress-lowndes-method-of-apportionment">alternative method</a> to Hamilton’s. The main tenet of this approach was to give a greater emphasis to the smaller states. Consequently, this approach never received much support and did not become law.</p>
+<p>The general logic is as follows:</p>
+<ul>
+<li>choose the number of seats available</li>
+<li>calculate the standard divisor (this is equal to the total population / number of seats)</li>
+<li>calculate the standard quota (this is equal to each state population / standard divisor)</li>
+<li>assign each state initially its lower quota (this is the rounded down value of each standard quota)</li>
+<li>list the number of persons per already assigned representative</li>
+<li>assign extra seats to those states with the highest number of persons per assigned representative until all seats are filled</li>
+</ul>
+<p>This function also accounts for the zero seats issue by automatically assigning at least one representative per state.</p>
+<p>Here is an example of Lowndes’ approach from the 1820 census with 213 seats to assign. I wrote a function <code>lowndes()</code> to complete this task:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+usa1820</code></pre>
+<pre><code>
+      New York   Pennsylvania       Virginia           Ohio 
+       1368775        1049313         895303         581434 
+North Carolina  Massachusetts       Kentucky South Carolina 
+        556821         523287         513623         399351 
+      Tennesse       Maryland          Maine        Georgia 
+        390769         364389         298335         281126 
+   Connecticut     New Jersey  New Hampshire        Vermont 
+        275208         274551         244161         235764 
+       Indiana      Louisiana        Alabama   Rhode Island 
+        147102         125779         111147          83038 
+      Delaware       Missouri    Mississippi       Illinois 
+         70943          62496          62320          54843 </code></pre>
+<pre class="r"><code>
+lowndes(usa1820, 213)</code></pre>
+<pre><code>
+      New York   Pennsylvania       Virginia           Ohio 
+            32             24             21             13 
+North Carolina  Massachusetts       Kentucky South Carolina 
+            13             12             12              9 
+      Tennesse       Maryland          Maine        Georgia 
+             9              8              7              7 
+   Connecticut     New Jersey  New Hampshire        Vermont 
+             7              7              6              6 
+       Indiana      Louisiana        Alabama   Rhode Island 
+             4              3              3              2 
+      Delaware       Missouri    Mississippi       Illinois 
+             2              2              2              2 </code></pre>
+</div>
+<p> </p>
+<p>For comparison, here is how Lowndes’ approach differs from Hamilton’s for the 120 seats to be assigned in 1790.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+hamilton(usa1790, 120)</code></pre>
+<pre><code>
+VA MA PA NC NY MD CT SC NJ NH VT GA KY RI DE 
+21 16 14 12 11  9  8  7  6  5  3  2  2  2  2 </code></pre>
+<pre class="r"><code>
+lowndes(usa1790, 120)</code></pre>
+<pre><code>
+VA MA PA NC NY MD CT SC NJ NH VT GA KY RI DE 
+20 15 14 11 11  9  8  7  6  5  3  3  3  3  2 </code></pre>
+</div>
+<p> </p>
+<p>As is clearly evident, Lowndes’ method disporportionately favors the smaller states.</p>
+<p> </p>
+<p><br></p>
+<h3 id="divisor-methods">Divisor Methods</h3>
+<p>There are a large number of divisor methods. The general logic is as follows:</p>
+<ul>
+<li><p>choose the house size (number of seats)</p></li>
+<li><p>find a number (the divisor) such that when all the population sizes of every state are divided by this divisor and these numbers are rounded, that they sum to the number of seats.</p></li>
+</ul>
+<p>The different divisor methods differ in how they round numbers. Further, there is rarely one unique value of the divisor that satisfies this equation, but all values that do for each method will lead to the same apportionment.</p>
+<p>Although divisor methods are free from paradoxes that the Hamilton Method suffers, they can violate another rule of apportionment the quota rule - that the number of seats allocated should be no higher than the rounded up value of the standard quota and no lower than the rounded down value of this number.</p>
+<p> </p>
+<p>Some of these divisor apportionment methods are:</p>
+<ul>
+<li><strong>Jefferson’s Method</strong>, aka Greatest Divisor Method, <a href="http://en.wikipedia.org/wiki/Victor_D%27Hondt">de Hondt’s Method</a> - (used in House from 1791-1830)</li>
+<li><strong>Adams’ Method</strong>, aka Smallest Divisors Method, - (considered by Congress but not used)</li>
+<li><strong><a href="http://en.wikipedia.org/wiki/Daniel_Webster">Webster’s Method</a></strong>, aka Webster-Willcox Method, Major Fractions Method, Sainte-Lague Method, - (used in House in 1840, 1910 and 1930)</li>
+<li><strong>Dean’s Method</strong>, aka Harmonic Mean Method</li>
+<li><strong>Huntington-Hill Method</strong>, aka Geometric Mean Method, Equal Proportions Method, - (used in House from 1940 to present)</li>
+</ul>
+<p>The package currently contains functions called <code>jefferson</code>, <code>jefferson0</code> and <code>adams</code> that can perform those particular methods.</p>
+<p> </p>
+<p> </p>
+<h4 id="jeffersons-method"><strong>Jefferson’s Method</strong></h4>
+<p>In 1792, ten days after George Washington vetoed the bill to use the Hamilton Method, Congress passed the method of apportionment suggested by Thomas Jefferson. They also decided to reduce the number of seats available from 120 to 105 to avoid the issue of having representatives representing too few people (i.e. fewer than 30,000).</p>
+<p>Jefferson’s Method works as follows:</p>
+<ol type="1">
+<li><p>Find the initial divisor - this is equal to the sum of state populations divided by the number of seats available.</p></li>
+<li><p>Determine if the sum of the rounded down standard quotas produced by dividing state populations by the divisor are equal to the number of seats available.</p></li>
+<li><p>If they are not, then through trial and error, find a divisor such that the sum of the rounded down standard quotas produced by dividing state populations by the divisor are equal to the number of seats available.</p></li>
+<li><p>If a state’s lower quota is equal to zero, assign them one representative seat regardless (the <code>jefferson</code> function automatically does this at present).</p></li>
+</ol>
+<p>For example, here is the 1790 US state populations:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+usa1790</code></pre>
+<pre><code>
+    VA     MA     PA     NC     NY     MD     CT     SC     NJ     NH 
+630560 475327 432879 353523 331589 278514 236841 206236 179570 141822 
+    VT     GA     KY     RI     DE 
+ 85533  70835  68705  68446  55540 </code></pre>
+<pre class="r"><code>
+divisor &lt;- sum(usa1790) / 105
+initial.divisor &lt;- floor(divisor)
+initial.divisor</code></pre>
+<pre><code>
+[1] 34437</code></pre>
+<pre class="r"><code>
+first.sum &lt;- sum(floor(usa1790/initial.divisor))
+first.sum</code></pre>
+<pre><code>
+[1] 97</code></pre>
+<pre class="r"><code>
+first.sum == 105</code></pre>
+<pre><code>
+[1] FALSE</code></pre>
+</div>
+<p> </p>
+<p>The best strategy here as we have too few seats is to decrease the value of the divisor to try and find a solution. This is possible and is what the <code>jefferson</code> function does:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+jefferson(usa1790, 105)</code></pre>
+<pre><code>
+CT DE GA KY MA MD NC NH NJ NY PA RI SC VA VT 
+ 7  1  2  2 14  8 10  4  5 10 13  2  6 19  2 </code></pre>
+<pre class="r"><code>
+rev(sort(jefferson(usa1790, 105)))</code></pre>
+<pre><code>
+VA MA PA NY NC MD CT SC NJ NH VT RI KY GA DE 
+19 14 13 10 10  8  7  6  5  4  2  2  2  2  1 </code></pre>
+</div>
+<p> </p>
+<p>… and to compare this with what Hamilton’s Method would have produced:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+hamilton(usa1790, 105)</code></pre>
+<pre><code>
+VA MA PA NC NY MD CT SC NJ NH VT GA KY RI DE 
+18 14 13 10 10  8  7  6  5  4  2  2  2  2  2 </code></pre>
+</div>
+<p> </p>
+<p>If Hamilton’s had been used instead then 13 of the 15 states would have received the same number of Representatives. Unsurprisingly, Virginia were the beneficiaries under Jefferson’s method with poor Delaware losing a seat.</p>
+<p>This method was used by the House from 1792-1842 when it was considered that it was too favorable towards the larger States and a different method was needed.</p>
+<p> </p>
+<p>Here is how the Jefferson Method determined the allocation of seats for the 1832 elections to the House of Representatives with 240 seats being available. I have sorted the allocations in descending order.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+usa1832</code></pre>
+<pre><code>
+     NY      PA      VA      OH      NC      TN      KY      MA 
+1918578 1348072 1023503  937901  639747  625263  621832  610408 
+     SC      GA      MD      ME      IN      NJ      CT      VT 
+ 455025  429811  405843  399454  343031  319922  297665  280657 
+     NH      AL      LA      IL      MO      MS      RI      DE 
+ 269326  262508  171904  157147  130419  110358   97194   75432 </code></pre>
+<pre class="r"><code>
+rev(sort(jefferson(usa1832, 240)))</code></pre>
+<pre><code>
+NY PA VA OH TN NC KY MA SC GA ME MD IN NJ CT VT NH AL LA IL RI MS MO 
+40 28 21 19 13 13 13 12  9  9  8  8  7  6  6  5  5  5  3  3  2  2  2 
+DE 
+ 1 </code></pre>
+</div>
+<p> </p>
+<p><strong>Quota Rule Violations</strong></p>
+<p>Although divisor methods do not have paradoxes associated with them, they can violate the quota rule which states that the number of seats given to each state should be at most the ceiling value of their standard quota and at least the floor value of their standard quota. The 1832 election above is interesting from this point of view because it actually breaks the quota rule. New York is allocated 40 seats, yet this is the standard quota for each state:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+(240*usa1832)/sum(usa1832)</code></pre>
+<pre><code>
+       NY        PA        VA        OH        NC        TN        KY 
+38.593472 27.117365 20.588444 18.866502 12.868936 12.577581 12.508564 
+       MA        SC        GA        MD        ME        IN        NJ 
+12.278763  9.153131  8.645934  8.163802  8.035283  6.900297  6.435444 
+       CT        VT        NH        AL        LA        IL        MO 
+ 5.987729  5.645602  5.417672  5.280523  3.457963  3.161116  2.623465 
+       MS        RI        DE 
+ 2.219925  1.955122  1.517365 </code></pre>
+</div>
+<p> </p>
+<p>NY should have received only 38 or 39 seats to satisfy the quota rule, but instead it received 40.</p>
+<p>Interestingly, according to <a href="http://en.wikipedia.org/wiki/Apportionment_paradox#Impossibility_result">Balinski and Young’s Impossibility Theorem</a>, it is not possible to come up with a perfect apportionment system - there will always be quota rule violations or paradoxes, but not both, with any system.</p>
+<p> </p>
+<p>The quota rule violation can also be understood with this example of a fictitious country called Parador which has 5 states and needs to allocate 250 seats to its House. Below I will show the populations of each state, the standard, lower and upper quotas and the results of Jefferson’s Method using the built-in dataset <code>parador</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+state = names(parador)
+popn = parador
+st.q = (250*parador)/sum(parador)
+low.q = floor(st.q)
+upp.q = ceiling(st.q)
+seats = jefferson(parador, 250)
+
+data.frame(state, popn, st.q, low.q, upp.q, seats)</code></pre>
+<pre><code>
+  state    popn   st.q low.q upp.q seats
+A     A 1646000  32.92    32    33    33
+B     B 6936000 138.72   138   139   140
+C     C  154000   3.08     3     4     3
+D     D 2091000  41.82    41    42    42
+E     E  685000  13.70    13    14    13
+F     F  988000  19.76    19    20    19</code></pre>
+</div>
+<p> </p>
+<p>As can be seen, state B actually garners one extra seat that it should not do so according to the quota rule. One of the major criticisms of the Jefferson Method is that it overly favors large states.</p>
+<p> </p>
+<p><strong>Notes about using the Jefferson Function</strong></p>
+<p>There are two important issues to consider as regards the Jefferson Method function.</p>
+<p><strong>1.</strong> All the divisor methods utilize a ‘trial-and-error’ method to find a divisor that will correctly apportion the seats to the states based on relative population size. For the <code>jefferson()</code> function to work, there must therefore be a divisor that meets this criteria.</p>
+<p>The way I have programmed the <code>jefferson()</code> function to search for this divisor is to begin with the initial divisor and then try smaller and smaller divisors (initial divisors are too large). The user can adjust the increments by which the function searches for these divisors. The default is set to <code>k=1</code> which means that the function will search for divisors by decreasing integer values one by one. This works fine for examples such as those above when using large population sizes. However, this might not be appropriate when using smaller initial values in groups. In this case, it may be better to set <code>k</code> to a smaller value such that the function will search for divisors between integers.</p>
+<p> </p>
+<p>Here is an example:</p>
+<blockquote>
+<p>A teacher has 10 gold stars to divide between 6 students who are taking an exam. The teachers says they will award the stars based on how many questions each student gets correct.</p>
+</blockquote>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+answers &lt;- c(1,4,5,14,16,3)
+names(answers) &lt;- paste0(&quot;Student &quot;, LETTERS[1:6])
+answers</code></pre>
+<pre><code>
+Student A Student B Student C Student D Student E Student F 
+        1         4         5        14        16         3 </code></pre>
+<pre class="r"><code>
+(10*answers)/sum(answers) #standard quotas</code></pre>
+<pre><code>
+Student A Student B Student C Student D Student E Student F 
+0.2325581 0.9302326 1.1627907 3.2558140 3.7209302 0.6976744 </code></pre>
+</div>
+<p> </p>
+<p>Let’s try and apply the <code>jefferson</code> function with the default parameter setting for <code>k=1</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+Error in jefferson(answers, 10): have not found an appropriate divisor - try reducing &#39;k&#39;</code></pre>
+</div>
+<p> </p>
+<p>This tells us that it was not able to find an appropriate divisor and that we should try reducing our value of <code>k</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+jefferson(answers, 10, k=0.1)</code></pre>
+<pre><code>
+Student A Student B Student C Student D Student E Student F 
+        1         1         1         3         3         1 </code></pre>
+</div>
+<p> </p>
+<p>Now, we are able to find a solution. My suggestion for adjusting <code>k</code> is to gradually decrease it by one decimal place at a time.</p>
+<p>Here is another example.</p>
+<blockquote>
+<p>In the country of Tecala, there are four states that wish to elect 160 seats to their house. The population of each state was 3.31, 2.67, 1.33 &amp; 0.69 (in millions).</p>
+</blockquote>
+<p> </p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+popn &lt;- c(3.31, 2.67, 1.33, 0.69)
+names(popn)&lt;- c(&quot;Apure&quot;, &quot;Barinas&quot;, &quot;Carabobo&quot;, &quot;Dolores&quot;)
+popn</code></pre>
+<pre><code>
+   Apure  Barinas Carabobo  Dolores 
+    3.31     2.67     1.33     0.69 </code></pre>
+<pre class="r"><code>
+jefferson(popn, n=160) # 160 seats</code></pre>
+<pre><code>
+Error in jefferson(popn, n = 160): have not found an appropriate divisor - try reducing &#39;k&#39;</code></pre>
+<pre class="r"><code>
+jefferson(popn, n=160, k=0.1) # 160 seats</code></pre>
+<pre><code>
+Error in jefferson(popn, n = 160, k = 0.1): have not found an appropriate divisor - try reducing &#39;k&#39;</code></pre>
+<pre class="r"><code>
+jefferson(popn, n=160, k=0.01) # 160 seats</code></pre>
+<pre><code>
+Error in jefferson(popn, n = 160, k = 0.01): have not found an appropriate divisor - try reducing &#39;k&#39;</code></pre>
+<pre class="r"><code>
+jefferson(popn, n=160, k=0.001) # 160 seats</code></pre>
+<pre><code>
+Error in jefferson(popn, n = 160, k = 0.001): have not found an appropriate divisor - try reducing &#39;k&#39;</code></pre>
+<pre class="r"><code>
+jefferson(popn, n=160, k=0.0001) # 160 seats</code></pre>
+<pre><code>
+   Apure  Barinas Carabobo  Dolores 
+      67       54       26       13 </code></pre>
+</div>
+<p> </p>
+<p><strong>2.</strong> Allowing zero apportions. It is possible to allow for zero apportions using <code>jefferson()</code>’s sister function <code>jefferson0()</code>.</p>
+<p>For instance, if the teacher in the example above did not feel that all students should get gold stars but only those who were deserving should get them, then we could allocate using <code>jefferson0()</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+jefferson0(answers, 10, k=0.1)</code></pre>
+<pre><code>
+Student A Student B Student C Student D Student E Student F 
+        0         1         1         4         4         0 </code></pre>
+<pre class="r"><code>
+jefferson(answers, 10, k=0.1)</code></pre>
+<pre><code>
+Student A Student B Student C Student D Student E Student F 
+        1         1         1         3         3         1 </code></pre>
+</div>
+<p> </p>
+<p><br></p>
+<h3 id="adams-method"><strong>Adams’ Method</strong></h3>
+<p>In 1832, former president John Quincy Adams essentially suggested an inverse method to Jefferson’s Method. This method was considered but never passed into law. Essentially, this method operates identically to Jefferson’s except that the rounding method used to determine representatives from the standard quota is a ceiling rounding (i.e. round the standard quota up). This has the result of overly benefiting the smaller states and hence why it didn’t receive much support.</p>
+<p>Here is an example for the <code>adams()</code> function for the 1832 House with a size of 240 seats. The function is compared to the Hamilton and Jefferson Methods.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+usa1832</code></pre>
+<pre><code>
+     NY      PA      VA      OH      NC      TN      KY      MA 
+1918578 1348072 1023503  937901  639747  625263  621832  610408 
+     SC      GA      MD      ME      IN      NJ      CT      VT 
+ 455025  429811  405843  399454  343031  319922  297665  280657 
+     NH      AL      LA      IL      MO      MS      RI      DE 
+ 269326  262508  171904  157147  130419  110358   97194   75432 </code></pre>
+<pre class="r"><code>
+adams(usa1832, 240)</code></pre>
+<pre><code>
+NY PA VA OH NC TN KY MA SC GA MD ME IN NJ CT VT NH AL LA IL MO MS RI 
+37 26 20 18 13 12 12 12  9  9  8  8  7  7  6  6  6  6  4  4  3  3  2 
+DE 
+ 2 </code></pre>
+<pre class="r"><code>
+rev(sort(jefferson(usa1832, 240))) #function doesn&#39;t automatically sort currently</code></pre>
+<pre><code>
+NY PA VA OH TN NC KY MA SC GA ME MD IN NJ CT VT NH AL LA IL RI MS MO 
+40 28 21 19 13 13 13 12  9  9  8  8  7  6  6  5  5  5  3  3  2  2  2 
+DE 
+ 1 </code></pre>
+<pre class="r"><code>
+hamilton(usa1832, 240)</code></pre>
+<pre><code>
+NY PA VA OH NC TN KY MA SC GA MD ME IN NJ CT VT NH AL LA IL MO MS RI 
+39 27 21 19 13 13 12 12  9  9  8  8  7  6  6  6  5  5  3  3  3  2  2 
+DE 
+ 2 </code></pre>
+</div>
+<p> </p>
+<p><strong>Notes about using the Adams Function</strong></p>
+<ol type="1">
+<li>As with the <code>jefferson()</code> and <code>jefferson0()</code> functions, the <code>adams()</code> function will automatically stop and return an error message if it cannot find an appropriate divisor. It will encourage the user to use a smaller incremental for the ‘trial-and-error’ process of finding a divisor.</li>
+</ol>
+<p>For example, say we had collected data on how many workers attended an office on each day of the week and we wanted to create a chart such as a <a href="https://github.com/hrbrmstr/waffle">waffle chart</a> to visually represent this. However, we wanted a nice rectangular chart that requires 100 percentage points to be allocated. We could use the <code>adams()</code> function.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+  Mon  Tues  Weds Thurs   Fri   Sat   Sun 
+  593   727   371   515   378   419    12 </code></pre>
+<pre><code>
+Error in adams(workers): have not found an appropriate divisor - try reducing &#39;k&#39;</code></pre>
+<pre><code>
+  Mon  Tues  Weds Thurs   Fri   Sat   Sun 
+   19    24    12    17    13    14     1 </code></pre>
+<p><img src="apportionment-methods_files/figure-html5/unnamed-chunk-40-1.png" width="672" /></p>
+</div>
+<p> </p>
+<ol start="2" type="1">
+<li>Like the Lowndes Method above, the Adams Method uses a rounding up method, so it is not possible to apportion zeros to groups.</li>
+</ol>
+<p> </p>
+<p> </p>
+<h3 id="websters-method"><strong>Webster’s Method</strong></h3>
+<p>In the 1830s another divisor method was suggested by <a href="https://en.wikipedia.org/wiki/Daniel_Webster">Senator Daniel Webster</a>. Webster’s method can be summarized as follows:</p>
+<ul>
+<li>choose the number of seats available</li>
+<li>calculate the standard divisor (this is equal to the total population / number of seats)</li>
+<li>calculate the standard quota (this is equal to each state population / standard divisor)</li>
+<li>calculate the arithmetic mean of the lower bound (LQ) and upper bound (UQ) of the standard quota of each state</li>
+<li>assign a state its upper quota number of states if the standard quota is greater than the arithmetic mean of the LQ and UQ</li>
+<li>assign a state its lower quota number of states if the standard quota is less than or equal to the arithmetic mean of the LQ and UQ</li>
+<li>check if the total number of seats assigned are equal to the number of seats desired.</li>
+<li>if the total number of seats are not equal to the number of seats desired, find a divisor that solves this.</li>
+</ul>
+<p> </p>
+<p>This method was used in the 1840, 1910 and 1930 apportionments.</p>
+<p>I will illustrate Webster’s method using population data from the 1832 apportionment to find 240 seats:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+usa1832</code></pre>
+<pre><code>
+     NY      PA      VA      OH      NC      TN      KY      MA 
+1918578 1348072 1023503  937901  639747  625263  621832  610408 
+     SC      GA      MD      ME      IN      NJ      CT      VT 
+ 455025  429811  405843  399454  343031  319922  297665  280657 
+     NH      AL      LA      IL      MO      MS      RI      DE 
+ 269326  262508  171904  157147  130419  110358   97194   75432 </code></pre>
+<pre class="r"><code>
+divisor1832 &lt;- sum(usa1832)/240
+stq1832 &lt;- usa1832/divisor1832
+webster.values &lt;- ifelse(stq1832%%1 &gt; 0.5, ceiling(stq1832), floor(stq1832))
+cbind(stq1832, webster.values)</code></pre>
+<pre><code>
+     stq1832 webster.values
+NY 38.593472             39
+PA 27.117365             27
+VA 20.588444             21
+OH 18.866502             19
+NC 12.868936             13
+TN 12.577581             13
+KY 12.508564             13
+MA 12.278763             12
+SC  9.153131              9
+GA  8.645934              9
+MD  8.163802              8
+ME  8.035283              8
+IN  6.900297              7
+NJ  6.435444              6
+CT  5.987729              6
+VT  5.645602              6
+NH  5.417672              5
+AL  5.280523              5
+LA  3.457963              3
+IL  3.161116              3
+MO  2.623465              3
+MS  2.219925              2
+RI  1.955122              2
+DE  1.517365              2</code></pre>
+<pre class="r"><code>
+sum(webster.values)</code></pre>
+<pre><code>
+[1] 241</code></pre>
+</div>
+<p> </p>
+<p>Here, the number of seats produced by this method are 241, which is one too many for the desired 240 seats. The Webster method proceeds by trying different divisors until a solution is found. This is done by the <code>webster()</code> function in <code>apportR</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+webster(usa1832,240)</code></pre>
+<pre><code>
+NY PA VA OH NC TN KY MA SC GA MD ME IN NJ CT VT NH AL LA IL MO MS RI 
+39 27 21 19 13 13 12 12  9  9  8  8  7  6  6  6  5  5  3  3  3  2  2 
+DE 
+ 2 </code></pre>
+</div>
+<p> </p>
+<p>This shows that the unlucky state was Kentucky who had to give up a seat. Unsurprisingly, the standard quota of Kentucky had the fractional closest to 0.5.</p>
+<p> </p>
+<h3 id="deans-method"><strong>Dean’s Method</strong></h3>
+<p>Dean’s method was devised by Prof James Dean, a professor of astronomy and mathematics at Dartmouth and University of Vermont. It operates in a very similar fashion to Webster’s method, but instead of rounding based on the arithmetic mean, the <a href="https://en.wikipedia.org/wiki/Harmonic_mean">harmonic mean</a> is used.</p>
+<p> </p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+harmonic1832 &lt;- 2 / ( (1/floor(stq1832)) + (1/ceiling(stq1832)) )
+dean.values &lt;- ifelse(stq1832 &gt; harmonic1832, ceiling(stq1832), floor(stq1832))
+cbind(stq1832, harmonic1832, dean.values)</code></pre>
+<pre><code>
+     stq1832 harmonic1832 dean.values
+NY 38.593472    38.493506          39
+PA 27.117365    27.490909          27
+VA 20.588444    20.487805          21
+OH 18.866502    18.486486          19
+NC 12.868936    12.480000          13
+TN 12.577581    12.480000          13
+KY 12.508564    12.480000          13
+MA 12.278763    12.480000          12
+SC  9.153131     9.473684           9
+GA  8.645934     8.470588           9
+MD  8.163802     8.470588           8
+ME  8.035283     8.470588           8
+IN  6.900297     6.461538           7
+NJ  6.435444     6.461538           6
+CT  5.987729     5.454545           6
+VT  5.645602     5.454545           6
+NH  5.417672     5.454545           5
+AL  5.280523     5.454545           5
+LA  3.457963     3.428571           4
+IL  3.161116     3.428571           3
+MO  2.623465     2.400000           3
+MS  2.219925     2.400000           2
+RI  1.955122     1.333333           2
+DE  1.517365     1.333333           2</code></pre>
+<pre class="r"><code>
+sum(dean.values)</code></pre>
+<pre><code>
+[1] 242</code></pre>
+</div>
+<p> </p>
+<p>This time the initial value is 2 seats too many. The <code>dean()</code> function will find a solution if possible.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dean(usa1832, 240)</code></pre>
+<pre><code>
+NY PA VA OH NC TN KY MA SC GA MD ME IN NJ CT VT NH AL LA IL MO MS RI 
+38 27 21 19 13 13 12 12  9  9  8  8  7  6  6  6  5  5  4  3  3  2  2 
+DE 
+ 2 </code></pre>
+</div>
+<p> </p>
+<p>Dean’s method was never used by Congress. One issue with Dean’s is that it does have bias towards smaller states. For instance, in the example above, NY’s standard quota is 38.59 yet it only gets 38 seats. Alternatively, Louisiana’s standard quota is only 3.46 yet it gets 4 seats. This is because the harmonic mean approaches the arithmetic mean at larger numbers, meaning for smaller numbers, there is a greater possibility of rounding upwards.</p>
+<p>Because finding a divisor that works can be computationally time consuming, we can speed up the process by skipping certain divisors. Setting the parameter <code>k</code> to be a higher value, e.g. 20, will speed up the function considerably. Obviously, we may miss a divisor, in which case it would return an error message and advise adjusting k. For situations where the named vector has much smaller values initially, the user may actually want to reduce k.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dean(usa1832, 240,20)</code></pre>
+<pre><code>
+NY PA VA OH NC TN KY MA SC GA MD ME IN NJ CT VT NH AL LA IL MO MS RI 
+38 27 21 19 13 13 12 12  9  9  8  8  7  6  6  6  5  5  4  3  3  2  2 
+DE 
+ 2 </code></pre>
+</div>
+<p> </p>
+<p> </p>
+<h3 id="huntington-hills-method"><strong>Huntington-Hill’s Method</strong></h3>
+<p>Huntington-Hill’s method was initially proposed in 1911 by Joseph A. Hill, Chief Statistician of the Bureau of the Census and later added to by Prof Edward Huntington, professor of mechanics &amp; mathematics at Harvard. This operates in a very similar fashion to Webster’s and Dean’s method, but use the geometric mean to assign rounding.</p>
+<p>This method has been used by the House since 1940 and is still the currently used method. Below is an example of applying this method to the 1832 data.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+gmean1832 &lt;- (sqrt(floor(stq1832) * ceiling(stq1832)))
+hhill.values &lt;- ifelse(stq1832 &gt; gmean1832, ceiling(stq1832), floor(stq1832))
+cbind(stq1832, gmean1832, hhill.values)</code></pre>
+<pre><code>
+     stq1832 gmean1832 hhill.values
+NY 38.593472 38.496753           39
+PA 27.117365 27.495454           27
+VA 20.588444 20.493902           21
+OH 18.866502 18.493242           19
+NC 12.868936 12.489996           13
+TN 12.577581 12.489996           13
+KY 12.508564 12.489996           13
+MA 12.278763 12.489996           12
+SC  9.153131  9.486833            9
+GA  8.645934  8.485281            9
+MD  8.163802  8.485281            8
+ME  8.035283  8.485281            8
+IN  6.900297  6.480741            7
+NJ  6.435444  6.480741            6
+CT  5.987729  5.477226            6
+VT  5.645602  5.477226            6
+NH  5.417672  5.477226            5
+AL  5.280523  5.477226            5
+LA  3.457963  3.464102            3
+IL  3.161116  3.464102            3
+MO  2.623465  2.449490            3
+MS  2.219925  2.449490            2
+RI  1.955122  1.414214            2
+DE  1.517365  1.414214            2</code></pre>
+<pre class="r"><code>
+sum(dean.values)</code></pre>
+<pre><code>
+[1] 242</code></pre>
+</div>
+<p> </p>
+<p>This method is still somewhat biased to smaller states as the geometric mean is smaller than the arithmetic mean, but this difference is not as pronounced as the harmonic mean used in Dean’s method.</p>
+<p> </p>
+<h3 id="important-notes-about-webster-dean-and-huntington-hill-methods"><strong>Important notes about Webster, Dean and Huntington-Hill methods</strong></h3>
+<p>In the case of assigning seats to a parliament, Webster’s method could theoretically apportion 0 seats but Dean’s method and Huntington-Hill’s methods will not - they will always assign at least one seat. This can be understood by demonstrating what happens with Nevada in the 1940 census when the House had 435 seats.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+usa1940</code></pre>
+<pre><code>
+      NY       PA       IL       OH       CA       TX       MI 
+13479142  9900180  7897241  6907612  6907387  6414824  5256106 
+      MA       NJ       MO       NC       IN       WI       GA 
+ 4316721  4160165  3784664  3571623  3427796  3137587  3123723 
+      TN       KY       AL       MN       VA       IA       LA 
+ 2915841  2845627  2832961  2792300  2677773  2538268  2363880 
+      OK       MS       AR       WV       SC       FL       MD 
+ 2336434  2183796  1949387  1901974  1899804  1897414  1821244 
+      KS       WA       CT       NE       CO       OR       ME 
+ 1801028  1736191  1709242  1315834  1123296  1089684   847226 
+      RI       SD       ND       MT       UT       NM       ID 
+  713346   642961   641935   559456   550310   531818   524873 
+      AZ       NH       VT       DE       WY       NV 
+  499261   491524   359231   266505   250742   110247 </code></pre>
+</div>
+<p> </p>
+<p>Let’s look at the standard quotas of Delaware, Wyoming and Nevada:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+tail(usa1940 / (sum(usa1940)/435), 3)</code></pre>
+<pre><code>
+       DE        WY        NV 
+0.8849176 0.8325773 0.3660701 </code></pre>
+</div>
+<p> </p>
+<p>Nevada has the lowest standard quota and the only one under 0.5. Now let’s calculate the lower quota and upper quota and the arithmetic mean, harmonic mean and geometric means of these two numbers:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+x1940 &lt;- data.frame(stq = tail(usa1940 / (sum(usa1940)/435), 3))
+x1940$lq &lt;- floor(x1940$stq)
+x1940$uq &lt;- ceiling(x1940$stq)
+x1940$arith &lt;- mean(c(floor(x1940$stq), ceiling(x1940$stq)))
+x1940$harmon &lt;-  2 / ( (1/floor(x1940$stq)) + (1/ceiling(x1940$stq)) )
+x1940$geom &lt;- (sqrt(floor(x1940$stq) * ceiling(x1940$stq)))
+
+x1940</code></pre>
+<pre><code>
+         stq lq uq arith harmon geom
+DE 0.8849176  0  1   0.5      0    0
+WY 0.8325773  0  1   0.5      0    0
+NV 0.3660701  0  1   0.5      0    0</code></pre>
+</div>
+<p> </p>
+<p>The harmonic and geometric means of 0 and 1 are 0 and therefore the standard quota of all states is always going to be higher than this meaning that these states are going to be assigned at least 1 seat automatically. With Webster’s method that uses the arithmetic mean for rounding, it is possible for the standard quota of any state to be lower than the arithmetic mean (0.5), resulting in a state being allocated 0 seats.</p>
+<p>Obviously, this fails the common sense test and Webster’s method has to be altered accordingly to be able to assign a seat to a state in this situation. All three functions, <code>webster()</code>, <code>dean()</code> and <code>hhill()</code> will automatically always assign at least 1 seat.</p>
+<p>For example, here are the results of the three methods compared to one another:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+webster1940&lt;-webster(usa1940, 435)
+hhill1940&lt;-hhill(usa1940, 435)
+dean1940&lt;-dean(usa1940, 435)
+
+webster1940 &lt;- webster1940[names(usa1940)]
+hhill1940 &lt;- hhill1940[names(usa1940)]
+dean1940 &lt;- dean1940[names(usa1940)]
+
+data.frame(webster=webster1940, hhill=hhill1940, dean=dean1940)</code></pre>
+<pre><code>
+   webster hhill dean
+NY      45    45   45
+PA      33    33   33
+IL      26    26   26
+OH      23    23   23
+CA      23    23   23
+TX      21    21   21
+MI      18    17   17
+MA      14    14   14
+NJ      14    14   14
+MO      13    13   13
+NC      12    12   12
+IN      11    11   11
+WI      10    10   10
+GA      10    10   10
+TN      10    10   10
+KY       9     9    9
+AL       9     9    9
+MN       9     9    9
+VA       9     9    9
+IA       8     8    8
+LA       8     8    8
+OK       8     8    8
+MS       7     7    7
+AR       6     7    7
+WV       6     6    6
+SC       6     6    6
+FL       6     6    6
+MD       6     6    6
+KS       6     6    6
+WA       6     6    6
+CT       6     6    6
+NE       4     4    4
+CO       4     4    4
+OR       4     4    4
+ME       3     3    3
+RI       2     2    2
+SD       2     2    2
+ND       2     2    2
+MT       2     2    2
+UT       2     2    2
+NM       2     2    2
+ID       2     2    2
+AZ       2     2    2
+NH       2     2    2
+VT       1     1    1
+DE       1     1    1
+WY       1     1    1
+NV       1     1    1</code></pre>
+</div>
+<p> </p>
+<p>As can be seen from the table above, the Webster Method allocated 18 seats to Michigan and 6 to Arkansas, whereas Huntington-Hill’s method (and Dean’s Method) gave 7 to Arkansas and 17 to Michigan.</p>
+<p>Unsurprisingly, a Democratic representative from Arkansas sponsored a bill to use Huntington-Hill’s method to apportion the House. This was opposed by all the Republican representatives and the Democrats from Michigan. Nevertheless, this bill passed and Huntington-Hill’s method has been used ever since, and the number of seats has remained at 435.</p>
+<p> </p>
+<p><strong>Assigning Zero Apportions</strong></p>
+<p>In other situations, it may be necessary to apportion zero to one subject in the final apportions. This could happen when using the Webster method and a subject’s standard quota is beneath 0.5, but it could also occur when using Dean’s method or Huntington-Hill’s method if the standard quota is also 0 (i.e. if the individual subject in the named vector was initially zero).</p>
+<p>For example, if special allowances had not been made in the 1940 apportionment, then Nevada would have received 0 seats under Webster’s method as their standard quota was actually below 0.5. This is shown here with the function <code>webster0()</code> which allows for 0 seats to be allocated:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+webster0(usa1940, 435)</code></pre>
+<pre><code>
+NY PA IL OH CA TX MI MA NJ MO NC IN WI GA TN KY AL MN VA IA LA OK MS 
+45 33 26 23 23 21 18 14 14 13 12 11 10 10 10  9  9  9  9  8  8  8  7 
+AR WV SC FL MD KS WA CT NE CO OR ME RI SD ND MT UT NM ID AZ NH VT DE 
+ 7  6  6  6  6  6  6  6  4  4  4  3  2  2  2  2  2  2  2  2  2  1  1 
+WY NV 
+ 1  0 </code></pre>
+</div>
+<p> </p>
+<p>Nevada’s seat would be given to Arkansas in this situation.</p>
+<p> </p>
+<p>To illustrate the possibility of apportioning zeros using the Dean or Huntington-Hill methods, imagine the following scenario.</p>
+<blockquote>
+<p>If 10 scholarships were to be given out to subject based on the proportion of students majoring in that subject that year but one of the subjects actually contained zero students.</p>
+</blockquote>
+<p>Comparing each method allowing and not-allowing for zero apportionment:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+majs &lt;- c(100, 154, 0, 22, 5)
+names(majs) &lt;- c(&quot;English&quot;, &quot;History&quot;, &quot;Swahili&quot;, &quot;French&quot;, &quot;Aeronautics&quot;)
+majs</code></pre>
+<pre><code>
+    English     History     Swahili      French Aeronautics 
+        100         154           0          22           5 </code></pre>
+<pre class="r"><code>
+webster(majs, 10)</code></pre>
+<pre><code>
+    English     History     Swahili      French Aeronautics 
+          3           4           1           1           1 </code></pre>
+<pre class="r"><code>
+dean(majs, 10)</code></pre>
+<pre><code>
+    English     History     Swahili      French Aeronautics 
+          3           4           1           1           1 </code></pre>
+<pre class="r"><code>
+hhill(majs, 10)</code></pre>
+<pre><code>
+    English     History     Swahili      French Aeronautics 
+          3           4           1           1           1 </code></pre>
+<pre class="r"><code>
+webster0(majs, 10)</code></pre>
+<pre><code>
+    English     History     Swahili      French Aeronautics 
+          4           5           0           1           0 </code></pre>
+<pre class="r"><code>
+dean0(majs, 10)</code></pre>
+<pre><code>
+    English     History     Swahili      French Aeronautics 
+          3           5           0           1           1 </code></pre>
+<pre class="r"><code>
+hhill0(majs, 10)</code></pre>
+<pre><code>
+    English     History     Swahili      French Aeronautics 
+          3           5           0           1           1 </code></pre>
+</div>
+<p> </p>
+<p>Clearly, when allowing for zero apportionment, Dean’s Method and Huntington-Hill’s Method only give 0’s when a subject initially contained zeros, whereas Webster’s Method will also apportion zeros when the standard quota is less than 0.5 as is the case here for Aeronautics.</p>
+<p>Going on from this, it’s also clear that the results for Dean’s method and for Huntington-Hill’s method are the same as if the ‘Swahili’ group never existed, i.e.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+majs1 &lt;- c(100, 154, 22, 5)
+names(majs1) &lt;- c(&quot;English&quot;, &quot;History&quot;, &quot;French&quot;, &quot;Aeronautics&quot;)
+
+majs1</code></pre>
+<pre><code>
+    English     History      French Aeronautics 
+        100         154          22           5 </code></pre>
+<pre class="r"><code>
+dean0(majs1, 10)</code></pre>
+<pre><code>
+    English     History      French Aeronautics 
+          3           5           1           1 </code></pre>
+<pre class="r"><code>
+hhill0(majs1, 10)</code></pre>
+<pre><code>
+    English     History      French Aeronautics 
+          3           5           1           1 </code></pre>
+</div>
+<p> </p>
+<h2 id="presidential-election"><strong>1876 Presidential Election</strong></h2>
+<p>Perhaps the biggest snafu in US Presidential electoral history occurred as a result of mis-apportionment.</p>
+<p>The House of Representatives in 1872 was apportioned according to the US census of 1870 and the House size was 292. Even though the legal method in place at the time was Hamilton’s method, the apportionment that occurred had the same results as Dean’s Method (even if it’s not clear that Dean’s Method was actually used).</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+usa1870</code></pre>
+<pre><code>
+     NY      PA      OH      IL      MO      IN      MA      KY 
+4382759 3521951 2665260 2539891 1721295 1680637 1457351 1321011 
+     TN      VA      IA      GA      MI      NC      WI      AL 
+1258520 1225163 1194020 1184109 1184059 1071361 1054670  996992 
+     NJ      MS      TX      MD      LA      SC      ME      CA 
+ 906096  827922  818579  780894  726915  705606  626915  560247 
+     CT      AR      WV      MN      KS      VT      NH      RI 
+ 537454  484471  442014  439706  364399  330551  318300  217353 
+     FL      DE      NE      OR      NV 
+ 187748  125015  122993   90923   42491 </code></pre>
+<pre class="r"><code>
+hamilton(usa1870, 292)</code></pre>
+<pre><code>
+NY PA OH IL MO IN MA KY TN VA IA GA MI NC WI AL NJ MS TX MD LA SC ME 
+34 27 20 20 13 13 11 10 10  9  9  9  9  8  8  8  7  6  6  6  6  5  5 
+CA CT AR WV MN KS VT NH RI FL DE NE OR NV 
+ 4  4  4  3  3  3  3  2  2  1  1  1  1  1 </code></pre>
+<pre class="r"><code>
+dean(usa1870, 292)</code></pre>
+<pre><code>
+NY PA OH IL MO IN MA KY TN VA IA GA MI NC WI AL NJ MS TX MD LA SC ME 
+33 27 20 19 13 13 11 10 10  9  9  9  9  8  8  8  7  6  6  6  6  5  5 
+CA CT AR WV MN KS VT NH RI FL DE NE OR NV 
+ 4  4  4  3  3  3  3  3  2  2  1  1  1  1 </code></pre>
+</div>
+<p>you will notice that four states ended up with different number of representatives than they should have received under the legally constituted Hamilton’s Method. New York and Illinois received one seat too few whilst New Hampshire and Florida received one extra seat each.</p>
+<p>This ended up being historically very significant. In the Presidential election of 1876, Samuel Tilden won the state of New York and received 35 electoral votes. He would have received 36 if the Hamilton apportionment had been used. His opponent, Rutherford B. Hayes, won the other three states and had the Hamilton Method been applied would have received one fewer electoral vote in both Florida and New Hampshire (he would also have actually gained one electoral college vote in Illinois). In the election, Hayes beat Tilden in the Electoral College by a vote of 185 to 184. So, if the correct apportionment had actually been followed, the vote would have been 185 to 184 in favor of Tilden!</p>
+<p> </p>
+<p>This continues to have relevance for today. Had Jefferson’s Method been used to apportion the House prior to the 2000 US Presidential election, then Gore would have defeated Bush in the electoral college count! Had Hamilton’s method been used then it would have been a tie!</p>
+<p> </p>
+<p>If you made it this far in this blog - I’m amazed. I barely could make it this far myself. This was a very strange rabbit hole to go down. I wish I could have just accepted that those waffle charts didn’t quite add up to 100 - but it turns out that I couldn’t let it lie, and I ended up doing all of this. Not sure it was worth it!</p>
+<h3 id="references-and-further-reading">References and Further Reading</h3>
+<p>There are many online resources that describe the apportionment problem, here are some that are worthwhile:</p>
+<ul>
+<li><a href="http://www.maa.org/publications/periodicals/convergence/apportioning-representatives-in-the-united-states-congress-paradoxes-of-apportionment">Mathematical Association of America</a></li>
+<li><a href="http://www.ams.org/samplings/feature-column/fcarc-apportionii1">American Mathematical Association</a></li>
+<li><a href="http://faculty.tcu.edu/epark/papers/Apportionment.pdf">The Mathematics of Apportionment</a></li>
+</ul>
+<!--radix_placeholder_article_footer-->
+<div class="article-footer">
+  <p class="social_footer">
+    <span class="disqus-comments">
+      <i class="fas fa-comments"></i>
+      &nbsp;
+      <span class="disqus-comment-count" data-disqus-identifier="posts/2020-10-16-apportionment-methods/">Comment on this article</span>
+    </span>
+    <span class="article-sharing">
+      Share: &nbsp;
+      <a href="https://twitter.com/share?text=Apportionment%20Methods&amp;url=https%3A%2F%2Fjamescurley.blog%2Fposts%2F2020-10-16-apportionment-methods%2F">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fjamescurley.blog%2Fposts%2F2020-10-16-apportionment-methods%2F&amp;title=Apportionment%20Methods">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </span>
+  </p>
+  <script id="dsq-count-scr" src="https://james-curley-blog.disqus.com/count.js" async></script>
+  <div id="disqus_thread" class="hidden"></div>
+  <script>
+var disqus_config = function () {
+  this.page.url = 'https://jamescurley.blog/posts/2020-10-16-apportionment-methods/';
+  this.page.identifier = 'posts/2020-10-16-apportionment-methods/';
+};
+(function() {
+  var d = document, s = d.createElement('script');
+  s.src = 'https://james-curley-blog.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+</script>
+</div>
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+  <h3 id="citation">Citation</h3>
+  <p>For attribution, please cite this work as</p>
+  <pre class="citation-appendix short">Curley (2020, Oct. 17). James' R Blog: Apportionment Methods. Retrieved from https://jamescurley.blog/posts/2020-10-16-apportionment-methods/</pre>
+  <p>BibTeX citation</p>
+  <pre class="citation-appendix long">@misc{curley2020apportionment,
+  author = {Curley, James},
+  title = {James' R Blog: Apportionment Methods},
+  url = {https://jamescurley.blog/posts/2020-10-16-apportionment-methods/},
+  year = {2020}
+}</pre>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

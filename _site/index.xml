@@ -7,7 +7,19 @@
     <description>Random R coding projects
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Fri, 16 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 17 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Apportionment Methods</title>
+      <dc:creator>James Curley</dc:creator>
+      <link>https://jamescurley.blog/posts/2020-10-16-apportionment-methods</link>
+      <description>Discussion of apportionment problems and the rabbit hole I went down.</description>
+      <category>puzzles</category>
+      <category>politics</category>
+      <category>Rpackage</category>
+      <guid>https://jamescurley.blog/posts/2020-10-16-apportionment-methods</guid>
+      <pubDate>Sat, 17 Oct 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://jamescurley.blog/posts/2020-10-16-apportionment-methods/apportionment-methods_files/figure-html5/unnamed-chunk-1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Langford Sequences</title>
       <dc:creator>James Curley</dc:creator>
