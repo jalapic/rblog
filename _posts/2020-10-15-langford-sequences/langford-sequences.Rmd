@@ -183,11 +183,11 @@ return(samps)
 ```
 <br>
 
-I could add some `if-stop` ‘s to this to prevent someone from entering a ’n’ that will not work (e.g. 5,6). Also, if someone wanted to use an ‘n’ of >26 then we’d have to use combinations of letters. I don’t recommend this though, as the function is pretty slow for anything greater than n=12.
+I could add some `if-stop` ‘s to this to prevent someone from entering a $n$ that will not work (e.g. 5,6). Also, if someone wanted to use an $n$ of >26 then we’d have to use combinations of letters. I don’t recommend this though, as the function is pretty slow for anything greater than $n=12$.
 
 I think the strategy could also be optimized such that rather than randomly sampling sequences, the sequences tested are done so in a more systematic fashion.
 
-Nevertheless, here it is working for n=12.
+Nevertheless, here it is working for $n=12$.
 
 <br>
 ```{r, warning=FALSE, message=FALSE, echo=TRUE}
@@ -243,6 +243,8 @@ df %>%
   
 
 ```
+<br>
+
 <br>
 
 
