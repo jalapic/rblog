@@ -56,7 +56,7 @@ My aim here is to write a small script that can find these sequences.  Below is 
 
 <br>
 
-```{r}
+```{r, preview=TRUE}
 img <- readPNG("../../img/langford.png")
 grid.raster(img)
 ```
