@@ -19,9 +19,9 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-This blog post was originally written in 2015 - I'm just migrating it here now. I have not looked at any of this since then - but it's been fun to go through this again.  
+This blog post was originally written in 2015 - I'm just migrating it here now. I had forgotten all about this - it's been sort-of fun to go through this again.  
 
-**Warning**: This is long post.  The big picture can be gotten from the first few paragraphs. After that, I dive into all the various functions I wrote to solve apportionment problems as applied to US government.
+**Warning**: This is a long post.  The big picture can be gotten from the first few paragraphs. After that, I dive into all the various functions I wrote to solve apportionment problems as applied to US government.
 
 
 I think the moral of this story, is that sometimes you find a scratch you need to itch, and you can't let it go and it ends up with you making an R package for something that you don't really have a need for.
@@ -54,14 +54,12 @@ sum(x)
 waffle(x/5, rows=5)
 
 ```
-<br>
 
 It looks pretty. What you might notice is that we have 48 squares meaning that 240 of our total sum are represented (i.e. 48∗5). Or, 15, which would equal 2 squares are not. Breaking it down by group, you can see that there are 10 squares for A meaning that ‘1’ of A’s total of 51 is not represented, 6 squares of B leaving out ‘1’ of B’s total of 31, 8 squares of C meaning that 3 of C’s total of 43 are lost, etc. etc. As D is the only group whose value is divisible by 5, it is the only one whose squares exactly represent its value. The way waffle works is to take the floor or rounded-down value of each groups number (as far as I can tell).
 
  
 My other interest was in creating charts that represent percentage plots. i.e. to convert each vector into percentages and then to plot those. Like this:
 
-<br> 
 ```{r, message=FALSE, warning=FALSE, echo=TRUE}
 x1 <- (100*x)/sum(x)
 x1
@@ -69,7 +67,6 @@ x1
 
 waffle(x1, rows=5)
 ```
-<br>
 
 The first thing to note is that there obviously aren’t 100 squares - there are 97. If we go group by group, A is perfectly represented by 20 blocks as it’s percentage is exactly 20%. For each of the others, you’ll notice that the number of squares for each group is the integer part of each percentage (or the floor / rounded down value in other terms).
 
@@ -92,7 +89,7 @@ Because I wanted to produce a number of waffle plots to compare, I did actually 
 
 Unsurprisingly to many of you, I had stumbled upon the [**apportionment paradox**](https://en.wikipedia.org/wiki/Apportionment_paradox#:~:text=An%20apportionment%20paradox%20exists%20when,typically%20being%20one%20of%20proportion.) that has a long history in American and other countries’ political systems.
 
-The [apportR](https://github.com/jalapic/apportR) package was therefore my way of collating all the various methods that have been proposed to solve this problem.  And it turned out there are an annoyingly large number of methods.
+The [apportR](https://github.com/jalapic/apportR) package was therefore my way of collating all the various methods that have been proposed to solve this problem.  And it turned out there are an annoyingly large number of methods.  I'm not going to detail the code behind each of the functions - but I do explain the logic behind each one. If you're interested in how the functions are computing the logic, then please go to the apportR homepage - and you can see the functions there.
 
 <br>
 
@@ -216,7 +213,7 @@ The methods for solving these sorts of questions essentially fall into two broad
 
 <br>
 
-#### Standard Non-Divisor Methods
+### Standard Non-Divisor Methods
 
 The two main standard non-divisor methods are:
 
@@ -870,7 +867,7 @@ hamilton(usa1832, 240)
 For example, say we had collected data on how many workers attended an office on each day of the week and we wanted to create a chart such as a [waffle chart](https://github.com/hrbrmstr/waffle) to visually represent this.  However, we wanted a nice rectangular chart that requires 100 percentage points to be allocated.  We could use the `adams()` function.
 
 
-```{r, warning=FALSE,message=FALSE, fig.width=7, fig.height=2, error=TRUE}
+```{r, warning=FALSE,message=FALSE, fig.width=7, fig.height=2, error=TRUE, echo=TRUE}
 
 set.seed(111)
 workers <- round(runif(7, 1, 1000))
@@ -1137,7 +1134,7 @@ hhill0(majs1, 10)
 \  
 
 
-## **1876 Presidential Election**
+### **1876 Presidential Election**
 
 Perhaps the biggest snafu in US Presidential electoral history occurred as a result of mis-apportionment.  
 
@@ -1165,7 +1162,7 @@ This continues to have relevance for today.  Had Jefferson's Method been used to
 \  
 
 
-If you made it this far in this blog - I'm amazed. I barely could make it this far myself.  This was a very strange rabbit hole to go down.  I wish I could have just accepted that those waffle charts didn't quite add up to 100 - but it turns out that I couldn't let it lie, and I ended up doing all of this.  Not sure it was worth it!
+<u>If you made it this far in this blog - I'm amazed</u>. I barely could make it this far myself.  This was a very strange rabbit hole to go down.  I wish I could have just accepted that those waffle charts didn't quite add up to 100 - but it turns out that I couldn't let it lie, and I ended up doing all of this.  Not sure it was worth it!
 
 
 
