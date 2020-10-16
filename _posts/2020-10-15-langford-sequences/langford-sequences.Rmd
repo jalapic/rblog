@@ -2,10 +2,11 @@
 title: "Langford Sequences"
 description: |
   Describing Langford and Skolem sequences and how to search for them in R.
-preview: ../../img/langford.png
 author:
   - name: James Curley
     url: jamescurley.blog
+categories:
+  - puzzles
 date: 10-16-2020
 output:
   distill::distill_article:

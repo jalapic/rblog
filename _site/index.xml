@@ -13,9 +13,10 @@
       <dc:creator>James Curley</dc:creator>
       <link>https://jamescurley.blog/posts/2020-10-15-langford-sequences</link>
       <description>Describing Langford and Skolem sequences and how to search for them in R.</description>
+      <category>puzzles</category>
       <guid>https://jamescurley.blog/posts/2020-10-15-langford-sequences</guid>
       <pubDate>Fri, 16 Oct 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://jamescurley.blog/posts/2020-10-15-langford-sequences/../../img/langford.png" medium="image" type="image/png" width="1245" height="661"/>
+      <media:content url="https://jamescurley.blog/posts/2020-10-15-langford-sequences/langford-sequences_files/figure-html5/unnamed-chunk-1-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
       <title>Patterns of Female Names over Time</title>
