@@ -241,11 +241,7 @@ df %>%
   geom_text(data=df1, aes(x=(pos+end)/2, y=let, label=diff),color='red', nudge_y = 0.25) +
   theme(legend.position = 'none')
   
-
 ```
-<br>
-
-<br>
 
 
 <br>
@@ -273,10 +269,14 @@ while(TRUE) {
 return(samps)
 }
 ```
+
 <br>
 
 For instance, a Skolem sequence for n=8:
+
+
 <br>
+
 ```{r, warning=FALSE, message=FALSE, echo=TRUE}
 set.seed(88)
 sk <- skolem(8)
