@@ -1356,14 +1356,14 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>What one might notice is that all the solutions are for a number of blocks <span class="math inline">\(n\)</span> that are divisible by 4, or one less than a number that is divisible by 4. A bit more explanation for why this is so can be found at <a href="http://datagenetics.com/blog/october32014/index.html">Nick Berry’s excellent blog</a>.</p>
 <p>As <span class="math inline">\(n\)</span> increases, there are an increasing number of Langford Sequences. There is only one solution for <span class="math inline">\(n=3\)</span> &amp; <span class="math inline">\(n=4\)</span>, 26 solutions for <span class="math inline">\(n=7\)</span>, 150 for <span class="math inline">\(n=8\)</span>, 17,792 for <span class="math inline">\(n=11\)</span>, 108,144 for <span class="math inline">\(n=12\)</span> ….. 46,845,158,056,515,936 for <span class="math inline">\(n=24\)</span> ! Obviously, trying to find all solutions for any given <span class="math inline">\(n\)</span> is computationally intensive!</p>
 <p>Although Langford sequences can only be found when <span class="math inline">\(n\)</span> is divisible by 4 or when <span class="math inline">\(n+1\)</span> is divisible by 4, there is an alternative type of Langford sequence called a Hooked Langford Sequence which can be found for all values of <span class="math inline">\(n\)</span>. A Hooked Langford Sequence is one where another block/letter is inserted in the penultimate position in the sequence.</p>
-<p>At the same time as Langford wrote his piece, a related phenomenon was being independently researched by a Swedish mathematician, Thoralf Skolem, who was trying to form sequences of <span class="math inline">\(2n\)</span> blocks with intervals of <span class="math inline">\(0,1,2,3 ... n\)</span>. There</p>
+<p>At the same time as Langford wrote his piece, a related phenomenon was being independently researched by a Swedish mathematician, Thoralf Skolem, who was trying to form sequences of <span class="math inline">\(2n\)</span> blocks with intervals of <span class="math inline">\(0,1,2,3 ... n\)</span>.</p>
 <p>My aim here is to write a small script that can find these sequences. Below is an image of each type of these sequences:</p>
 <p><br></p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="langford-sequences_files/figure-html5/unnamed-chunk-3-1.png" width="624" data-distill-preview=1 /></p>
 </div>
 <p><br></p>
-<h4 id="langfords-sequences">Langford’s Sequences</h4>
+<h3 id="langfords-sequences">Langford’s Sequences</h3>
 <p>Say we have <span class="math inline">\(2*8\)</span> blocks, let’s represent them with letters. We can then generate a randomly sample sequence of these letters as a starting point. A random shuffle is unlikely to be a Langford sequence. We an check by finding the differences between the positions/indexes of each letter in the vector:</p>
 <br>
 <div class="layout-chunk" data-layout="l-body">
@@ -1430,7 +1430,7 @@ langford(y)</code></pre>
 11  6  6 10  1  4  3  1 </code></pre>
 </div>
 <p><br></p>
-<h4 id="finding-a-langford-sequence">Finding a Langford Sequence</h4>
+<h3 id="finding-a-langford-sequence">Finding a Langford Sequence</h3>
 <p>Say we wanted to find a solution for 8 blocks. My strategy here is to keep sampling sequences until one satisfies the criteria. The way to check that I am using is to sort the intervals between each pair of letters and then ask if it is equal to <code>1:8</code>. If it is, then we break and return that sequence.</p>
 <br>
 <div class="layout-chunk" data-layout="l-body">
@@ -1547,7 +1547,7 @@ df %&gt;%
 </div>
 <p><br></p>
 <p><br> <br></p>
-<h4 id="finding-skolem-sequences">Finding Skolem Sequences</h4>
+<h3 id="finding-skolem-sequences">Finding Skolem Sequences</h3>
 <p>This is simply just a change in the if statement prior to the break. Here we are looking for sequences that start with a gap of 0, and not 1.</p>
 <br>
 <div class="layout-chunk" data-layout="l-body">
@@ -1584,7 +1584,7 @@ E B A H G F C D
 0 1 2 3 4 5 6 7 </code></pre>
 </div>
 <p><br> <br></p>
-<h4 id="finding-hooked-langford-sequences">Finding Hooked Langford Sequences</h4>
+<h3 id="finding-hooked-langford-sequences">Finding Hooked Langford Sequences</h3>
 <p>AA Hooked Langford Sequence is one where another block/letter is inserted in the penultimate position in the sequence. They can be found for any <span class="math inline">\(n\)</span>:</p>
 <p>The code for these Hooked Langford Sequence is here:</p>
 <br>

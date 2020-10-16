@@ -50,7 +50,7 @@ As $n$ increases, there are an increasing number of Langford Sequences. There is
 
 Although Langford sequences can only be found when $n$ is divisible by 4 or when $n+1$ is divisible by 4, there is an alternative type of Langford sequence called a Hooked Langford Sequence which can be found for all values of $n$. A Hooked Langford Sequence is one where another block/letter is inserted in the penultimate position in the sequence.
 
-At the same time as Langford wrote his piece, a related phenomenon was being independently researched by a Swedish mathematician, Thoralf Skolem, who was trying to form sequences of $2n$ blocks with intervals of $0,1,2,3 ... n$.  There 
+At the same time as Langford wrote his piece, a related phenomenon was being independently researched by a Swedish mathematician, Thoralf Skolem, who was trying to form sequences of $2n$ blocks with intervals of $0,1,2,3 ... n$.
 
 My aim here is to write a small script that can find these sequences.  Below is an image of each type of these sequences:
 
@@ -64,7 +64,7 @@ grid.raster(img)
 <br>
 
 
-#### Langford's Sequences
+### Langford's Sequences
 
 Say we have $2*8$ blocks, let’s represent them with letters. We can then generate a randomly sample sequence of these letters as a starting point. A random shuffle is unlikely to be a Langford sequence. We an check by finding the differences between the positions/indexes of each letter in the vector:
 
@@ -126,7 +126,7 @@ langford(y)
 <br>
 
 
-#### Finding a Langford Sequence
+### Finding a Langford Sequence
 
 Say we wanted to find a solution for 8 blocks. My strategy here is to keep sampling sequences until one satisfies the criteria. The way to check that I am using is to sort the intervals between each pair of letters and then ask if it is equal to `1:8`. If it is, then we break and return that sequence. 
 
@@ -249,7 +249,7 @@ df %>%
 <br>
 <br>
 
-#### Finding Skolem Sequences
+### Finding Skolem Sequences
 
 This is simply just a change in the if statement prior to the break. Here we are looking for sequences that start with a gap of 0, and not 1.
 
@@ -286,7 +286,7 @@ sort(langford(sk))
 <br>
 <br>
 
-#### Finding Hooked Langford Sequences
+### Finding Hooked Langford Sequences
 
 AA Hooked Langford Sequence is one where another block/letter is inserted in the penultimate position in the sequence. They can be found for any $n$:
 
