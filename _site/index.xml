@@ -7,7 +7,16 @@
     <description>Random R coding projects
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Thu, 15 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 16 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Langford Sequences</title>
+      <dc:creator>James Curley</dc:creator>
+      <link>https://jamescurley.blog/posts/2020-10-15-langford-sequences</link>
+      <description>Describing Langford and Skolem sequences and how to search for them in R.</description>
+      <guid>https://jamescurley.blog/posts/2020-10-15-langford-sequences</guid>
+      <pubDate>Fri, 16 Oct 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://jamescurley.blog/posts/2020-10-15-langford-sequences/../../img/langford.png" medium="image" type="image/png" width="1245" height="661"/>
+    </item>
     <item>
       <title>Patterns of Female Names over Time</title>
       <dc:creator>James Curley</dc:creator>
