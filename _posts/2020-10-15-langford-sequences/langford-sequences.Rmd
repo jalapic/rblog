@@ -128,7 +128,7 @@ langford(y)
 
 ### Finding a Langford Sequence
 
-Say we wanted to find a solution for 8 blocks. My strategy here is to keep sampling sequences until one satisfies the criteria. The way to check that I am using is to sort the intervals between each pair of letters and then ask if it is equal to `1:8`. If it is, then we break and return that sequence. 
+Say we wanted to find a solution for 8 blocks. My strategy here is to keep sampling sequences until one satisfies the criteria. The way to check whether a sequence is a Langford sequence is to sort the intervals between each pair of letters and then ask if this is equal to `1:8`. If it is, then we break and return that sequence. 
 
 <br>
 ```{r, warning=FALSE, message=FALSE, echo=TRUE}
