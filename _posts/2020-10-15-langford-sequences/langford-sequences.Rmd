@@ -270,11 +270,10 @@ return(samps)
 }
 ```
 
+
+
 <br>
-
 For instance, a Skolem sequence for n=8:
-
-
 <br>
 
 ```{r, warning=FALSE, message=FALSE, echo=TRUE}
@@ -290,7 +289,7 @@ sort(langford(sk))
 
 ### Finding Hooked Langford Sequences
 
-AA Hooked Langford Sequence is one where another block/letter is inserted in the penultimate position in the sequence. They can be found for any $n$:
+A Hooked Langford Sequence is one where another block/letter is inserted in the penultimate position in the sequence. They can be found for any $n$:
 
 The code for these Hooked Langford Sequence is here:
 
