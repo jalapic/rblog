@@ -1,0 +1,247 @@
+---
+title: "Scoring doesn't Stop?"
+description: |
+  Looking at the trend of high scoring games in the EPL
+author:
+  - name: James Curley
+    url: jamescurley.blog
+date: 10-17-2020
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+My most popular R package is [engsoccerdata](https://github.com/jalapic/engsoccerdata). It started as a project to collect soccer results for the top four English leagues, but has morphed into a ridiculously large project.  We currently have soccer league results from This contains datasets of soccer results for England, Scotland, Germany, Holland, Italy, Spain, France, Turkey, USA, Portugal, Belgium, Greece, & South Africa, as well as cup and other competition data.  I'm always looking for people who are interested in helping maintain the package.  Many thanks to everyone who has helped over the last 6 years - particularly [Robert Hickman](https://www.robert-hickman.eu) and [Joe Gallagher](https://jogall.github.io) who have put in lots of work on it.
+
+
+In this post, I just want to focus on the recent trend of high scoring in the EPL that has happened during the post-Covid 2020/21 season.
+
+<br>
+
+### The data
+
+If you don't have the package, you'll need to install it.  The dataset we want to look at is `england`.
+
+<br>
+```{r, warning=FALSE,message=FALSE, echo=TRUE, eval=FALSE}
+
+library(devtools)
+install_github("jalapic/engsoccerdata")
+
+```
+<br>
+
+
+<br>
+```{r, warning=FALSE,message=FALSE, echo=TRUE}
+library(engsoccerdata)
+head(england)
+tail(england)
+```
+<br>
+
+The dataset has every soccer result in the top 4 tiers of English football from the 1880/81 season to the 2019/2020 season.   What it doesn't contain are data from the 2020/21 season that is ongoing.  However, there is a function to collect that:
+
+<br>
+```{r, warning=FALSE,message=FALSE, echo=TRUE}
+england20 <- england_current()
+```
+<br>
+
+We can bind these two together:
+
+<br>
+```{r, warning=FALSE,message=FALSE, echo=TRUE}
+df <- rbind(england, england20)
+
+
+
+```
+<br>
+
+
+The `totgoal` column gives us the total number of goals in each game.  We can do some `tidyverse` to look at the average number of goals per game season by season:
+
+<br>
+```{r, warning=FALSE,message=FALSE, echo=TRUE}
+library(tidyverse)
+
+df %>%
+  group_by(Season,tier) %>%
+  summarise(gpg = mean(totgoal)) -> df.sum
+
+```
+<br>
+
+
+
+<br>
+```{r, warning=FALSE,message=FALSE, echo=TRUE}
+
+ggplot(df.sum, aes(x=Season, y=gpg, color=factor(tier))) +
+  geom_line() +
+  scale_color_manual(values=c("red", "blue", "darkorange","black"), name = "Tier") +
+  theme_minimal() +
+  ylab("Average Goals Per Game") +
+  xlab("Season") +
+  ggtitle("Changes in Goals per Game Across Time")
+
+
+```
+<br>
+
+The historical decline in scoring over time are well documented.  My good friend [Ollie Roeder](https://oroeder.github.io) and I have discussed it in some other pieces, e.g. [here for Contexts](https://journals.sagepub.com/doi/full/10.1177/1536504216628849) and [here for 538](https://fivethirtyeight.com/features/home-field-advantage-english-premier-league/).  Since tactical changes that came about in the mid 1960s, scoring has been relatively stable across all four tiers of English soccer.
+
+What's happening this season is quite striking. People have obviously noticed that the top tier - the EPL - has had a much higher increase in goals per game. Below are the goal per game over the last 8 years in the top tier:
+
+<br>
+```{r, warning=FALSE,message=FALSE, echo=TRUE}
+
+ df.sum %>% filter(Season>2012, tier==1)
+```
+<br>
+
+You can see that scoring has shot up by more than a goal per game in the current season.
+
+Tiers 3 and 4 appear to be going along at the same rate.  What's happening with the Championship (tier 2) though ?  They've gone in the opposite direction.  Here are the average goals per game in the last 8 seasons in the second tier:
+
+<br>
+```{r, warning=FALSE,message=FALSE, echo=TRUE}
+df.sum %>% filter(Season>2012, tier==2)
+```
+<br>
+Scoring has dropped by about 0.6 goals per game!  Obviously, it's still relatively early in the season. At the time of writing, only 59 games have been played in the Championship - so small sample sizes etc.  But, given all the arguments for the increased rate of scoring in the EPL revolve around crowds being removed - we do not see that pattern in the Championship.  I could look at similar patterns in other European leagues using my package, but will leave that for later in the season.
+
+
+<br>
+```{r, warning=FALSE,message=FALSE, echo=TRUE}
+england20 %>% filter(tier==2)
+```
+<br>
+
+
+### Games without nil-nils.
+
+Another way of looking at the increased scoring is to look at how many nil-nil (0-0) games there have been. A few commentators have recently described that it's been a long run in the EPL without there being a 0-0. Let's take a look. We can see that there has been no game this season that has had 0 goals:
+
+<br>
+```{r, warning=FALSE,message=FALSE, echo=TRUE}
+
+england20 %>% filter(tier==1) %>% .$totgoal
+
+```
+<br>
+
+Let's write a bit of code to try and find the last one. I'm going to use `data.table`'s `rleid()` to create a new column that counts the number of rows since there was a 0 in `totgoal`.  The data are organized in ascending date order, so this should work.  The one issue is that we don't know which games started before which others if they played on the same day.  This probably isn't going to be a huge deal - so let's press forward:
+
+
+<br>
+```{r, warning=FALSE,message=FALSE, echo=TRUE}
+
+library(dplyr)
+library(data.table)
+
+df1 <- df %>%
+  filter(tier==1) %>%
+  group_by(ID = data.table::rleid(totgoal != 0)) %>%
+  mutate(count = if_else(totgoal != 0, row_number(), 0L))
+
+tail(df1[c(1:5,10,14)])
+```
+<br>
+
+We can see here, that the Newcastle United vs Manchester Untied game on the 17th October 2020 that finished 1-4 was the 58th game without being a 0-0.  Technically, it might be e.g. the 57th or 59th, depending on when the last 0-0 game finished, but we get the idea.
+
+The last 0-0 game in the EPL was Brighton 0-0 Newcastle on 20th July:
+
+<br>
+```{r, warning=FALSE,message=FALSE, echo=TRUE}
+df1 %>% filter(count==0) %>% select(1:5,10,14) %>% tail()
+```
+
+<br>
+
+We can actually look at what other games took place on that date. (Note, the Date column is a character when imported - so here I'll just string match).
+
+
+<br>
+```{r, warning=FALSE,message=FALSE, echo=TRUE}
+
+df1 %>% 
+  filter(Date=="2020-07-20") %>%
+   select(1:5,10,14)
+```
+<br>
+
+It turns out there were two other games that day, and the Brighton-Newcastle game was actually the first to finish.  Therefore, the current streak is 58.
+
+
+Just for interest, let's plot a graph of the length of other streaks over time.  To do this, we'll get the `count` immediately prior to each 0.  Then I'll just plot the Season on the x-axis and the count on the y-axis.
+
+I couldn't remember the best way to do this in `dplyr`, so I did it with base r:
+
+<br>
+
+```{r, warning=FALSE,message=FALSE, echo=TRUE}
+
+df_no00 <- df1[which((df1$count==0)==T)-1,c(1:5,10,14)]
+
+# need to add in the current streak 
+df_no00 <- rbind(df_no00,tail(df1[c(1:5,10,14)],1)) 
+
+head(df_no00)
+tail(df_no00)
+
+```
+<br>
+
+It seems that the current streak of 58 games is notable in the current era, but less so in the 19th Century!  Let's plot these
+
+<br>
+
+
+
+<br>
+```{r, warning=FALSE,message=FALSE, echo=TRUE}
+
+ggplot(df_no00, aes(x=Season, y = count)) +
+  geom_point() +
+  theme_minimal()
+
+```
+<br>
+
+My first thoughts are that 58 is quite a high number of games without there being a 0-0, although it looks like it's not super uncommon.  If we were to get to 75 games without a 0-0 then it would be a really historical streak.
+
+There are so many streaks of a small number of games since a 0-0, that I'm going to remake this figure, but only include streaks of over 25:
+
+
+<br>
+```{r, warning=FALSE,message=FALSE, echo=TRUE}
+
+ggplot(df_no00 %>% filter(count>=25), aes(x=Season, y = count)) +
+  geom_point(alpha=.5) +
+  theme_minimal() +
+  ylab("Number of games")+
+  ggtitle("Games Since a 0-0 draw by Season")
+
+```
+<br>
+
+Let's just identify when the last pretty long streak happened:
+
+
+<br>
+```{r, warning=FALSE,message=FALSE, echo=TRUE}
+
+df_no00 %>% filter(count>50) %>% tail()
+```
+<br>
+
+It does seem that within most EPL seasons we get streaks of about 50 games without a 0-0.  Probably it's just surprising that the current streak is at the beginning of the season when goals per game is also shooting up.  If it goes on another dozen or so games, then it will start to be notable!
+
+<br>

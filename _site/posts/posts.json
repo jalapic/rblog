@@ -23,6 +23,24 @@
     "preview_height": 768
   },
   {
+    "path": "posts/2020-10-17-scoring-doesnt-stop/",
+    "title": "Scoring doesn't Stop?",
+    "description": "Looking at the trend of high scoring games in the EPL",
+    "author": [
+      {
+        "name": "James Curley",
+        "url": "jamescurley.blog"
+      }
+    ],
+    "date": "2020-10-17",
+    "categories": [],
+    "preview": "posts/2020-10-17-scoring-doesnt-stop/scoring-doesnt-stop_files/figure-html5/unnamed-chunk-6-1.png",
+    "last_modified": "2020-10-17T23:04:21-05:00",
+    "input_file": "scoring-doesnt-stop.utf8.md",
+    "preview_width": 1248,
+    "preview_height": 768
+  },
+  {
     "path": "posts/2020-10-15-langford-sequences/",
     "title": "Langford Sequences",
     "description": "Describing Langford and Skolem sequences and how to search for them in R.",
