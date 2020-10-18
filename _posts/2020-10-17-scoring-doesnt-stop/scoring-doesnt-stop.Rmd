@@ -15,7 +15,7 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-My most popular R package is [engsoccerdata](https://github.com/jalapic/engsoccerdata). It started as a project to collect soccer results for the top four English leagues, but has morphed into a ridiculously large project.  We currently have soccer league results from This contains datasets of soccer results for England, Scotland, Germany, Holland, Italy, Spain, France, Turkey, USA, Portugal, Belgium, Greece, & South Africa, as well as cup and other competition data.  I'm always looking for people who are interested in helping maintain the package.  Many thanks to everyone who has helped over the last 6 years - particularly [Robert Hickman](https://www.robert-hickman.eu) and [Joe Gallagher](https://jogall.github.io) who have put in lots of work on it.
+My most popular R package is [engsoccerdata](https://github.com/jalapic/engsoccerdata). It started as a project to collect soccer results for the top four English leagues, but has morphed into a ridiculously large project.  We currently have historical soccer league results from England, Scotland, Germany, Holland, Italy, Spain, France, Turkey, USA, Portugal, Belgium, Greece, & South Africa, as well as cup and other competition data.  I'm always looking for people who are interested in helping maintain the package.  Many thanks to everyone who has helped over the last 6 years - particularly [Robert Hickman](https://www.robert-hickman.eu) and [Joe Gallagher](https://jogall.github.io) who have put in lots of work on it.
 
 
 In this post, I just want to focus on the recent trend of high scoring in the EPL that has happened during the post-Covid 2020/21 season.
@@ -49,6 +49,8 @@ The dataset has every soccer result in the top 4 tiers of English football from 
 <br>
 ```{r, warning=FALSE,message=FALSE, echo=TRUE}
 england20 <- england_current()
+
+tail(england20)
 ```
 <br>
 
@@ -92,6 +94,7 @@ ggplot(df.sum, aes(x=Season, y=gpg, color=factor(tier))) +
 
 
 ```
+
 <br>
 
 The historical decline in scoring over time are well documented.  My good friend [Ollie Roeder](https://oroeder.github.io) and I have discussed it in some other pieces, e.g. [here for Contexts](https://journals.sagepub.com/doi/full/10.1177/1536504216628849) and [here for 538](https://fivethirtyeight.com/features/home-field-advantage-english-premier-league/).  Since tactical changes that came about in the mid 1960s, scoring has been relatively stable across all four tiers of English soccer.
@@ -117,10 +120,6 @@ df.sum %>% filter(Season>2012, tier==2)
 Scoring has dropped by about 0.6 goals per game!  Obviously, it's still relatively early in the season. At the time of writing, only 59 games have been played in the Championship - so small sample sizes etc.  But, given all the arguments for the increased rate of scoring in the EPL revolve around crowds being removed - we do not see that pattern in the Championship.  I could look at similar patterns in other European leagues using my package, but will leave that for later in the season.
 
 
-<br>
-```{r, warning=FALSE,message=FALSE, echo=TRUE}
-england20 %>% filter(tier==2)
-```
 <br>
 
 
