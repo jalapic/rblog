@@ -26,6 +26,8 @@
       <dc:creator>James Curley</dc:creator>
       <link>https://jamescurley.blog/posts/2020-10-17-scoring-doesnt-stop</link>
       <description>Looking at the trend of high scoring games in the EPL</description>
+      <category>soccer</category>
+      <category>Rpackage</category>
       <guid>https://jamescurley.blog/posts/2020-10-17-scoring-doesnt-stop</guid>
       <pubDate>Sat, 17 Oct 2020 00:00:00 +0000</pubDate>
       <media:content url="https://jamescurley.blog/posts/2020-10-17-scoring-doesnt-stop/scoring-doesnt-stop_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="1248" height="768"/>

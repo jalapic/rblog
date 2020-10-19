@@ -5,6 +5,9 @@ description: |
 author:
   - name: James Curley
     url: jamescurley.blog
+categories:
+  - soccer
+  - Rpackage
 date: 10-17-2020
 output:
   distill::distill_article:

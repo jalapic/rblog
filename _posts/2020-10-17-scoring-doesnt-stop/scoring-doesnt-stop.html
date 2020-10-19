@@ -44,7 +44,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Scoring doesn't Stop?"]},{"type":"character","attributes":{},"value":["Looking at the trend of high scoring games in the EPL\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["James Curley"]},{"type":"character","attributes":{},"value":["jamescurley.blog"]}]}]},{"type":"character","attributes":{},"value":["10-17-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","categories","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Scoring doesn't Stop?"]},{"type":"character","attributes":{},"value":["Looking at the trend of high scoring games in the EPL\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["James Curley"]},{"type":"character","attributes":{},"value":["jamescurley.blog"]}]}]},{"type":"character","attributes":{},"value":["soccer","Rpackage"]},{"type":"character","attributes":{},"value":["10-17-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1033,19 +1033,19 @@ england20 &lt;- england_current()
 tail(england20)</code></pre>
 <pre><code>
           Date Season              home          visitor  FT hgoal
-236 2020-10-17   2020    Mansfield Town    Bradford City 1-3     1
-237 2020-10-17   2020    Newport County  Tranmere Rovers 1-0     1
-238 2020-10-17   2020         Port Vale     Salford City 1-0     1
-239 2020-10-17   2020 Scunthorpe United Cambridge United 0-5     0
-240 2020-10-17   2020   Southend United       Cheltenham 0-2     0
-241 2020-10-17   2020           Walsall      Exeter City 0-0     0
+241 2020-10-17   2020    Mansfield Town    Bradford City 1-3     1
+242 2020-10-17   2020    Newport County  Tranmere Rovers 1-0     1
+243 2020-10-17   2020         Port Vale     Salford City 1-0     1
+244 2020-10-17   2020 Scunthorpe United Cambridge United 0-5     0
+245 2020-10-17   2020   Southend United       Cheltenham 0-2     0
+246 2020-10-17   2020           Walsall      Exeter City 0-0     0
     vgoal division tier totgoal goaldif result
-236     3        4    4       4      -2      A
-237     0        4    4       1       1      H
-238     0        4    4       1       1      H
-239     5        4    4       5      -5      A
-240     2        4    4       2      -2      A
-241     0        4    4       0       0      D</code></pre>
+241     3        4    4       4      -2      A
+242     0        4    4       1       1      H
+243     0        4    4       1       1      H
+244     5        4    4       5      -5      A
+245     2        4    4       2      -2      A
+246     0        4    4       0       0      D</code></pre>
 </div>
 <p><br></p>
 <p>We can bind these two together:</p>
@@ -1097,7 +1097,7 @@ ggplot(df.sum, aes(x=Season, y=gpg, color=factor(tier))) +
 5   2017     1  2.68
 6   2018     1  2.82
 7   2019     1  2.75
-8   2020     1  3.81</code></pre>
+8   2020     1  3.72</code></pre>
 </div>
 <p><br></p>
 <p>You can see that scoring has shot up by more than a goal per game in the current season.</p>
@@ -1118,7 +1118,7 @@ df.sum %&gt;% filter(Season&gt;2012, tier==2)</code></pre>
 5   2017     2  2.55
 6   2018     2  2.67
 7   2019     2  2.63
-8   2020     2  2.02</code></pre>
+8   2020     2  2   </code></pre>
 </div>
 <p><br> Scoring has dropped by about 0.6 goals per game! Obviously, it’s still relatively early in the season. At the time of writing, only 59 games have been played in the Championship - so small sample sizes etc. But, given all the arguments for the increased rate of scoring in the EPL revolve around crowds being removed - we do not see that pattern in the Championship. I could look at similar patterns in other European leagues using my package, but will leave that for later in the season.</p>
 <p><br></p>
@@ -1130,7 +1130,7 @@ df.sum %&gt;% filter(Season&gt;2012, tier==2)</code></pre>
 england20 %&gt;% filter(tier==1) %&gt;% .$totgoal</code></pre>
 <pre><code>
  [1] 1 3 7 2 1 3 4 2 3 7 7 4 2 6 3 7 1 4 5 1 3 6 7 1 2 4 3 4 4 6 2 4 3
-[34] 9 3 7 2 1 6 4 1 5</code></pre>
+[34] 9 3 7 2 1 6 4 1 5 2 1 2 6</code></pre>
 </div>
 <p><br></p>
 <p>Let’s write a bit of code to try and find the last one. I’m going to use <code>data.table</code>’s <code>rleid()</code> to create a new column that counts the number of rows since there was a 0 in <code>totgoal</code>. The data are organized in ascending date order, so this should work. The one issue is that we don’t know which games started before which others if they played on the same day. This probably isn’t going to be a huge deal - so let’s press forward:</p>
@@ -1148,14 +1148,14 @@ df1 &lt;- df %&gt;%
 tail(df1[c(1:5,10,14)])</code></pre>
 <pre><code>
 # A tibble: 6 x 7
-  Date      Season home             visitor        FT    totgoal count
-  &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;          &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;
-1 2020-10-~   2020 Southampton      West Bromwich~ 2-0         2    53
-2 2020-10-~   2020 Wolverhampton W~ Fulham         1-0         1    54
-3 2020-10-~   2020 Chelsea          Southampton    3-3         6    55
-4 2020-10-~   2020 Everton          Liverpool      2-2         4    56
-5 2020-10-~   2020 Manchester City  Arsenal        1-0         1    57
-6 2020-10-~   2020 Newcastle United Manchester Un~ 1-4         5    58</code></pre>
+  Date      Season home          visitor           FT    totgoal count
+  &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;             &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;
+1 2020-10-~   2020 Manchester C~ Arsenal           1-0         1    57
+2 2020-10-~   2020 Newcastle Un~ Manchester United 1-4         5    58
+3 2020-10-~   2020 Crystal Pala~ Brighton &amp; Hove ~ 1-1         2    59
+4 2020-10-~   2020 Leicester Ci~ Aston Villa       0-1         1    60
+5 2020-10-~   2020 Sheffield Un~ Fulham            1-1         2    61
+6 2020-10-~   2020 Tottenham Ho~ West Ham United   3-3         6    62</code></pre>
 </div>
 <p><br></p>
 <p>We can see here, that the Newcastle United vs Manchester Untied game on the 17th October 2020 that finished 1-4 was the 58th game without being a 0-0. Technically, it might be e.g. the 57th or 59th, depending on when the last 0-0 game finished, but we get the idea.</p>
@@ -1220,14 +1220,14 @@ head(df_no00)</code></pre>
 tail(df_no00)</code></pre>
 <pre><code>
 # A tibble: 6 x 7
-  Date       Season home           visitor         FT    totgoal count
-  &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;           &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;
-1 2020-03-09   2019 Leicester City Aston Villa     4-0         4     3
-2 2020-06-21   2019 Aston Villa    Chelsea         1-2         3     8
-3 2020-06-22   2019 Manchester Ci~ Burnley         5-0         5     2
-4 2020-07-08   2019 West Ham Unit~ Burnley         0-1         1    36
-5 2020-07-19   2019 Tottenham Hot~ Leicester City  3-0         3    25
-6 2020-10-17   2020 Newcastle Uni~ Manchester Uni~ 1-4         5    58</code></pre>
+  Date       Season home            visitor        FT    totgoal count
+  &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;          &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;
+1 2020-03-09   2019 Leicester City  Aston Villa    4-0         4     3
+2 2020-06-21   2019 Aston Villa     Chelsea        1-2         3     8
+3 2020-06-22   2019 Manchester City Burnley        5-0         5     2
+4 2020-07-08   2019 West Ham United Burnley        0-1         1    36
+5 2020-07-19   2019 Tottenham Hots~ Leicester City 3-0         3    25
+6 2020-10-18   2020 Tottenham Hots~ West Ham Unit~ 3-3         6    62</code></pre>
 </div>
 <p><br></p>
 <p>It seems that the current streak of 58 games is notable in the current era, but less so in the 19th Century! Let’s plot these</p>
@@ -1268,7 +1268,7 @@ df_no00 %&gt;% filter(count&gt;50) %&gt;% tail()</code></pre>
 3 2019-04-~   2018 West Ham Uni~ Leicester City    2-2         4    54
 4 2019-12-~   2019 Tottenham Ho~ Burnley           5-0         5    59
 5 2020-01-~   2019 Southampton   Wolverhampton Wa~ 2-3         5    51
-6 2020-10-~   2020 Newcastle Un~ Manchester United 1-4         5    58</code></pre>
+6 2020-10-~   2020 Tottenham Ho~ West Ham United   3-3         6    62</code></pre>
 </div>
 <p><br></p>
 <p>It does seem that within most EPL seasons we get streaks of about 50 games without a 0-0. Probably it’s just surprising that the current streak is at the beginning of the season when goals per game is also shooting up. If it goes on another dozen or so games, then it will start to be notable!</p>
