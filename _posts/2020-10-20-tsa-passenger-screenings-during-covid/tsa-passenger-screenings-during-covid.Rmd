@@ -17,7 +17,7 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Clearly air traffic plummeted during Covid. [Bob Rudis tweeted](https://twitter.com/hrbrmstr/status/1318470131270418433) a great figure showing how passenger numbers changed from 1st March 2019 to 1st March 2020. I wanted to recreate the figure here.  
+Clearly air traffic plummeted during Covid. [Bob Rudis tweeted](https://twitter.com/hrbrmstr/status/1318470131270418433) a great figure showing how passenger numbers changed between 2019 and 2020. I wanted to recreate the figure here. It's a good exercise in web scraping data, data cleaning, and how to plan and actually make appealing and informative time-series line graphs with customized `ggplot2` elements.
 
 
 ### The data
@@ -97,7 +97,7 @@ ggplot(df, aes(x=date, y=value, color=name)) +
 ```
 <br>
 
-There are lots of interesting patterns in that graph.  Clearly, number one is that the passenger numbers in mid March 2020 showed a dramatic fall, and a very slow recovery. The rate of recovery seems to have slowed down between July 2020 and October 2020 when we're perhaps seeing a slightly increase again in the rate of passenger increase.  The other pattern of interest is the weekly cycle of passenger numbers - an obvious pattern, but always notable to observe.
+There are lots of interesting patterns in that graph.  Clearly, number one is that the passenger numbers in mid March 2020 showed a dramatic fall, and a very slow recovery. The rate of recovery seems to have slowed down between July 2020 and October 2020. Starting in October 2020 we're perhaps seeing a slightly increase again in the rate of passenger increase.  The other patterns of interest are the weekly cycle of passenger numbers - an obvious pattern, but always notable to observe, as well as the season variation in traffic that usually occur in normal years.
 
 To make this chart more readable, we want to change the passenger numbers on the y-axis from 'e' numbers to understandable numbers, add a title, remove the legend, change the theme and the line colors.  I will also make the lines thicker and change the font size of the text on the figure. We should also source the data and original author.
 
