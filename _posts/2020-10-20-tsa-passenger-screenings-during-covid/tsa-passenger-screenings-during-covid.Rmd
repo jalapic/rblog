@@ -142,9 +142,9 @@ ggplot(df, aes(x=date, y=value, color=name)) +
       pass2020 = "<i style='color:#123abc'>I. pass2020</i>")
   ) +
   labs(
-    title = "<span style='font-size:14pt'>**TSA checkpoint travel numbers for <span style='color:#123abc;'>2020</span>
+    title = "<span style='font-size:18pt'>**TSA checkpoint travel numbers for <span style='color:#123abc;'>2020</span>
     and <span style='color:#f59a46;'>2019</span>**</span>  
-    <span style='font-size:12pt'>Total Traveler Throughput; Same Weekday</span>
+    <span style='font-size:14pt'>Total Traveler Throughput; Same Weekday</span>
     ",
     x = "Sepal length (cm)", y = "Sepal width (cm)"
   ) +
@@ -155,7 +155,8 @@ ggplot(df, aes(x=date, y=value, color=name)) +
   labs(caption = "Adapated from Figure by Bob Rudis; Data: https://www.tsa.gov/coronavirus/passenger-throughput")+
   theme(
     plot.title = element_markdown(lineheight = 1.1),
-     legend.position = 'none'
+     legend.position = 'none',
+    axis.text = element_text(size=12)
   )
 
 ```
