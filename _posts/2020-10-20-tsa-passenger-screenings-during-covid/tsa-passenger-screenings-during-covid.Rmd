@@ -142,7 +142,8 @@ ggplot(df, aes(x=date, y=value, color=name)) +
       pass2020 = "<i style='color:#123abc'>I. pass2020</i>")
   ) +
   labs(
-    title = "<span style='font-size:14pt'>**TSA checkpoint travel numbers for <span style='color:#123abc;'>2020</span> and <span style='color:#f59a46;'>2019</span>**</span>  
+    title = "<span style='font-size:14pt'>**TSA checkpoint travel numbers for <span style='color:#123abc;'>2020</span>
+    and <span style='color:#f59a46;'>2019</span>**</span>  
     <span style='font-size:12pt'>Total Traveler Throughput; Same Weekday</span>
     ",
     x = "Sepal length (cm)", y = "Sepal width (cm)"
