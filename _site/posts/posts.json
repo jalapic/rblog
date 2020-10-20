@@ -1,5 +1,25 @@
 [
   {
+    "path": "posts/2020-10-20-tsa-passenger-screenings-during-covid/",
+    "title": "TSA passenger screenings during Covid",
+    "description": "Examining how total USA airline passenger changes following the Covid pandemic",
+    "author": [
+      {
+        "name": "James Curley",
+        "url": "jamescurley.blog"
+      }
+    ],
+    "date": "2020-10-20",
+    "categories": [
+      "time_series"
+    ],
+    "preview": "posts/2020-10-20-tsa-passenger-screenings-during-covid/tsa-passenger-screenings-during-covid_files/figure-html5/unnamed-chunk-7-1.png",
+    "last_modified": "2020-10-20T09:32:09-05:00",
+    "input_file": "tsa-passenger-screenings-during-covid.utf8.md",
+    "preview_width": 1536,
+    "preview_height": 960
+  },
+  {
     "path": "posts/2020-10-16-apportionment-methods/",
     "title": "Apportionment Methods",
     "description": "Discussion of apportionment problems and the rabbit hole I went down.",

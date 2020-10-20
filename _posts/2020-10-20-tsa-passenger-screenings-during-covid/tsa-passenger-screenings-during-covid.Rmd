@@ -1,0 +1,164 @@
+---
+title: "TSA passenger screenings during Covid"
+description: |
+  Examining how total USA airline passenger changes following the Covid pandemic
+author:
+  - name: James Curley
+    url: jamescurley.blog
+categories:
+  - time_series
+date: 10-20-2020
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Clearly air traffic plummeted during Covid. [Bob Rudis tweeted](https://twitter.com/hrbrmstr/status/1318470131270418433) a great figure showing how passenger numbers changed from 1st March 2019 to 1st March 2020. I wanted to recreate the figure here.  
+
+
+### The data
+
+The data are available at the TSA [website here](https://www.tsa.gov/coronavirus/passenger-throughput). They appear to be updated daily, so hopefully the code below should work no matter what day the data are downloaded.
+
+We will use the `rvest` package to read in the url and scrape the HTML table. The `extract2()` function comes from `magrittr` and helps us get the first (and only) element from the list produced by `html_table()`.
+
+<br>
+```{r, message=FALSE, warning=FALSE, echo=TRUE}
+library(rvest)
+library(tidyverse)
+library(magrittr)
+
+url <- "https://www.tsa.gov/coronavirus/passenger-throughput"
+
+df <- read_html(url) %>%
+  html_table() %>%
+  extract2(1)
+
+head(df)
+
+```
+<br>
+
+We have three columns: date, total passengers in 2020, and total passengers on the corresponding weekday of 2019.  So, the final column is not the exact same calendar data - but the corresponding closest Monday, Tuesday, etc. of 2019.
+
+First, let's clean up the column names:
+
+<br>
+```{r, message=FALSE, warning=FALSE, echo=TRUE}
+colnames(df) <- c("date", "pass2020", "pass2019")
+head(df)
+```
+<br>
+
+We still have some cleaning steps. We need to fix the date, the numbers and to reshape the dataframe.
+
+Let's make the date a date object:
+
+<br>
+```{r, message=FALSE, warning=FALSE, echo=TRUE}
+df$date <- as.Date(df$date, format="%m/%d/%Y")
+str(df) #it's now a 'date' column
+```
+<br>
+Next, we'll remove commas from the numbers and ensure the columns are numeric - you can see from the output above that R still thinks they are characters:
+
+<br>
+```{r, message=FALSE, warning=FALSE, echo=TRUE}
+
+df$pass2020 <- as.numeric(gsub(",", "", df$pass2020))
+df$pass2019 <- as.numeric(gsub(",", "", df$pass2019))
+head(df)
+```
+<br>
+
+To be able to plot these data with `ggplot2`, we need to convert this dataframe from a wide dataframe to a long dataframe:
+
+
+<br>
+```{r, message=FALSE, warning=FALSE, echo=TRUE}
+
+df <- df %>% 
+  pivot_longer(cols=2:3)
+
+df
+```
+<br>
+
+Now we can graph.  We'll first make the basic graph, and then we can add the customization:
+
+<br>
+```{r, message=FALSE, warning=FALSE, echo=TRUE, fig.width=8, fig.height=5}
+ggplot(df, aes(x=date, y=value, color=name)) + 
+  geom_line()
+```
+<br>
+
+There are lots of interesting patterns in that graph.  Clearly, number one is that the passenger numbers in mid March 2020 showed a dramatic fall, and a very slow recovery. The rate of recovery seems to have slowed down between July 2020 and October 2020 when we're perhaps seeing a slightly increase again in the rate of passenger increase.  The other pattern of interest is the weekly cycle of passenger numbers - an obvious pattern, but always notable to observe.
+
+To make this chart more readable, we want to change the passenger numbers on the y-axis from 'e' numbers to understandable numbers, add a title, remove the legend, change the theme and the line colors.  I will also make the lines thicker and change the font size of the text on the figure. We should also source the data and original author.
+
+
+<br>
+```{r, message=FALSE, warning=FALSE, echo=TRUE, fig.width=8, fig.height=5, preview = TRUE}
+library(scales) # needed to reformat the y-axis with commas in the numbers
+
+ggplot(df, aes(x=date, y=value, color=name)) + 
+  geom_line(lwd=1) +
+  scale_color_manual(values=c("#123abc", "#f59a46"))+
+  scale_y_continuous(breaks = seq(0,3000000, 500000), labels = comma) +
+  ylab("") +
+  xlab("") +
+  ggtitle("TSA checkpoint travel numbers for 2020 and 2019",
+          subtitle = "Total Traveler Throughput; Same Weekday") +
+  theme_minimal() +
+  labs(caption = "Adapated from Figure by Bob Rudis; Data: https://www.tsa.gov/coronavirus/passenger-throughput") +
+  theme(
+    legend.position = 'none',
+    axis.text = element_text(size=12),
+    plot.title = element_text(size=18)
+    )
+```
+<br>
+
+This looks a lot better but it still has one major issue, which is you don't know which line is 2019 and which line is 2020. Well, you could take a guess, but it should be keyed in the figure.  I want to change colors in the title of the plot to indicate this.
+
+This is a little trickier and requires a package called `ggtext` which is downloadable [from here](https://github.com/wilkelab/ggtext).  The code you need to include requires you to use a little bit of HTML tagging, but the overall effect is worth it.  More examples of using `ggtext` can be found on it's GitHub page.  [Here is a useful example](https://stackoverflow.com/questions/49735290/ggplot2-color-individual-words-in-title-to-match-colors-of-groups) also on stackoverflow.
+
+<br>
+```{r, message=FALSE, warning=FALSE, echo=TRUE, fig.width=8, fig.height=5}
+library(ggtext) #remotes::install_github("wilkelab/ggtext")
+
+ggplot(df, aes(x=date, y=value, color=name)) +
+  geom_line(lwd = 1) +
+  scale_color_manual(
+    name = NULL,
+    values = c(pass2019 = "#f59a46", pass2020 = "#123abc"),
+    labels = c(
+      pass2019 = "<i style='color:#f59a46'>I. pass2019</i>",
+      pass2020 = "<i style='color:#123abc'>I. pass2020</i>")
+  ) +
+  labs(
+    title = "**TSA checkpoint travel numbers for <span style='color:#123abc;'>2020</span> and <span style='color:#f59a46;'>2019</span>**  
+    <span style='font-size:11pt'>Total Traveler Throughput; Same Weekday</span>
+    ",
+    x = "Sepal length (cm)", y = "Sepal width (cm)"
+  ) +
+  scale_y_continuous(breaks = seq(0,3000000, 500000), labels = comma) +
+  ylab("") +
+  xlab("")+
+  theme_minimal() +
+  labs(caption = "Adapated from Figure by Bob Rudis; Data: https://www.tsa.gov/coronavirus/passenger-throughput")+
+  theme(
+    plot.title = element_markdown(lineheight = 1.1),
+     legend.position = 'none'
+  )
+
+```
+<br>
+
+
+<br>
