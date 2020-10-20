@@ -103,7 +103,7 @@ To make this chart more readable, we want to change the passenger numbers on the
 
 
 <br>
-```{r, message=FALSE, warning=FALSE, echo=TRUE, fig.width=8, fig.height=5, preview = TRUE}
+```{r, message=FALSE, warning=FALSE, echo=TRUE, fig.width=8, fig.height=5}
 library(scales) # needed to reformat the y-axis with commas in the numbers
 
 ggplot(df, aes(x=date, y=value, color=name)) + 
@@ -129,7 +129,7 @@ This looks a lot better but it still has one major issue, which is you don't kno
 This is a little trickier and requires a package called `ggtext` which is downloadable [from here](https://github.com/wilkelab/ggtext).  The code you need to include requires you to use a little bit of HTML tagging, but the overall effect is worth it.  More examples of using `ggtext` can be found on it's GitHub page.  [Here is a useful example](https://stackoverflow.com/questions/49735290/ggplot2-color-individual-words-in-title-to-match-colors-of-groups) also on stackoverflow.
 
 <br>
-```{r, message=FALSE, warning=FALSE, echo=TRUE, fig.width=8, fig.height=5}
+```{r, message=FALSE, warning=FALSE, echo=TRUE, fig.width=8, fig.height=5, preview = TRUE}
 library(ggtext) #remotes::install_github("wilkelab/ggtext")
 
 ggplot(df, aes(x=date, y=value, color=name)) +
