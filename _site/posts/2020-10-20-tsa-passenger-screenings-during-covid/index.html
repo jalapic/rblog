@@ -1472,7 +1472,7 @@ library(scales) # needed to reformat the y-axis with commas in the numbers
 
 ggplot(df, aes(x=date, y=value, color=name)) + 
   geom_line(lwd=1) +
-  scale_color_manual(values=c(&quot;#123abc&quot;, &quot;#f59a46&quot;))+
+  scale_color_manual(values=c(&quot;#f59a46&quot;, &quot;#123abc&quot;))+
   scale_y_continuous(breaks = seq(0,3000000, 500000), labels = comma) +
   ylab(&quot;&quot;) +
   xlab(&quot;&quot;) +
