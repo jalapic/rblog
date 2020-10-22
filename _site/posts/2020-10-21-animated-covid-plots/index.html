@@ -1582,6 +1582,18 @@ head(df.x)</code></pre>
 4 Bexar  2020-03-09     0
 5 Bexar  2020-03-10     0
 6 Bexar  2020-03-11     0</code></pre>
+<pre class="r"><code>
+tail(df.x)</code></pre>
+<pre><code>
+# A tibble: 6 x 3
+  county date       value
+  &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt;
+1 Travis 2020-10-16 30688
+2 Travis 2020-10-17 30797
+3 Travis 2020-10-18 30908
+4 Travis 2020-10-19 30956
+5 Travis 2020-10-20 31053
+6 Travis 2020-10-21 31159</code></pre>
 </div>
 <p><br></p>
 <p>Now to animate. We will use the <code>gganimate</code> package. This should work “out-of-the-box”, however, you may need to also install the <code>av</code> or <code>gifski</code> packages to ensure that it doesn’t just make hundreds of still images, but instead compiles them into an animation. The only bit of code we need to add to an otherwise static plot is the line <code>+ transition_reveal(date)</code> which means we are animating along our x-axis (<code>date</code>). We use <code>anim_save()</code> to save the animation</p>

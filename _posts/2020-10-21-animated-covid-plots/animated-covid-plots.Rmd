@@ -194,6 +194,8 @@ df.long %>%
   filter(county %in% my_counties) -> df.x
 
 head(df.x)
+
+tail(df.x)
 ```
 <br>
 
