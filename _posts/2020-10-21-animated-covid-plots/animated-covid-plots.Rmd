@@ -9,6 +9,7 @@ date: 10-21-2020
 categories:
   - time_series
   - animation
+preview: covid.gif
 output:
   distill::distill_article:
     self_contained: false
