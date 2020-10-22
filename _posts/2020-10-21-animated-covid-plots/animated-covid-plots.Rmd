@@ -131,6 +131,7 @@ df.long$value <- as.numeric(df.long$value)
 
 head(df.long)
 
+tail(df.long)
 ```
 <br>
 
