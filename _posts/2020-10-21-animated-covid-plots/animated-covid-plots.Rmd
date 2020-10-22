@@ -220,6 +220,6 @@ anim_save("covid.gif")
 ```
 <br>
 
-![](covid.gif){width=50%}
+![](covid.gif){width=150%; height=150%}
 
 <br>
