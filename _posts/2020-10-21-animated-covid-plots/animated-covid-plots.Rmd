@@ -218,12 +218,12 @@ ggplot(df.x, aes(x=date, y=value, color=county)) +
     )+
   transition_reveal(date) 
 
-# Save at gif:
+# Save as a gif:
 anim_save("covid.gif")
 
 ```
 <br>
 
-![](covid.gif){width=150%; height=150%}
+![](covid.gif){width=125%; height=125%}
 
 <br>
