@@ -1,5 +1,26 @@
 [
   {
+    "path": "posts/2020-10-21-animated-covid-plots/",
+    "title": "Animated Covid Plots",
+    "description": "Scraping Texas Covid data and making animated plots",
+    "author": [
+      {
+        "name": "James Curley",
+        "url": "jamescurley.blog"
+      }
+    ],
+    "date": "2020-10-21",
+    "categories": [
+      "time_series",
+      "animation"
+    ],
+    "preview": "posts/2020-10-21-animated-covid-plots/animated-covid-plots_files/figure-html5/unnamed-chunk-9-1.png",
+    "last_modified": "2020-10-21T21:38:31-05:00",
+    "input_file": "animated-covid-plots.utf8.md",
+    "preview_width": 1248,
+    "preview_height": 768
+  },
+  {
     "path": "posts/2020-10-20-tsa-passenger-screenings-during-covid/",
     "title": "TSA passenger screenings during Covid",
     "description": "Examining how total USA airline passenger changes following the Covid pandemic",

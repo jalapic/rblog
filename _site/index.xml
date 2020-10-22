@@ -7,7 +7,18 @@
     <description>Random R coding projects
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Tue, 20 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 21 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Animated Covid Plots</title>
+      <dc:creator>James Curley</dc:creator>
+      <link>https://jamescurley.blog/posts/2020-10-21-animated-covid-plots</link>
+      <description>Scraping Texas Covid data and making animated plots</description>
+      <category>time_series</category>
+      <category>animation</category>
+      <guid>https://jamescurley.blog/posts/2020-10-21-animated-covid-plots</guid>
+      <pubDate>Wed, 21 Oct 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://jamescurley.blog/posts/2020-10-21-animated-covid-plots/animated-covid-plots_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>TSA passenger screenings during Covid</title>
       <dc:creator>James Curley</dc:creator>
