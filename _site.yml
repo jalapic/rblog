@@ -1,6 +1,5 @@
 name: "rblog"
 title: "James' R Blog"
-theme: theme.css
 description: |
   Random R coding projects
 base_url: https://jamescurley.blog
