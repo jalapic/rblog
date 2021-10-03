@@ -8,6 +8,7 @@ author:
 categories:
   - nfl
   - scraping
+preview: nflplot.png
 date: 10-03-2021
 output:
   distill::distill_article:
@@ -193,26 +194,26 @@ There are other things we could look at with these data such as what scores have
 
 <br>
 
-```{r, warning=FALSE,message=FALSE, fig.width=6, fig.height=5,preview=TRUE}
-
-ggplot(tab, aes(x=PtsW, y=PtsL, fill=sqrt(Count))) +
-  geom_tile(color='black') +
-  geom_text(aes(label=Count), size=1.8, color='black')+
-  scale_fill_continuous(low="#FFF973", high="#F92A0D") +
-  scale_y_reverse(breaks=seq(0,52,2)) +
-  scale_x_continuous(breaks=seq(0,74,2),position = "top")+
-  xlab("Winning Team Points") +
-  ylab("Losing Team Points") +
-  theme(
-    plot.background = element_rect(fill="white"),
-    panel.background = element_rect(fill="white"),
-    panel.border = element_rect(fill=NA, color="white", size=0.15, linetype="solid"),
-    axis.text = element_text(color="black", size=rel(0.7)),
-    axis.text.y  = element_text(hjust=1),
-    legend.position = "none"
-     )
-
-
+```{r, warning=FALSE,message=FALSE}
+# 
+# p <- ggplot(tab, aes(x=PtsW, y=PtsL, fill=sqrt(Count))) +
+#   geom_tile(color='black') +
+#   geom_text(aes(label=Count), size=1.8, color='black')+
+#   scale_fill_continuous(low="#FFF973", high="#F92A0D") +
+#   scale_y_reverse(breaks=seq(0,52,2)) +
+#   scale_x_continuous(breaks=seq(0,74,2),position = "top")+
+#   xlab("Winning Team Points") +
+#   ylab("Losing Team Points") +
+#   theme(
+#     plot.background = element_rect(fill="white"),
+#     panel.background = element_rect(fill="white"),
+#     panel.border = element_rect(fill=NA, color="white", size=0.15, linetype="solid"),
+#     axis.text = element_text(color="black", size=rel(0.7)),
+#     axis.text.y  = element_text(hjust=1),
+#     legend.position = "none"
+#      )
+# 
+# ggsave("nflplot.png",p,width=12,height=10)
 
 ```
 
