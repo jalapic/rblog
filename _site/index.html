@@ -1301,209 +1301,6 @@
 <!--/radix_placeholder_site_before_body-->
 <!--radix_placeholder_article_listing-->
 
-<style type="text/css">
-
-/* Styles for listing layout (hide title) */
-.layout-listing d-title, .layout-listing .d-title {
-  display: none;
-}
-
-/* Styles for posts lists (not auto-injected) */
-
-
-.posts-with-sidebar {
-  padding-left: 45px;
-  padding-right: 45px;
-}
-
-.posts-list .description h2,
-.posts-list .description p {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
-}
-
-.posts-list .description h2 {
-  font-weight: 700;
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.posts-list h2.post-tag {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  padding-bottom: 12px;
-}
-.posts-list {
-  margin-top: 60px;
-  margin-bottom: 24px;
-}
-
-.posts-list .post-preview {
-  text-decoration: none;
-  overflow: hidden;
-  display: block;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 24px 0;
-}
-
-.post-preview-last {
-  border-bottom: none !important;
-}
-
-.posts-list .posts-list-caption {
-  grid-column: screen;
-  font-weight: 400;
-}
-
-.posts-list .post-preview h2 {
-  margin: 0 0 6px 0;
-  line-height: 1.2em;
-  font-style: normal;
-  font-size: 24px;
-}
-
-.posts-list .post-preview p {
-  margin: 0 0 12px 0;
-  line-height: 1.4em;
-  font-size: 16px;
-}
-
-.posts-list .post-preview .thumbnail {
-  box-sizing: border-box;
-  margin-bottom: 24px;
-  position: relative;
-  max-width: 500px;
-}
-.posts-list .post-preview img {
-  width: 100%;
-  display: block;
-}
-
-.posts-list .metadata {
-  font-size: 12px;
-  line-height: 1.4em;
-  margin-bottom: 18px;
-}
-
-.posts-list .metadata > * {
-  display: inline-block;
-}
-
-.posts-list .metadata .publishedDate {
-  margin-right: 1em;
-}
-
-.posts-list .metadata .tags {
-  margin-top: 1em;
-}
-
-.posts-list .tags .tag {
-  color: rgba(0,0,0,0.67);
-  padding: 0.3em 0.5em;
-  margin: 0;
-  font-size: 80%;
-  border: 1px solid rgba(0,0,0,0.4);
-  border-radius: 3px;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-
-.posts-list img {
-  opacity: 1;
-}
-
-.posts-list img[data-src] {
-  opacity: 0;
-}
-
-.posts-more {
-  clear: both;
-}
-
-
-.posts-sidebar {
-  font-size: 16px;
-}
-
-.posts-sidebar h3 {
-  font-size: 16px;
-  margin-top: 0;
-  margin-bottom: 0.5em;
-  font-weight: 400;
-  text-transform: uppercase;
-}
-
-.sidebar-section {
-  margin-bottom: 30px;
-}
-
-.categories ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.categories li {
-  color: rgba(0, 0, 0, 0.8);
-  margin-bottom: 0;
-}
-
-.categories li>a {
-  border-bottom: none;
-}
-
-.categories li>a:hover {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-}
-
-.categories .active {
-  font-weight: 600;
-}
-
-.categories .category-count {
-  color: rgba(0, 0, 0, 0.4);
-}
-
-
-@media(min-width: 768px) {
-  .posts-list .post-preview h2 {
-    font-size: 26px;
-  }
-  .posts-list .post-preview .thumbnail {
-    float: right;
-    width: 35%;
-    margin-bottom: 0;
-  }
-  .posts-list .post-preview .description {
-    float: left;
-    width: 45%;
-  }
-  .posts-list .post-preview .metadata {
-    float: left;
-    width: 15%;
-    margin-top: 8px;
-  }
-  .posts-list .post-preview p {
-    margin: 0 0 12px 0;
-    line-height: 1.5em;
-    font-size: 16px;
-  }
-  .posts-with-sidebar .posts-list {
-    float: left;
-    width: 72%;
-  }
-  .posts-with-sidebar .posts-sidebar {
-    float: right;
-    width: 20%;
-    margin-top: 60px;
-    padding-top: 24px;
-    padding-bottom: 24px;
-  }
-}
-
-.downlevel .posts-list .post-preview {
-  color: inherit;
-}
-
-</style>
 
 <script type="application/javascript">
 
@@ -1555,16 +1352,16 @@ function init_posts_list() {
     set_posts_visible($('.posts-list').children('a'), false);
 
     // if we have a hash filter
-    if (window.location.hash) {
+    if (window.location.hash && window.location.hash.startsWith("#category:")) {
 
       // mark posts that match the category visible
-      var page_category = window.location.hash.replace("#", "");
+      var page_category = window.location.hash.replace(/^#category:/, "");
       var posts = $('.post-metadata').map(function(idx, script) {
         var metadata = $.parseJSON($(script).html());
         var post = null;
         $.each(metadata.categories, function(idx, category) {
           category = category.replace(/ /g,"_");
-          if (category == page_category) {
+          if ((page_category || '').toLowerCase() === "articles" || category === page_category) {
             post = $(script).parent().get();
             return false;
           }
@@ -1576,10 +1373,22 @@ function init_posts_list() {
       // mark the hash active
       $('.categories li>a[href="' + window.location.hash + '"]').addClass('active');
 
+      // update the list_caption
+      var list_caption = $('.posts-list-caption');
+      var caption = (page_category || '').toLowerCase() === "articles"
+        ? list_caption.attr('data-caption')
+        : ('Category: ' + page_category.replace(/_/g," "));
+      list_caption.text(caption);
+
     } else {
 
       // no hash filter, make all posts visible (subject to max display)
       set_posts_visible($('.posts-list').children(), true);
+
+      // reset list caption
+      var list_caption = $('.posts-list-caption');
+      list_caption.text(list_caption.attr('data-caption'));
+
 
     }
   }
@@ -1594,6 +1403,12 @@ function init_posts_list() {
       $('.posts-more a').addClass('hidden');
     }
   }
+
+  // click handling for tags
+  $('.dt-tag').click(function(ev) {
+    window.location.hash = '#category:' + $(this).text().replace(/ /g, "_");
+    return false;
+  })
 
   // hash filter handling
   apply_hash_filter();
@@ -1618,17 +1433,44 @@ function init_posts_list() {
 
 <div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
 <div class="posts-list">
-<h1 class="posts-list-caption">James Curley's Data Blog</h1>
+<h1 class="posts-list-caption" data-caption="James Curley&#39;s Data Blog">James Curley's Data Blog</h1>
+<a href="posts/2021-10-03-nfl-scorelines/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["nfl","scraping"]}</script>
+<div class="metadata">
+<div class="publishedDate">Oct. 3, 2021</div>
+<div class="dt-authors">
+<div class="dt-author">James Curley</div>
+</div>
+</div>
+<div class="thumbnail">
+<img src="posts/2021-10-03-nfl-scorelines/nfl-scorelines_files/figure-html5/unnamed-chunk-3-1.png"/>
+</div>
+<div class="description">
+<h2>NFL Scorelines</h2>
+<div class="dt-tags">
+<div class="dt-tag">nfl</div>
+<div class="dt-tag">scraping</div>
+</div>
+<p>Which NFL scores have never happened?</p>
+</div>
+</a>
 <a href="posts/2020-10-21-animated-covid-plots/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":["time_series","animation"]}</script>
 <div class="metadata">
 <div class="publishedDate">Oct. 21, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">James Curley</div>
+</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2020-10-21-animated-covid-plots/covid.gif"/>
+<img src="posts/2020-10-21-animated-covid-plots/covid.gif"/>
 </div>
 <div class="description">
 <h2>Animated Covid Plots</h2>
+<div class="dt-tags">
+<div class="dt-tag">time_series</div>
+<div class="dt-tag">animation</div>
+</div>
 <p>Scraping Texas Covid data and making animated plots</p>
 </div>
 </a>
@@ -1636,12 +1478,18 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["time_series"]}</script>
 <div class="metadata">
 <div class="publishedDate">Oct. 20, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">James Curley</div>
+</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2020-10-20-tsa-passenger-screenings-during-covid/tsa-passenger-screenings-during-covid_files/figure-html5/unnamed-chunk-8-1.png"/>
+<img src="posts/2020-10-20-tsa-passenger-screenings-during-covid/tsa-passenger-screenings-during-covid_files/figure-html5/unnamed-chunk-8-1.png"/>
 </div>
 <div class="description">
 <h2>TSA passenger screenings during Covid</h2>
+<div class="dt-tags">
+<div class="dt-tag">time_series</div>
+</div>
 <p>Examining how total USA airline passenger changes following the Covid pandemic</p>
 </div>
 </a>
@@ -1649,12 +1497,21 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["puzzles","politics","history","Rpackage"]}</script>
 <div class="metadata">
 <div class="publishedDate">Oct. 17, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">James Curley</div>
+</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2020-10-16-apportionment-methods/apportionment-methods_files/figure-html5/unnamed-chunk-1-1.png"/>
+<img src="posts/2020-10-16-apportionment-methods/apportionment-methods_files/figure-html5/unnamed-chunk-1-1.png"/>
 </div>
 <div class="description">
 <h2>Apportionment Methods</h2>
+<div class="dt-tags">
+<div class="dt-tag">puzzles</div>
+<div class="dt-tag">politics</div>
+<div class="dt-tag">history</div>
+<div class="dt-tag">Rpackage</div>
+</div>
 <p>Discussion of apportionment problems and the rabbit hole I went down.</p>
 </div>
 </a>
@@ -1662,12 +1519,19 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["soccer","Rpackage"]}</script>
 <div class="metadata">
 <div class="publishedDate">Oct. 17, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">James Curley</div>
+</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2020-10-17-scoring-doesnt-stop/scoring-doesnt-stop_files/figure-html5/unnamed-chunk-6-1.png"/>
+<img src="posts/2020-10-17-scoring-doesnt-stop/scoring-doesnt-stop_files/figure-html5/unnamed-chunk-6-1.png"/>
 </div>
 <div class="description">
 <h2>Scoring doesn't Stop?</h2>
+<div class="dt-tags">
+<div class="dt-tag">soccer</div>
+<div class="dt-tag">Rpackage</div>
+</div>
 <p>Looking at the trend of high scoring games in the EPL</p>
 </div>
 </a>
@@ -1675,12 +1539,18 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["puzzles"]}</script>
 <div class="metadata">
 <div class="publishedDate">Oct. 16, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">James Curley</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-10-15-langford-sequences/langford-sequences_files/figure-html5/unnamed-chunk-3-1.png"/>
 </div>
 <div class="description">
 <h2>Langford Sequences</h2>
+<div class="dt-tags">
+<div class="dt-tag">puzzles</div>
+</div>
 <p>Describing Langford and Skolem sequences and how to search for them in R.</p>
 </div>
 </a>
@@ -1688,12 +1558,20 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["babynames","clustering","time_series"]}</script>
 <div class="metadata">
 <div class="publishedDate">Oct. 15, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">James Curley</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-10-14-patterns-of-female-names-over-time/patterns-of-female-names-over-time_files/figure-html5/unnamed-chunk-32-1.png"/>
 </div>
 <div class="description">
 <h2>Patterns of Female Names over Time</h2>
+<div class="dt-tags">
+<div class="dt-tag">babynames</div>
+<div class="dt-tag">clustering</div>
+<div class="dt-tag">time_series</div>
+</div>
 <p>Investigating similarity of name popularity over time.</p>
 </div>
 </a>
@@ -1701,12 +1579,20 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["puzzles","regex","soccer"]}</script>
 <div class="metadata">
 <div class="publishedDate">Oct. 14, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">James Curley</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-10-13-world-cup-birthday-problem/world-cup-birthday-problem_files/figure-html5/unnamed-chunk-9-1.png"/>
 </div>
 <div class="description">
 <h2>World Cup Birthday Problem</h2>
+<div class="dt-tags">
+<div class="dt-tag">puzzles</div>
+<div class="dt-tag">regex</div>
+<div class="dt-tag">soccer</div>
+</div>
 <p>Do world cup squad members share birthdays?</p>
 </div>
 </a>
@@ -1714,12 +1600,19 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["cats","regex"]}</script>
 <div class="metadata">
 <div class="publishedDate">Oct. 13, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">James Curley</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-10-13-cat-names/cat-names_files/figure-html5/unnamed-chunk-15-1.png"/>
 </div>
 <div class="description">
 <h2>Cat Names</h2>
+<div class="dt-tags">
+<div class="dt-tag">cats</div>
+<div class="dt-tag">regex</div>
+</div>
 <p>Identifying cats that are named after animals.</p>
 </div>
 </a>
@@ -1727,12 +1620,16 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":[]}</script>
 <div class="metadata">
 <div class="publishedDate">Oct. 13, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">James Curley</div>
+</div>
 </div>
 <div class="thumbnail">
 <img/>
 </div>
 <div class="description">
 <h2>Welcome to My Blog</h2>
+<div class="dt-tags"></div>
 <p>Welcome to this blog, James' R Blog. I hope you enjoy 
 reading it!</p>
 </div>
@@ -1743,47 +1640,59 @@ reading it!</p>
 <h3>Categories</h3>
 <ul>
 <li>
-<a href="#animation">animation</a>
+<a href="#category:Articles">Articles</a>
+<span class="category-count">(10)</span>
+</li>
+<li>
+<a href="#category:animation">animation</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#babynames">babynames</a>
+<a href="#category:babynames">babynames</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#cats">cats</a>
+<a href="#category:cats">cats</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#clustering">clustering</a>
+<a href="#category:clustering">clustering</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#history">history</a>
+<a href="#category:history">history</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#politics">politics</a>
+<a href="#category:nfl">nfl</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#puzzles">puzzles</a>
+<a href="#category:politics">politics</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:puzzles">puzzles</a>
 <span class="category-count">(3)</span>
 </li>
 <li>
-<a href="#regex">regex</a>
+<a href="#category:regex">regex</a>
 <span class="category-count">(2)</span>
 </li>
 <li>
-<a href="#Rpackage">Rpackage</a>
+<a href="#category:Rpackage">Rpackage</a>
 <span class="category-count">(2)</span>
 </li>
 <li>
-<a href="#soccer">soccer</a>
+<a href="#category:scraping">scraping</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:soccer">soccer</a>
 <span class="category-count">(2)</span>
 </li>
 <li>
-<a href="#time_series">time_series</a>
+<a href="#category:time_series">time_series</a>
 <span class="category-count">(3)</span>
 </li>
 </ul>
@@ -1793,7 +1702,7 @@ reading it!</p>
 <a href="#">More articles &raquo;</a>
 </div>
 </div>
-<!--/radix_placeholder_article_listing-->
+<!--/radix_placeholder_article_listing-->
 
 <div class="d-title">
 <h1>My Blog</h1>

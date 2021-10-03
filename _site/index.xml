@@ -7,7 +7,18 @@
     <description>Random R coding projects
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 21 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 03 Oct 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>NFL Scorelines</title>
+      <dc:creator>James Curley</dc:creator>
+      <link>https://jamescurley.blog/posts/2021-10-03-nfl-scorelines</link>
+      <description>Which NFL scores have never happened?</description>
+      <category>nfl</category>
+      <category>scraping</category>
+      <guid>https://jamescurley.blog/posts/2021-10-03-nfl-scorelines</guid>
+      <pubDate>Sun, 03 Oct 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://jamescurley.blog/posts/2021-10-03-nfl-scorelines/nfl-scorelines_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="2304" height="1920"/>
+    </item>
     <item>
       <title>Animated Covid Plots</title>
       <dc:creator>James Curley</dc:creator>
