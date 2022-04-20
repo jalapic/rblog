@@ -1,0 +1,20 @@
+{
+  "articles": [
+    {
+      "path": "about.html",
+      "title": "James' R Blog",
+      "description": "Thanks for reading",
+      "author": [],
+      "contents": "\r\n\r\nHi. My name is James Curley and I’m an Associate Professor in the Psychology Department at the University of Texas at Austin. I’m British. I like scrabble and cricket.\r\nIn this blog I will make short posts related to data or code that I find interesting - or useful for my students. This isn’t a place where I’ll likely post anything related to my research.\r\nThe first dozen posts or so will largely be made up of various things I’ve created over the last few years and want to put in one place. They will likely be very eclectic and vary from very short blogs to very long blogs. Hopefully there will be something for everyone.\r\nI’d be interested in feedback.\r\nMy GitHub page is here\r\nThis is my twitter\r\nYou can reach me at ‘curley’ AT ‘utexas’ DOT ‘edu’\r\n\r\n\r\n\r\n",
+      "last_modified": "2022-04-20T12:39:46-05:00"
+    },
+    {
+      "path": "index.html",
+      "title": "James Curley's Data Blog",
+      "author": [],
+      "contents": "\r\n\r\n\r\n\r\n",
+      "last_modified": "2022-04-20T12:39:47-05:00"
+    }
+  ],
+  "collections": ["posts/posts.json"]
+}
